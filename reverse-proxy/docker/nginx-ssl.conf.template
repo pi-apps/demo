@@ -1,0 +1,86 @@
+#
+# Frontend config:
+#
+server {
+  # Use Docker's built-in DNS resolver to enable resolving container hostnames used in the proxy_pass
+  # directives below.
+  # https://stackoverflow.com/questions/35744650/docker-network-nginx-resolver
+  resolver 127.0.0.11 ipv6=off;
+
+  # Enable nginx to start even when upstream hosts are unreachable (i.e containers not started yet) 
+  # https://sandro-keil.de/blog/let-nginx-start-if-upstream-host-is-unavailable-or-down/
+  set $frontend_upstream http://frontend;
+
+  server_name ${FRONTEND_DOMAIN_NAME};
+  listen 443 ssl;
+
+  ssl_certificate /etc/letsencrypt/live/${FRONTEND_DOMAIN_NAME}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/${FRONTEND_DOMAIN_NAME}/privkey.pem;
+  include /etc/letsencrypt/options-ssl-nginx.conf;
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+  location /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+  }
+
+  location /validation-key.txt {
+    return 200 '${DOMAIN_VALIDATION_KEY}';
+  }
+  
+  location / {
+    proxy_pass $frontend_upstream;
+  }
+}
+
+server {
+  listen 80;
+  server_name ${FRONTEND_DOMAIN_NAME};
+
+  if ($host = ${FRONTEND_DOMAIN_NAME}) {
+    return 302 https://$host$request_uri;
+  }
+
+  return 404;
+}
+
+
+#
+# Backend config:
+#
+server {
+  # Use Docker's built-in DNS resolver to enable resolving container hostnames used in the proxy_pass
+  # directives below.
+  # https://stackoverflow.com/questions/35744650/docker-network-nginx-resolver
+  resolver 127.0.0.11 ipv6=off;
+
+  # Enable nginx to start even when upstream hosts are unreachable (i.e containers not started yet) 
+  # https://sandro-keil.de/blog/let-nginx-start-if-upstream-host-is-unavailable-or-down/
+  set $backend_upstream http://backend:8000;
+
+  server_name ${BACKEND_DOMAIN_NAME};
+  listen 443 ssl;
+
+  ssl_certificate /etc/letsencrypt/live/${BACKEND_DOMAIN_NAME}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/${BACKEND_DOMAIN_NAME}/privkey.pem;
+  include /etc/letsencrypt/options-ssl-nginx.conf;
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+  location /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+  }
+
+  location / {
+    proxy_pass $backend_upstream;
+  }
+}
+
+server {
+  listen 80;
+  server_name ${BACKEND_DOMAIN_NAME};
+
+  if ($host = ${BACKEND_DOMAIN_NAME}) {
+    return 302 https://$host$request_uri;
+  }
+
+  return 404;
+}

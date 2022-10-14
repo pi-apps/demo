@@ -1,0 +1,52 @@
+#
+# Frontend config:
+#
+server {
+  # Use Docker's built-in DNS resolver to enable resolving container hostnames used in the proxy_pass
+  # directives below.
+  # https://stackoverflow.com/questions/35744650/docker-network-nginx-resolver
+  resolver 127.0.0.11 ipv6=off;
+
+  # Enable nginx to start even when upstream hosts are unreachable (i.e containers not started yet) 
+  # https://sandro-keil.de/blog/let-nginx-start-if-upstream-host-is-unavailable-or-down/
+  set $frontend_upstream http://frontend;
+
+  server_name ${FRONTEND_DOMAIN_NAME};
+  listen 80;
+
+  location /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+  }
+  
+  location / {
+    proxy_pass $frontend_upstream;
+  }
+}
+
+#
+# Backend config:
+#
+server {
+  # Use Docker's built-in DNS resolver to enable resolving container hostnames used in the proxy_pass
+  # directives below.
+  # https://stackoverflow.com/questions/35744650/docker-network-nginx-resolver
+  resolver 127.0.0.11 ipv6=off;
+
+  # Enable nginx to start even when upstream hosts are unreachable (i.e containers not started yet) 
+  # https://sandro-keil.de/blog/let-nginx-start-if-upstream-host-is-unavailable-or-down/
+  set $backend_upstream http://backend:8000;
+
+  server_name ${BACKEND_DOMAIN_NAME};
+  listen 80;
+
+  # Enable nginx to start even when upstream hosts are unreachable (i.e containers not started yet) 
+  # https://sandro-keil.de/blog/let-nginx-start-if-upstream-host-is-unavailable-or-down/
+
+  location /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+  }
+
+  location / {
+    proxy_pass $backend_upstream;
+  }
+}
