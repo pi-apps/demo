@@ -2,7 +2,7 @@
 
 The only variable you need to provide is `PI_API_KEY`, which is required to authorize payments. You receive it
 upon app registration. For more guidelines on registering your app refer to
-the [Pi Developer Guide](https://cryptoging.github.io/Guide/docs/gettingSetup/devPortal/#api-key).
+the [Pi Developer Guide](https://pi-apps.github.io/community-developer-guide/docs/gettingStarted/devPortal/).
 
 `FRONTEND_URL` specifies the URL of the frontend app, which by default is `http://localhost:3314`.
 Depending on sandbox settings you're using to preview demo app, you may need to change this value accordingly.
