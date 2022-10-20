@@ -44,7 +44,7 @@ This will bring you to the App Dashboard, from this screen you can continue the 
 - App Checklist: Complete Steps 1-5 to prepare the app for launch in development mode
   - Step 1: "Register an App" was completed previously
   - Step 2: Configure App Hosting - Hosting type: select "Self hosted"
-  - Step 3: Create a Pi Wallet, see this [Pi Wallet Introduction](https://picoreteam.github.io/community-developer-guide/docs/importantTopics/paymentFlow/piWallet/) for more information
+  - Step 3: Create a Pi Wallet, see this [Pi Wallet Introduction](https://pi-apps.github.io/community-developer-guide/docs/importantTopics/paymentFlow/piWallet/) for more information
   - Step 4: Review this documentation and our [Community Developer Guide](https://pi-apps.github.io/community-developer-guide/) for help getting setup
   - Step 5: Configure App Development URL: the URL on which your app is running on your development environment. If your using the default
     setup for the demo app frontend, this is "http://localhost:3314. **Note:** If you need, you can change the port by specifying it in
