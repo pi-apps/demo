@@ -15,3 +15,4 @@ $config = Symfony\CS\Config\Config::create();
 $config->fixers(Symfony\CS\FixerInterface::PSR2_LEVEL);
 $config->finder($finder);
 return $config;
+
