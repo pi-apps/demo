@@ -15,7 +15,9 @@ Pi Engine is developed by [Pi Team](https://github.com/pi-engine/pi/wiki/Pi-Team
 
 
 Highlights
+
 -------------
+
 1. **Sustainable ecosystem:** A sustainable ecosystem built upon open standard, open source code, open development and open management on Github.
 2. **Engineered development:** Quality ensured engineering development with short learning curve, low skill requirements with clean MVC architecture, semantic templating, sophisticated API and strict starndards.
 3. **Visualized management:** Easy and responsive application and content management based on visualized management tools and interface with page and widget mechanism.
@@ -36,7 +38,9 @@ Features and practices
 
 
 Quick start
+
 -----------
+
 * Documents at [Pi Wiki](https://github.com/pi-engine/pi/wiki) and [APIs](http://api.piengine.org).
 * Download the [latest stable code](https://github.com/pi-engine/pi/releases/latest) and [latest dev code](https://github.com/pi-engine/pi/zipball/develop).
 * Clone Pi repo `git clone git://github.com/pi-engine/pi.git`.
