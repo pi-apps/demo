@@ -23,7 +23,9 @@ Highlights
 
 
 Features and practices
+
 ----------------------
+
 * Multi-tenancy architecture and SSO/OAuth implementation
 * Modularization and built-in support for multi-layer customization
 * System components and services for fundamental functions
@@ -43,17 +45,20 @@ Quick start
 
 
 Development
+
 ----------
 
 You may contribute to Pi Engine by [working on Pi code](https://github.com/pi-engine/pi/blob/develop/doc/README-GIT.md) and submit to Pi repo with **[Pull Request](https://help.github.com/articles/using-pull-requests)** or submitting bug reports and feature requests to **[Issue Tracker](https://github.com/pi-engine/pi/issues)**.
 
 
 Copyright and License
+
 ---------------------
 
 The Engine is released under a [BSD 3-Clause License](https://piengine.org/license.txt).
 
 
 Demo
+
 -----
 To many webSites and webApps development by PiEngine, you can see some of them on our [Portfolio](https://github.com/pi-engine/pi/wiki/Portfolio)
