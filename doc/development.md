@@ -15,8 +15,8 @@ This guides assumes you have the following two tools installed on your developme
 ## 1. Clone the Github repo and navigate to the project directory:
 
 ```sh
-git clone git@github.com:pi-apps/platform-demo-app.git
-cd platform-demo-app
+git clone git@github.com:pi-apps/demo.git
+cd demo
 ```
 
 
