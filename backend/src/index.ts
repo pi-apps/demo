@@ -46,7 +46,7 @@ app.use(express.json())
 
 // Handle CORS:
 app.use(cors({
-  origin: env.frontend_url,
+  origin: '*',
   credentials: true
 }));
 
@@ -57,7 +57,7 @@ app.use(cookieParser());
 app.use(session({
   secret: env.session_secret,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: MongoStore.create({
     mongoUrl: mongoUri,
     mongoOptions: mongoClientOptions,

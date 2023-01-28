@@ -3,6 +3,11 @@ import { Router } from "express";
 import platformAPIClient from "../services/platformAPIClient";
 import "../types/session";
 
+var currentUser: { uid: any; };
+export function setCurrentUser(user:any) {
+  currentUser = user;
+}
+
 export default function mountPaymentsEndpoints(router: Router) {
   // handle the incomplete payment
   router.post('/incomplete', async (req, res) => {
@@ -47,7 +52,8 @@ export default function mountPaymentsEndpoints(router: Router) {
 
   // approve the current payment
   router.post('/approve', async (req, res) => {
-    if (!req.session.currentUser) {
+    if (//!req.session.currentUser && 
+      currentUser == undefined) {
       return res.status(401).json({ error: 'unauthorized', message: "User needs to sign in first" });
     }
 
@@ -65,7 +71,7 @@ export default function mountPaymentsEndpoints(router: Router) {
     await orderCollection.insertOne({
       pi_payment_id: paymentId,
       product_id: currentPayment.data.metadata.productId,
-      user: req.session.currentUser.uid,
+      user: currentUser.uid,
       txid: null,
       paid: false,
       cancelled: false,

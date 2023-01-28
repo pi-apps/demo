@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import platformAPIClient from "../services/platformAPIClient";
+import { setCurrentUser } from "./payments";
 
 
 export default function mountUserEndpoints(router: Router) {
@@ -35,12 +36,12 @@ export default function mountUserEndpoints(router: Router) {
         roles: auth.user.roles,
         accessToken: auth.accessToken
       });
-      
+
       currentUser = await userCollection.findOne(insertResult.insertedId);
     }
 
     req.session.currentUser = currentUser;
-
+    setCurrentUser(currentUser);
     return res.status(200).json({ message: "User signed in" });
   });
 
