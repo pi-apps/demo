@@ -4,7 +4,8 @@ import { User } from "../";
 interface Props {
   onSignIn: () => void;
   onSignOut: () => void;
-  user: User | null
+  user: User | null,
+  switchView: () => void,
 }
 
 const headerStyle: CSSProperties = {
@@ -30,6 +31,9 @@ export default function Header(props: Props) {
             @{props.user.username} <button type="button" onClick={props.onSignOut}>Sign out</button>
           </div>
         )}
+      </div>
+      <div>
+          <button onClick={props.switchView}>Switch View</button>
       </div>
     </header>
   );

@@ -66,9 +66,9 @@ Additionally, you can specify MongoDB name env variable, which if not specified 
 Start a MongoDB server using the following command:
 
 ```
-docker run --name demoapp-mongo -d \
-  -e MONGO_INITDB_ROOT_USERNAME=demoapp -e MONGO_INITDB_ROOT_PASSWORD=dev_password \
-  -p 27017:27017 mongo:5.0
+  docker run --name demoapp-mongo -d \
+    -e MONGO_INITDB_ROOT_USERNAME=demoapp -e MONGO_INITDB_ROOT_PASSWORD=dev_password \
+    -p 27017:27017 mongo:5.0
 ```
 
 Down the road, you can use the following commands to stop and start your mongo container:
