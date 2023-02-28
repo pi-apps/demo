@@ -185,9 +185,22 @@ export default function mountPaymentsEndpoints(router: Router) {
     const app = req.app;
 
     const orderCollection = app.locals.orderCollection;
-
+    await orderCollection.insertOne({
+      // identifier : currentPayment.data.identifier,
+      issuerAddress: "66527e06-4d7e-43a2-80af-4927a1675387" ,
+      // imageHashUrl: currentPayment.data.metadata.imageHashUrl || "abc",
+      // paymentId:paymentId || "testPaymentId",
+      transactionId: "testTransactionId",
+      // product_id: currentPayment.data.metadata.productId,
+      // email: currentPayment.data.metadata.email || "xyz",
+      // user: currentPayment.data.metadata.id,
+      txid: null,
+      paid: false,
+      cancelled: false,
+      created_at: new Date()
+    });
     console.log("here");
-    const order = await orderCollection.find({ user: { $in: [ "66527e06-4d7e-43a2-80af-4927a1675387"] } }).toArray();
+    const order = await orderCollection.find({ issuerAddress: { $in: [ "66527e06-4d7e-43a2-80af-4927a1675387"] } }).toArray();
     console.log(await order[0]);
     // console.log(await order.size())
     return res.status(200).json(order);

@@ -322,6 +322,10 @@ export default function Shop() {
         <button onClick={getMyUserId}>Get my User Id</button> 
          <text>{myUserId}</text>
       </div>
+      {/* <div style={{ textAlign: "center", marginBottom: 8 }}>
+        <button onClick={A2UPayment}>A2U Payment</button> 
+         <text>{myUserId}</text>
+      </div> */}
       {showModal && <SignIn onSignIn={signIn} onModalClose={onModalClose} />}
     </>
   );
