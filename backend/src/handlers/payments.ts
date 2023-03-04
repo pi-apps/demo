@@ -2,9 +2,9 @@ import axios from "axios";
 import { Router } from "express";
 import platformAPIClient from "../services/platformAPIClient";
 import "../types/session";
-import * as StellarSdk from "stellar-sdk";
-import { NetworkPassphrase } from "pi-backend/dist/types";
-import PiNetwork from "../pi-back/PiNetwork";
+// import * as StellarSdk from "stellar-sdk";
+// import { NetworkPassphrase } from "pi-backend/dist/types";
+// import PiNetwork from "../pi-back/PiNetwork";
 
 
 var currentUser: { uid: any; };
@@ -163,14 +163,28 @@ export default function mountPaymentsEndpoints(router: Router) {
   })
 
   router.get('/getCertificates', async (req, res) => {
+    try {
     const app = req.app;
     const orderCollection = app.locals.orderCollection;
+    try{
     const order = await orderCollection.find({ user: { $in: [ currentUser?.uid || "66527e06-4d7e-43a2-80af-4927a1675387"] } }).toArray();
     return res.status(200).json(order);
+  } catch (err){
+      console.log("sign in required!");
+      return res.status(200).json({});
+    }
+  }catch(err){
+    return res.status(200).json({ message: "Some error" });
+  }
   })
 
   router.get('/getUserId', async (req, res) => {
+    if(currentUser && currentUser.uid){
     return res.status(200).json({UserId : currentUser.uid });
+    }else {
+    return res.status(200).json({message: "no current user set"});
+
+    }
   })
   
   router.post('/A2UTransaction', async (req, res) => {

@@ -8,31 +8,33 @@ import logger from 'morgan';
 import MongoStore from 'connect-mongo';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import env from './environments';
-import mountPaymentsEndpoints from './handlers/payments';
 import mountUserEndpoints from './handlers/users';
-// import * as functions from 'firebase-functions'
+import * as functions from 'firebase-functions'
 // const functions = require("firebase-functions");
-import functions from "firebase-functions"
+// import functions from "firebase-functions"
 // const functions =  require("firebase-functions")
 // const { MongoClient, ServerApiVersion } = require('mongodb');
 // We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
 // have no problem here)
 // https://stackoverflow.com/questions/65108033/property-user-does-not-exist-on-type-session-partialsessiondata#comment125163548_65381085
 import "./types/session";
+import mountPaymentsEndpoints from './handlers/payments';
 
 // For local mongo db server
 const dbName = env.mongo_db_name;
-const mongoUri = `mongodb://${env.mongo_host}/${dbName}`;
-const mongoClientOptions = {
-  authSource: "admin",
-  auth: {
-    username: env.mongo_user,
-    password: env.mongo_password,
-  },
-}
+// // const mongoUri = `mongodb//${env.mongo_host}/${dbName}`;
+// const mongoUri = `mongodb+srv://testuser1:giQEO5m5D46dpf1c@cluster0.oemucdi.mongodb.net/?retryWrites=true&w=majority`;
+// const mongoClientOptions = {
+//   authSource: "admin",
+//   auth: {
+//     username: env.mongo_user,
+//     password: env.mongo_password,
+//   },
+// }
 
-const uri2 = "mongodb+srv://chouhanharshit1997:WYwF6Uf6Y627C047@cluster0.yvnm2ng.mongodb.net/?retryWrites=true&w=majority";
-const client2 = new MongoClient(uri2, {   serverApi: ServerApiVersion.v1 });
+// mongodb+srv://<username>:<password>@cluster0.yvnm2ng.mongodb.net/?retryWrites=true&w=majority
+const mongoUri2 = "mongodb+srv://testuser1:giQEO5m5D46dpf1c@cluster0.oemucdi.mongodb.net/?retryWrites=true&w=majority";
+const client2 = new MongoClient(mongoUri2, { serverApi: ServerApiVersion.v1 });
 
 
 //
@@ -42,19 +44,19 @@ const client2 = new MongoClient(uri2, {   serverApi: ServerApiVersion.v1 });
 const app: express.Application = express();
 
 // Log requests to the console in a compact format:
-app.use(logger('dev'));
+// app.use(logger('dev'));
 
 // Full log of all requests to /log/access.log:
-app.use(logger('common', {
-  stream: fs.createWriteStream(path.join(__dirname, '..', 'log', 'access.log'), { flags: 'a' }),
-}));
+// app.use(logger('common', {
+//   stream: fs.createWriteStream(path.join(__dirname, '..', 'log', 'access.log'), { flags: 'a' }),
+// }));
 
 // Enable response bodies to be sent as JSON:
 app.use(express.json())
 
 // Handle CORS:
 app.use(cors({
-  origin: '*',
+  origin: ['http://localhost:3314','https://dcert-40a5b.web.app'],
   credentials: true
 }));
 
@@ -62,17 +64,17 @@ app.use(cors({
 app.use(cookieParser());
 
 // Use sessions:
-app.use(session({
-  secret: env.session_secret,
-  resave: false,
-  saveUninitialized: true,
-  store: MongoStore.create({
-    mongoUrl: mongoUri,
-    mongoOptions: mongoClientOptions,
-    dbName: dbName,
-    collectionName: 'user_sessions'
-  }),
-}));
+// app.use(session({
+//   secret: env.session_secret,
+//   resave: false,
+//   saveUninitialized: true,
+//   store: MongoStore.create({
+//     mongoUrl: mongoUri,
+//     mongoOptions: mongoClientOptions,
+//     dbName: dbName,
+//     collectionName: 'user_sessions'
+//   }),
+// }));
 
 
 //
@@ -110,11 +112,11 @@ app.listen(8000, async () => {
   // }
 
   try {
-    const client = await MongoClient.connect(uri2, {   serverApi: ServerApiVersion.v1 })
+    const client = await MongoClient.connect(mongoUri2, { serverApi: ServerApiVersion.v1 });
     const db = client.db(dbName);
     app.locals.orderCollection = db.collection('orders');
     app.locals.userCollection = db.collection('users');
-    console.log('Connected to MongoDB on: ', uri2)
+    console.log('Connected to MongoDB on: ', mongoUri2)
   } catch (err) {
     console.error('Connection to MongoDB failed: ', err)
   }
@@ -134,8 +136,13 @@ app.listen(8000, async () => {
   console.log(`CORS config: configured to respond to a frontend hosted on ${env.frontend_url}`);
 });
 
-// export const api = functions.https.onRequest(app)
+export const api = functions.https.onRequest(app)
 // exports.api = functions.https.onRequest((_request: any, response: { send: (arg0: string) => void; }) => {
+//   functions.logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
+// });
+
+// export const api = functions.https.onRequest((request, response) => {
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });

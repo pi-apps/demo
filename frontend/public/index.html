@@ -35,7 +35,10 @@
       // - in PROD, by the container's entrypoint script found in docker/entrypoint.sh (this enables passing the
       //   variables at runtime instead of consuming it at build time and building a non-portable container)
       window.__ENV = {
-        backendURL: "%REACT_APP_BACKEND_URL%",
+        backendURL: "http://127.0.0.1:8000",
+        // backendURL: "http://127.0.0.1:5001/dcert-40a5b/us-central1/api",  
+        // backendURL: "https://us-central1-dcert-40a5b.cloudfunctions.net/api",
+        // sandbox: "%REACT_APP_SANDBOX_SDK%",
         sandbox: "%REACT_APP_SANDBOX_SDK%",
       }
     </script>

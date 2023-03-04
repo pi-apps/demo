@@ -1,0 +1,14 @@
+[debug] [2023-03-04T11:52:50.655Z] ----------------------------------------------------------------------
+[debug] [2023-03-04T11:52:50.656Z] Command:       /usr/local/bin/node /opt/homebrew/bin/firebase deploy --only hosting
+[debug] [2023-03-04T11:52:50.657Z] CLI Version:   11.24.0
+[debug] [2023-03-04T11:52:50.657Z] Platform:      darwin
+[debug] [2023-03-04T11:52:50.657Z] Node Version:  v16.12.0
+[debug] [2023-03-04T11:52:50.657Z] Time:          Sat Mar 04 2023 17:22:50 GMT+0530 (India Standard Time)
+[debug] [2023-03-04T11:52:50.658Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-03-04T11:52:50.692Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-03-04T11:52:50.692Z] > authorizing via signed-in user (chouhanharshit1997@gmail.com)
+[debug] [2023-03-04T11:52:50.692Z] [iam] checking project dcert-40a5b for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-03-04T11:52:50.693Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/dcert-40a5b:testIamPermissions [none]
+[debug] [2023-03-04T11:52:50.693Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/dcert-40a5b:testIamPermissions x-goog-quota-user=projects/dcert-40a5b
+[debug] [2023-03-04T11:52:50.693Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dcert-40a5b:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}

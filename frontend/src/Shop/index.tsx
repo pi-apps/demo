@@ -80,6 +80,7 @@ const axiosClient = axios.create({
   baseURL: `${backendURL}`,
   timeout: 20000,
   withCredentials: true,
+  headers: {'Access-Control-Allow-Origin':"*"}
 });
 const config = {
   headers: {
@@ -100,6 +101,7 @@ export default function Shop() {
   const [certificates, setCertificates] = useState([...initialCertis]);
   const [certificateList, setCertificateList] = useState([...initialCertificateList]);
   const [myUserId, setMyUserId] = useState("");
+  const [test,setTest] = useState("");
 
 
   const signIn = async () => {
@@ -108,6 +110,7 @@ export default function Shop() {
       scopes,
       onIncompletePaymentFound
     );
+    setTest(authResult?.user.uid)
     signInUser(authResult);
     setUser(authResult.user);
   };
@@ -246,11 +249,16 @@ export default function Shop() {
     })
   }
 
-  // const A2UPayment = async () => {
-  //   console.log("A2UPayment");
-  //   const userUid = "66527e06-4d7e-43a2-80af-4927a1675387";
-  //   const resp = axiosClient.post("/payments/A2UTransaction");
-  // };
+  const A2UPayment = async () => {
+    console.log("test2");
+    const userUid = "66527e06-4d7e-43a2-80af-4927a1675387";
+    const resp = axiosClient.get("/user/test2");
+  };
+  const test1 = async () => {
+    console.log("test");
+    const userUid = "66527e06-4d7e-43a2-80af-4927a1675387";
+    const resp = axiosClient.get("/user/test");
+  };
 
   const onHashUrlChange = (url: string) => {
     console.log("inparent comp");
@@ -322,10 +330,17 @@ export default function Shop() {
         <button onClick={getMyUserId}>Get my User Id</button> 
          <text>{myUserId}</text>
       </div>
-      {/* <div style={{ textAlign: "center", marginBottom: 8 }}>
+      <div style={{ textAlign: "center", marginBottom: 8 }}>
+         <text>{test}</text>
+      </div>
+      <div style={{ textAlign: "center", marginBottom: 8 }}>
         <button onClick={A2UPayment}>A2U Payment</button> 
          <text>{myUserId}</text>
-      </div> */}
+      </div>
+      <div style={{ textAlign: "center", marginBottom: 8 }}>
+        <button onClick={test1}>Test1</button> 
+         <text>{myUserId}</text>
+      </div>
       {showModal && <SignIn onSignIn={signIn} onModalClose={onModalClose} />}
     </>
   );
