@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   isPropertySignature,
   isWhiteSpaceLike,
   setConstantValue,
 } from "typescript";
+import HashModal from "./HashModal";
 
 interface Props {
   name: string;
@@ -24,6 +25,44 @@ export default function ProductCard(props: Props) {
   const [hashUrl, setHashUrl] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [id, setId] = useState<string>("");
+  const [showModal, setShowModal] = useState<string>("");
+  const [isCopied, setIsCopied] = useState(false);
+
+  async function copyTextToClipboard(text:string) {
+    if ('clipboard' in navigator) {
+      return await navigator.clipboard.writeText(text);
+    } else {
+      return document.execCommand('copy', true, text);
+    }
+  }
+
+  const handleCopyClick = () => {
+    // Asynchronously call copyTextToClipboard
+    copyTextToClipboard("https://hash.online-convert.com/md5-generator")
+      .then(() => {
+        // If successful, update the isCopied state value
+        setIsCopied(true);
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 1500);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function showHashModal() {
+    setShowModal("true");
+  }
+
+  function onCopy() {
+    handleCopyClick();
+  }
+
+  function hideHashModal() {
+
+    setShowModal("false");
+  }
 
   function onUrlChange(_event: any) {
     // onHashUrlChange();
@@ -63,9 +102,12 @@ export default function ProductCard(props: Props) {
           <p style={{ paddingRight:5}}>
             <label>Enter HashURL:</label>&nbsp;&nbsp;
             <input type="text" value={hashUrl} onChange={onUrlChange} style={{ paddingLeft:5}}/>
+            <button style={{paddingLeft:5, paddingRight:5, borderRadius:"2rem"}} onClick={showHashModal}>i</button>
           </p>
-          <p>
-            <label>Enter Email :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
+          { (showModal=="true") && <HashModal onCopy={onCopy} onModalClose={hideHashModal} isCopied={isCopied} />}
+          <p> 
+            <label>Enter Email:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" value={email} onChange={onEmailChange} />
           </p>
           <p>

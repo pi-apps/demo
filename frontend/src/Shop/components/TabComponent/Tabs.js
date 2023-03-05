@@ -4,6 +4,7 @@ import SecondTab from "../AllTabs/SecondTab";
 import Shop from "../..";
 import SignIn from "../SignIn"
 import Header from "../Header"
+import HashModal from "../HashModal"
 
 const Tabs = (props) => {
 

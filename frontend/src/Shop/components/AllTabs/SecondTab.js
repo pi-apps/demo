@@ -31,6 +31,9 @@ const SecondTab = (props) => {
                 <h3>Awarded to</h3>
               </TableCell>
               <TableCell align="right">
+                <h3>Issuer</h3>
+              </TableCell>
+              <TableCell align="right">
                 <h3>Payment Id</h3>
               </TableCell>
             </TableRow>
@@ -47,6 +50,7 @@ const SecondTab = (props) => {
                 <TableCell align="right">{certi.product_id}</TableCell>
                 <TableCell align="right">{certi.email}</TableCell>
                 <TableCell align="right">{certi.receiverUid}</TableCell>
+                <TableCell align="right">{certi.issuerUid}</TableCell>
                 <TableCell align="right">{certi.paymentId}</TableCell>
               </TableRow>
             ))}
