@@ -45,9 +45,9 @@ export default function ProductCard(props: Props) {
   }
   return (
     <div
-      style={{ margin: 16, paddingBottom: 16, borderBottom: "1px solid gray" }}
+      style={{ margin: 16, paddingBottom: 16,paddingTop:16, borderBottom: "1px solid gray",borderTop: "1px solid gray" }}
     >
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "row" , alignItems:"center"}}>
         <div style={{ width: "33%", marginRight: 8 }}>
           <img
             style={{ width: "100%" }}
@@ -56,27 +56,29 @@ export default function ProductCard(props: Props) {
           />
         </div>
 
-        <div style={{ width: "66%" }}>
+        <div style={{ width: "66%" ,color : "#FFFFFF", marginLeft:10 }}>
           <h3>{props.name}</h3>
           <p>{props.description}</p>
-          <p>
-            Enter HashURL {isWhiteSpaceLike}
-            <input type="text" value={hashUrl} onChange={onUrlChange} />
+          <div style={{padding:10, marginLeft:5}}>
+          <p style={{ paddingRight:5}}>
+            <label>Enter HashURL:</label>&nbsp;&nbsp;
+            <input type="text" value={hashUrl} onChange={onUrlChange} style={{ paddingLeft:5}}/>
           </p>
           <p>
-            Enter email {isWhiteSpaceLike}
+            <label>Enter Email :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" value={email} onChange={onEmailChange} />
           </p>
           <p>
-            Enter User Id {isWhiteSpaceLike}
+          <label>Enter UserId:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" value={id} onChange={onIdChange} />
           </p>
+          </div>
         </div>
       </div>
 
       <div style={{ textAlign: "center", marginBottom: 8 }}>
         <strong>{props.price} Test-π</strong> <br />
-        <button onClick={props.onClickBuy}>Order</button>
+        <button className="button" onClick={props.onClickBuy}>Order</button>
       </div>
 
       <span style={{ fontSize: "0.6em" }}>{props.pictureCaption}</span>

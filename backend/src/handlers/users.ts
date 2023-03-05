@@ -39,7 +39,7 @@ export default function mountUserEndpoints(router: Router) {
       }
 
       let currentUser = await userCollection.findOne({ uid: auth.user.uid });
-
+      
       if (currentUser) {
         await userCollection.updateOne({
           _id: currentUser._id
@@ -62,7 +62,8 @@ export default function mountUserEndpoints(router: Router) {
 
       // req.session.currentUser = currentUser;
       setCurrentUser(currentUser);
-      return res.status(200).json({ message: "User signed in" });
+      console.log("user set to "+currentUser?.uid)
+      return res.status(200).json({ currentUser });
   //   }catch(err){
   //     return res.status(200).json({ message: "User didnt sign in" });
   // }
@@ -71,6 +72,8 @@ export default function mountUserEndpoints(router: Router) {
   // handle the user auth accordingly
   router.get('/signout', async (req, res) => {
     // req.session.currentUser = null;
+    setCurrentUser(null);
+    console.log("user set to null")
     return res.status(200).json({ message: "User signed out" });
   });
 }

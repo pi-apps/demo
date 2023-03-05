@@ -1,30 +1,3 @@
-body {
-  font-family: sans-serif;
-}
-
-h1, h2, h3 {
-  margin-top: 0;
-  margin-bottom: 16px;
-}
-
-h4, h5, h6 {
-  margin-top: 0;
-  margin-bottom: 8px;
-}
-
-screen {
-  position: relative;
-  /* width: 360px;*/
-  height: 1600px; 
-  background-color: #15202B;
-  }
-  
-
-/* *, *::before, *::after {
-  box-sizing: border-box;
-} */
-
-
 /* Remove browser defaults */
 * {
   box-sizing: border-box;
@@ -33,27 +6,23 @@ screen {
 }
 
 .App {
-  /* width: 100vw;
-  height: 100vh; */
+  width: 100vw;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 .Tabs {
-  width: 100%;
-  /* height: auto; */
-  /* min-height: 400px; */
-  /* flex-wrap: wrap; */
-  flex-direction: column;
+  width: 80%;
+  height: auto;
+  min-height: 400px;
   background: #053742;
-  /* margin: 3.5rem auto 1.5rem; */
-  /* margin-top: 3.5rem; */
+  margin: 3.5rem auto 1.5rem;
   padding: 2rem 1rem;
   color: #e8f0f2;
-  /* border-radius: 2rem; */
+  border-radius: 2rem;
   @media (max-width: 769px) {
     padding: 2rem 0;
   }
@@ -92,30 +61,10 @@ ul.nav li:hover {
 }
 ul.nav li.active {
   background: #39a2db;
-  /* background:#15202B; */
 }
 
 .FirstTab p,
 .SecondTab p {
   font-size: 2rem;
   text-align: center;
-}
-
-.button {
-  background-color: #39a2db; 
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 8px;
-}
-
-.button1 {
-  background-color: #15202B;
-  color: white;
-  border: 2px solid #39a2db; /* Green */
-  padding:10px 20px;
 }

@@ -8,17 +8,15 @@ import "../types/session";
 
 
 var currentUser: { uid: any; };
-export function setCurrentUser(user:any) {
+export function setCurrentUser(user: any) {
   currentUser = user;
 }
 
 var txnId: any;
-const txnIds = ["0","1", "2","HwzWquhP4G6sLAhQBHNyMn6h6CHG"];
-
-
+const txnIds = ["0", "1", "2", "HwzWquhP4G6sLAhQBHNyMn6h6CHG"];
 
 export default function mountPaymentsEndpoints(router: Router) {
-  
+
   // handle the incomplete payment
   router.post('/incomplete', async (req, res) => {
     const payment = req.body.payment;
@@ -36,24 +34,24 @@ export default function mountPaymentsEndpoints(router: Router) {
     // find the incomplete order
     const app = req.app;
     const orderCollection = app.locals.orderCollection;
-    const order = await orderCollection.findOne({ pi_payment_id: paymentId });
+    // const order = await orderCollection.findOne({ pi_payment_id: paymentId });
 
     // order doesn't exist 
-    if (!order) {
-      return res.status(400).json({ message: "Order not found" });
-    }
+    // if (!order) {
+    //   return res.status(400).json({ message: "Order not found" });
+    // }
 
     // check the transaction on the Pi blockchain
     const horizonResponse = await axios.create({ timeout: 20000 }).get(txURL);
     const paymentIdOnBlock = horizonResponse.data.memo;
 
     // and check other data as well e.g. amount
-    if (paymentIdOnBlock !== order.pi_payment_id) {
-      return res.status(400).json({ message: "Payment id doesn't match." });
-    }
+    // if (paymentIdOnBlock !== order.pi_payment_id) {
+    //   return res.status(400).json({ message: "Payment id doesn't match." });
+    // }
 
     // mark the order as paid
-    await orderCollection.updateOne({ pi_payment_id: paymentId }, { $set: { txid, paid: true } });
+    // await orderCollection.updateOne({ pi_payment_id: paymentId }, { $set: { txid, paid: true } });
 
     // let Pi Servers know that the payment is completed
     await platformAPIClient.post(`/v2/payments/${paymentId}/complete`, { txid });
@@ -63,31 +61,31 @@ export default function mountPaymentsEndpoints(router: Router) {
   //add this transaction id into the list
 
   //Validate payment
-  router.post('/validate', async (req,res) => {
+  router.post('/validate', async (req, res) => {
     const txnId = req.body.transactionId;
-    console.log("In backedn with validate txn id  "+ txnId)
+    console.log("In backedn with validate txn id  " + txnId)
     const response = await platformAPIClient.get(`/v2/payments/${txnId}`);
-    console.log("respones me "+ response);
+    console.log("respones me " + response);
 
     const resp = await platformAPIClient.get(`/v2/me`);
     // console.log("respones me "+ resp);
-    if(response){
-      console.log("response is "+ response.data.metadata.productId);
-      console.log("response is "+ response.data.metadata.imageHashUrl);
-      console.log("response is "+ response.data.metadata.email);
-      return res.status(200).json({productId :response.data.metadata.productId, imageHashUrl: response.data.metadata.imageHashUrl, email : response.data.metadata.email });
-    }else {
-      return res.status(200).json({error : "Error occurred in blockchain api call"});
+    if (response) {
+      console.log("response is " + response.data.metadata.productId);
+      console.log("response is " + response.data.metadata.imageHashUrl);
+      console.log("response is " + response.data.metadata.email);
+      return res.status(200).json({ productId: response.data.metadata.productId, imageHashUrl: response.data.metadata.imageHashUrl, email: response.data.metadata.email });
+    } else {
+      return res.status(200).json({ error: "Error occurred in blockchain api call" });
     }
   })
-  
+
   router.post('/getTxnIds', async (req, res) => {
     return res.status(200).json({ message: txnIds });
   })
 
   // approve the current payment
   router.post('/approve', async (req, res) => {
-     if (//!req.session.currentUser && 
+    if (//!req.session.currentUser && 
       currentUser == undefined) {
       return res.status(401).json({ error: 'unauthorized', message: "User needs to sign in first" });
     }
@@ -103,16 +101,15 @@ export default function mountPaymentsEndpoints(router: Router) {
       implement your logic here 
       e.g. creating an order record, reserve an item if the quantity is limited, etc...
     */
-    
+
     await orderCollection.insertOne({
-      identifier : currentPayment.data.identifier,
-      issuerAddress: currentUser.uid || "xyz",
-      imageHashUrl: currentPayment.data.metadata.imageHashUrl || "abc",
-      paymentId:paymentId || "testPaymentId",
-      transactionId: "testTransactionId",
-      product_id: currentPayment.data.metadata.productId,
-      email: currentPayment.data.metadata.email || "xyz",
-      user: currentPayment.data.metadata.id,
+      identifier: currentPayment.data.identifier || "defaultIdentifier",
+      issuerUid: currentUser.uid || "defaultUid",
+      imageHashUrl: currentPayment.data.metadata.imageHashUrl || "defaultHash",
+      paymentId: paymentId || "testPaymentId",
+      product_id: currentPayment.data.metadata.productId || "defaultProductId",
+      email: currentPayment.data.metadata.email || "defaultEmail",
+      receiverUid: currentPayment.data.metadata.id || "defaultUid",
       txid: null,
       paid: false,
       cancelled: false,
@@ -133,13 +130,13 @@ export default function mountPaymentsEndpoints(router: Router) {
     const paymentId = req.body.paymentId;
     const txid = req.body.txid;
     const orderCollection = app.locals.orderCollection;
-   
+
     /* 
       implement your logic here
       e.g. verify the transaction, deliver the item to the user, etc...
     */
 
-    await orderCollection.updateOne({ pi_payment_id: paymentId }, { $set: { txid: txid, paid: true } });
+    await orderCollection.updateOne({ paymentId: paymentId }, { $set: { txid: txid, paid: true } });
 
     // let Pi server know that the payment is completed
     await platformAPIClient.post(`/v2/payments/${paymentId}/complete`, { txid });
@@ -152,48 +149,53 @@ export default function mountPaymentsEndpoints(router: Router) {
 
     const paymentId = req.body.paymentId;
     const orderCollection = app.locals.orderCollection;
-
+    console.log("payment id is "+paymentId)
     /*
       implement your logic here
       e.g. mark the order record to cancelled, etc...
     */
+    // await platformAPIClient.post(`/v2/payments/${paymentId}/cancel`);
 
-    await orderCollection.updateOne({ pi_payment_id: paymentId }, { $set: { cancelled: true } });
+    // await orderCollection.updateOne({ pi_payment_id: paymentId }, { $set: { cancelled: true } });
     return res.status(200).json({ message: `Cancelled the payment ${paymentId}` });
   })
 
   router.get('/getCertificates', async (req, res) => {
     try {
-    const app = req.app;
-    const orderCollection = app.locals.orderCollection;
-    try{
-    const order = await orderCollection.find({ user: { $in: [ currentUser?.uid || "66527e06-4d7e-43a2-80af-4927a1675387"] } }).toArray();
-    return res.status(200).json(order);
-  } catch (err){
-      console.log("sign in required!");
-      return res.status(200).json({});
+      const app = req.app;
+      const orderCollection = app.locals.orderCollection;
+      try {
+        var order=[];
+        console.log("curren tuser is "+ currentUser?.uid)
+        if(currentUser?.uid && currentUser?.uid!=""){
+          console.log("getting from mongo")
+          order = await orderCollection.find({ receiverUid: { $in: [currentUser?.uid] } }).toArray();
+        }
+        return res.status(200).json(order);
+      } catch (err) {
+        console.log("sign in required!");
+        return res.status(200).json({ message: "sign in required!" });
+      }
+    } catch (err) {
+      return res.status(200).json({ message: "Error occurred in /getCerificates!" });
     }
-  }catch(err){
-    return res.status(200).json({ message: "Some error" });
-  }
   })
 
   router.get('/getUserId', async (req, res) => {
-    if(currentUser && currentUser.uid){
-    return res.status(200).json({UserId : currentUser.uid });
-    }else {
-    return res.status(200).json({message: "no current user set"});
-
+    if (currentUser && currentUser.uid) {
+      return res.status(200).json({ UserId: currentUser.uid });
+    } else {
+      return res.status(200).json({ message: "sign in required!" });
     }
   })
-  
+
   router.post('/A2UTransaction', async (req, res) => {
     console.log("1");
     const userUid = "66527e06-4d7e-43a2-80af-4927a1675387"
     const paymentData = {
       "amount": 1,
       "memo": "Refund for apple pie", // this is just an example
-      "metadata":{},// {productId: "apple-pie-1"},
+      "metadata": {},// {productId: "apple-pie-1"},
       "uid": userUid
     }
     const app = req.app;
@@ -201,7 +203,7 @@ export default function mountPaymentsEndpoints(router: Router) {
     const orderCollection = app.locals.orderCollection;
     await orderCollection.insertOne({
       // identifier : currentPayment.data.identifier,
-      issuerAddress: "66527e06-4d7e-43a2-80af-4927a1675387" ,
+      issuerAddress: "66527e06-4d7e-43a2-80af-4927a1675387",
       // imageHashUrl: currentPayment.data.metadata.imageHashUrl || "abc",
       // paymentId:paymentId || "testPaymentId",
       transactionId: "testTransactionId",
@@ -214,7 +216,7 @@ export default function mountPaymentsEndpoints(router: Router) {
       created_at: new Date()
     });
     console.log("here");
-    const order = await orderCollection.find({ issuerAddress: { $in: [ "66527e06-4d7e-43a2-80af-4927a1675387"] } }).toArray();
+    const order = await orderCollection.find({ issuerAddress: { $in: ["66527e06-4d7e-43a2-80af-4927a1675387"] } }).toArray();
     console.log(await order[0]);
     // console.log(await order.size())
     return res.status(200).json(order);
