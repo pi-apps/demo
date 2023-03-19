@@ -6,11 +6,7 @@
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"version": "latest",
-			"enableNonRootDocker": "true",
-			"moby": "true"
-		}
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	}
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
