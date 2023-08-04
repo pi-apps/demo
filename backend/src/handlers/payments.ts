@@ -55,6 +55,7 @@ export default function mountPaymentsEndpoints(router: Router) {
 
     const paymentId = req.body.paymentId;
     const currentPayment = await platformAPIClient.get(`/v2/payments/${paymentId}`);
+    console.log(currentPayment);
     const orderCollection = app.locals.orderCollection;
 
     /* 
@@ -66,10 +67,14 @@ export default function mountPaymentsEndpoints(router: Router) {
       pi_payment_id: paymentId,
       product_id: currentPayment.data.metadata.productId,
       user: req.session.currentUser.uid,
+      amount: currentPayment.data.amount,
       txid: null,
       paid: false,
       cancelled: false,
-      created_at: new Date()
+      completed: false,
+      created_at: new Date(),
+      is_refund: false,
+      refunded_at: null
     });
 
     // let Pi Servers know that you're ready
@@ -112,4 +117,22 @@ export default function mountPaymentsEndpoints(router: Router) {
     await orderCollection.updateOne({ pi_payment_id: paymentId }, { $set: { cancelled: true } });
     return res.status(200).json({ message: `Cancelled the payment ${paymentId}` });
   })
+
+  router.post('/refundable_payment', async (req, res) => {
+    if (!req.session.currentUser) {
+      
+      return res.status(401).json({ error: 'unauthorized', message: "User needs to sign in first" });
+    }
+
+    const app = req.app;
+    const user = req.session.currentUser.uid;
+    
+    const orderCollection = app.locals.orderCollection;
+
+    const refundableOrders = await orderCollection.find({ user: user, is_refund: false, refunded_at: null }).toArray();
+    console.log(refundableOrders);
+    
+    return res.status(200).json({message: `Orders Eligible for Refund`, refundableOrders: refundableOrders });
+
+  });
 }

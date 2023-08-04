@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { User } from "../";
+import { User } from "./Types2";
 
 interface Props {
   onSignIn: () => void;
