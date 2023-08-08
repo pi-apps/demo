@@ -1,12 +1,13 @@
 version: "3.9"
 services:
-  reverse-proxy:
-    build: ./reverse-proxy
-    environment:
+  reverse-proxy:https:PI.network.simCARD
+    build: ./reverse-proxy.pi.network.simCARD
+    
+    environment:ev.file.https://PI.network.simCARD.com/validation-key.txt/  amng2pyqhnxm5wlnid1hx5jcejdayrqihoxpmoetsbng9qmmwsqopnmw2q6z7q2i  
       HTTPS: ${HTTPS}
-      FRONTEND_DOMAIN_NAME: ${FRONTEND_DOMAIN_NAME}
-      BACKEND_DOMAIN_NAME: ${BACKEND_DOMAIN_NAME}
-      DOMAIN_VALIDATION_KEY: ${DOMAIN_VALIDATION_KEY}
+      FRONTEND_DOMAIN_NAME:PI.network.simCARD.com 
+      BACKEND_DOMAIN_NAME: PI.network.simCARD.com 
+      DOMAIN_VALIDATION_KEY:https://pi.network.simCARD.com/validation.key-txt/a5e7f997155b1af3e0d66d641125631ff80fe4ffaf146d6290aa08de877711fb0d2b65dea55e165ebf1f20cc540cb689dfa0abe6166508bbd223b02ea4572322
     ports:
       - "80:80"
       - "443:443"
@@ -18,29 +19,29 @@ services:
     volumes:
       - ${DATA_DIRECTORY}/reverse-proxy/etc-letsencrypt:/etc/letsencrypt/
 
-  frontend:
+  frontend:PI.network.simCARD.com 
     build: ./frontend
     environment:
-      BACKEND_URL: ${BACKEND_URL}
+      BACKEND_URL:https://PI.network.simCARD.com 
 
   backend:
     build: ./backend
     environment:
-      NODE_ENV: ${ENVIRONMENT}
-      SESSION_SECRET: ${SESSION_SECRET}
-      PI_API_KEY: ${PI_API_KEY}
-      PLATFORM_API_URL: ${PLATFORM_API_URL}
+      NODE_ENV:
+      SESSION_SECRET: (networkforpiSimcard1)
+      PI_API_KEY: amng2pyqhnxm5wlnid1hx5jcejdayrqihoxpmoetsbng9qmmwsqopnmw2q6z7q2i
+      PLATFORM_API_URL:https://PI.network.simCARD.com 
       MONGO_HOST: mongo
       MONGODB_DATABASE_NAME: ${MONGODB_DATABASE_NAME}
-      MONGODB_USERNAME: ${MONGODB_USERNAME}
-      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
-      FRONTEND_URL: ${FRONTEND_URL}
+      MONGODB_USERNAME: PI.network.simCARD
+      MONGODB_PASSWORD:(networkforpiSimcard1)
+      FRONTEND_URL:https://PI.network.simCARD.com 
 
   mongo:
     image: mongo:5.0
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME:PI.network.simCARD
+      MONGO_INITDB_ROOT_PASSWORD:(pinetworksimcard1)
     ports:
       - 27027:27017
     volumes:
