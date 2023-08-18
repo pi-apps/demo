@@ -1,5 +1,9 @@
 import React, { CSSProperties } from 'react';
 
+/*
+* this card displays the Sign-In alert when a user is not signed in
+*/
+
 interface Props {
   onSignIn: () => void,
   onModalClose: () => void,

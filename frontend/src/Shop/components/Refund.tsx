@@ -1,5 +1,9 @@
 import React, { CSSProperties } from 'react';
 
+/*
+* this card displays the alert message that a refund has been processed
+*/
+
 interface Props {
   refundedTransactionMessage: string,
   onRefundClose: () => void,

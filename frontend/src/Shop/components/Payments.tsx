@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { WindowWithEnv, PaymentDTO, } from "./Types2";
+import { WindowWithEnv, PaymentDTO } from "./Types";
+
 
 const _window: WindowWithEnv = window;
 const backendURL = _window.__ENV && _window.__ENV.backendURL;
@@ -8,6 +9,14 @@ const axiosClient = axios.create({ baseURL: `${backendURL}`, timeout: 20000, wit
 const config = {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}};
 
   
+/* 
+* logic for all of the payment callback functions that can be called
+* by the front end Pi SDK. See https://github.com/pi-apps/pi-platform-docs/blob/master/SDK_reference.md#callbacks-keys
+* for more information.
+*
+* implement your own logic as needed
+*/
+
 export const onIncompletePaymentFound = (payment: PaymentDTO) => {
     console.log("onIncompletePaymentFound", payment);
     return axiosClient.post('/payments/incomplete', {payment});
@@ -35,3 +44,4 @@ export const onError = (error: Error, payment?: PaymentDTO) => {
       // handle the error accordingly
     }
   }
+
