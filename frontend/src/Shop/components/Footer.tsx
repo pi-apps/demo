@@ -16,6 +16,11 @@ export default function ColorInversionFooter() {
   const [ color ] = React.useState<ColorPaletteProp>('neutral');
 
   return (
+    <Grid 
+    container 
+    position={'sticky'}
+    bottom={0}
+    >
     <Sheet
       variant="soft"
       color={color}
@@ -28,6 +33,7 @@ export default function ColorInversionFooter() {
         p: 2,
         borderRadius: { xs: 0, sm: 'sm' },
       }}
+      
     >
       <Grid container justifyContent='center'>
         <Typography alignContent="center">
@@ -121,5 +127,6 @@ export default function ColorInversionFooter() {
         </List>
       </Box>
     </Sheet>
+    </Grid>
   );
 }

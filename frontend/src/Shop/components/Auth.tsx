@@ -21,7 +21,7 @@ const axiosClient = axios.create({ baseURL: `${backendURL}`, timeout: 20000, wit
 
 const AuthProvider: React.FC<React.ReactNode> = ({ children }) => {
     const [user, setUser] = React.useState<User>( { uid: '', username: '' } )
-    const [showModal, setShowModal] = React.useState<boolean>(true);
+    const [showModal, setShowModal] = React.useState<boolean>(false);
     const [refunds, setRefunds] = React.useState<RefundType[]>(
       [{
         _id: '',
@@ -43,6 +43,7 @@ const AuthProvider: React.FC<React.ReactNode> = ({ children }) => {
       const authResult: AuthResult = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
       await signInUser(authResult);
       setUser(authResult.user);
+      setShowModal(false);
       saveRefunds();
     }
 
@@ -74,7 +75,6 @@ const AuthProvider: React.FC<React.ReactNode> = ({ children }) => {
         saveShowModal(false);
       }
 
-
       const userContext: UserContextType = {
         user, 
         saveUser, 
@@ -82,7 +82,7 @@ const AuthProvider: React.FC<React.ReactNode> = ({ children }) => {
         saveShowModal,
         refunds,
         saveRefunds,
-        onModalClose
+        onModalClose,
       }
 
     return (

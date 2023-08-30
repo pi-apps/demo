@@ -1,36 +1,36 @@
-import React, { CSSProperties } from 'react';
+import { Dialog, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 /*
 * this card displays the alert message that a refund has been processed
 */
 
 interface Props {
-  refundedTransactionMessage: string,
+  refundedTransaction: {
+    message: string,
+    block_explorer_link: string
+  },
+  showRefundAlert: boolean,
   onRefundClose: () => void,
-}
-
-const modalStyle: CSSProperties = {
-  background: 'white', 
-  position: 'absolute', 
-  left: '15vw', 
-  top: '40%', 
-  width: '70vw', 
-  height: '25vh', 
-  border: '1px solid black', 
-  textAlign: 'center', 
-  display: 'flex', 
-  flexDirection: 'column', 
-  justifyContent: 'center'
 }
 
 export default function Refund(props: Props) {
   return (
-    <div style={modalStyle}>
-      <p style={{ fontWeight: 'bold' }}>Refunded Payment</p>
-      <div>
-        <p>{props.refundedTransactionMessage}</p>
-        <button onClick={props.onRefundClose}>Close</button>
-      </div>
-    </div>
+    <Dialog
+    open={props.showRefundAlert}
+    onClose={props.onRefundClose}
+  >
+    <DialogContent>
+      <DialogContentText marginTop={1}>
+        {props.refundedTransaction.message}
+        </DialogContentText>
+        <DialogContentText marginTop={2}>
+        <a href={props.refundedTransaction.block_explorer_link}>View on the Pi Block Explorer</a>
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={props.onRefundClose}>Close</Button>
+    </DialogActions>
+  </Dialog>
   )
 }

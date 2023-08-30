@@ -60,7 +60,7 @@ export default function mountPaymentsEndpoints(router: Router) {
 
   /* 
   * 
-  * USER TO APP PAYMENT FUNCTIONS
+  * USER TO APP PAYMENT
   * 
   */ 
 
@@ -140,7 +140,7 @@ export default function mountPaymentsEndpoints(router: Router) {
   
   /* 
   * 
-  * APP TO USER PAYMENT FUNCTIONS
+  * APP TO USER PAYMENT
   * 
   */ 
   
@@ -246,7 +246,7 @@ export default function mountPaymentsEndpoints(router: Router) {
     await pi.completePayment(paymentId, refundTxId); 
 
     // return success to the front end
-    return res.status(200).json({message: `${refundedPaymentID} was refunded with transaction ${refundTxId}`, block_explorer_link: `https://blockexplorer.minepi.com/tx/${refundTxId}`});
+    return res.status(200).json({message: `Payment: ${refundedPaymentID} was refunded with transaction ${refundTxId}`, block_explorer_link: `https://blockexplorer.minepi.com/tx/${refundTxId}`});
     } catch (error) {
       console.log(error)
     }

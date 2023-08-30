@@ -12,10 +12,30 @@ interface Props {
   pictureCaption: string,
   pictureURL: string,
   amount: number,
+  variant: boolean,
   onClickRefund: () => void,
 }
 
 export default function RefundCard(props: Props) {
+
+    function buttonStyle(){
+        if(props.variant){
+            return 'outlined';
+        }
+        else{
+            return 'contained';
+        }
+    }
+    
+    function buttonText(){
+        if(props.variant){
+            return 'Refund in Progress';
+        }
+        else{
+            return 'Refund';
+        }
+    }
+
   return (
     <Grid>
     { (props.name === 'none')? 
@@ -37,12 +57,11 @@ export default function RefundCard(props: Props) {
         :
         <Grid container style={{ margin: 16, paddingBottom: 16, borderBottom: '1px solid gray' }}>
             <Grid container style={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid item style={{ width: "33%", marginRight: 8 }}>
+                <Grid container style={{ width: "33%", marginRight: 8 }}>
                     <AspectRatio sx={{ width: 300 }}>
-                        <img style={{ width: "100%" }} src={props.pictureURL} alt={props.name} />
+                    <img style={{ width: "100%", height: "100%" }} src={props.pictureURL} alt={props.name} />
                     </AspectRatio>
                 </Grid>
-                
                 <Grid item style={{ width: "66%" }}>
                     {props.name ==="lemon_pie_1" ? <h3>Refund Order: Lemon Meringue Pie</h3> : <h3>Refund Order: Apple Pie</h3> }
                     <p>{props.description}</p> 
@@ -53,7 +72,7 @@ export default function RefundCard(props: Props) {
             <Grid container>
             <Grid item style={{textAlign: 'center', margin: 8}}>
                 <strong>Eligible Refund: {props.amount} Test-π</strong> <br />
-                <Button variant='contained' color='secondary' onClick={() => {props.onClickRefund()}}>Refund</Button>
+                <Button variant={buttonStyle()} color='secondary' onClick={() => {props.onClickRefund()}}>{buttonText()}</Button>
             </Grid>
             <Grid item>
                 <span style={{fontSize: '0.6em'}}>{props.pictureCaption}</span>

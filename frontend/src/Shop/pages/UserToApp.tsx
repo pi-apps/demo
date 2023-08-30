@@ -16,7 +16,7 @@ export default function UserToAppPayments() {
   const { user, saveUser, showModal, saveShowModal, onModalClose } = React.useContext(UserContext) as UserContextType;
 
   const orderProduct = async (memo: string, amount: number, paymentMetadata: MyPaymentMetadata) => {
-    if(user === null) {
+    if(user.uid === "") {
       return saveShowModal(true);
     }
 
@@ -40,7 +40,6 @@ return(
         <Typography variant="h4" margin={3}>
               User to App Payments
         </Typography>
-
         <ProductCard
         name="Apple Pie"
         description="You know what this is. Pie. Apples. Apple pie."
@@ -59,7 +58,8 @@ return(
         onClickBuy={() => orderProduct("Order Lemon Meringue Pie", 5, { productId: 'lemon_pie_1' })}
         /> 
                     
-        { showModal && <SignIn onSignIn={saveUser} onModalClose={onModalClose} /> }
+       { showModal && <SignIn onSignIn={saveUser} onModalClose={onModalClose} showModal={showModal}/> }
+
         <Footer/>
     </>
 );
