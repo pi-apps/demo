@@ -4,8 +4,6 @@ import UserToAppPayments from "./pages/UserToApp";
 import AppToUserPayments from "./pages/AppToUser";
 import AuthProvider from "./components/Auth";
 
-
-
 export default function Shop() {
 
   return (

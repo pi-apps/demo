@@ -3,8 +3,8 @@ import { User, AuthResult, UserContextType, WindowWithEnv, RefundType } from "./
 import axios from "axios";
 import { onIncompletePaymentFound } from "./Payments";
 
-/* 
-  The useContext Hook is iniated here to pass the user information
+/* DEVELOPER NOTE:
+  The useContext Hook is initiated here to pass the user information
   between the various pages of the app. It is important to use the
   react-dom links in your app so there is no re-render which causes 
   loss of the context. 
@@ -57,40 +57,39 @@ const AuthProvider: React.FC<React.ReactNode> = ({ children }) => {
       setUser(nullUser);
     }
 
-      const saveUser = () =>{
-        user.uid === '' ? signIn() : signOutUser();
-      }
+    const saveUser = () =>{
+      user.uid === '' ? signIn() : signOutUser();
+    }
 
-      const saveShowModal = (value: boolean) => {
-        setShowModal(value);
-      }
+    const saveShowModal = (value: boolean) => {
+      setShowModal(value);
+    }
 
-      const saveRefunds = async() =>{
-        const refundableOrders = await axiosClient.post('/payments/refundable_payment');
-        const refundable: RefundType[] = refundableOrders.data.refundableOrders;
-        setRefunds(refundable)
-      }
+    const saveRefunds = async() =>{
+      const refundableOrders = await axiosClient.post('/payments/refundable_payment');
+      const refundable: RefundType[] = refundableOrders.data.refundableOrders;
+      setRefunds(refundable)
+    }
 
-      const onModalClose = () => {
-        saveShowModal(false);
-      }
+    const onModalClose = () => {
+      saveShowModal(false);
+    }
 
-      const userContext: UserContextType = {
-        user, 
-        saveUser, 
-        showModal, 
-        saveShowModal,
-        refunds,
-        saveRefunds,
-        onModalClose,
-      }
+    const userContext: UserContextType = {
+      user, 
+      saveUser, 
+      showModal, 
+      saveShowModal,
+      refunds,
+      saveRefunds,
+      onModalClose,
+    }
 
     return (
         <UserContext.Provider value={ userContext }>
             {children}
         </UserContext.Provider>
     )
-
 }
 
 export default AuthProvider;

@@ -57,7 +57,7 @@ export default function Header() {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>
-                <Link to="/" style={linkStyle}>Home</Link> {/* IMPORTANT TO USE LINK FROM REACT-DOM TO NOT LOSE CONTEXT*/}
+                <Link to="/" style={linkStyle}>Home</Link> {/* DEVELOPER NOTE: USE LINK FROM REACT-DOM TO NOT LOSE CONTEXT*/}
               </MenuItem>
               <MenuItem onClick={handleClose}>
                 <Link to="/payments/usertoapp" style={linkStyle}>User to App Payments</Link>

@@ -32,7 +32,8 @@ return(
               Payments: 
               Process Pi transactions within your application. <br/>
               Naviagate to the respective page from the top left menu
-                <ul>
+            </Typography>
+            <ul>
                   <li>
                     User to App
                   </li>
@@ -40,7 +41,6 @@ return(
                     App to User
                   </li>
                 </ul>
-            </Typography>
           </Grid>
         </Grid>
       </Grid>

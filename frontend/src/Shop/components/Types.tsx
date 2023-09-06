@@ -1,10 +1,9 @@
-/*
+/* DEVELOPER NOTE:
 * this file contains all of the types and interfaces that
 * are used by the various components of the front end.
 *
 * update or add, the types or interfaces your app needs
 */
-
 
 export type AuthResult = {
     accessToken: string,

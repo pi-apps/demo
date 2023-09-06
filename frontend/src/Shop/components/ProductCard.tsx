@@ -2,7 +2,7 @@ import { Button, Grid } from '@mui/material';
 import Typography from '@mui/joy/Typography';
 import AspectRatio from '@mui/joy/AspectRatio';
 
-/*
+/* DEVELOPER NOTE:
 * the productCard is used to create the standard output of pies
 * on the User to App payments page of the app.
 */

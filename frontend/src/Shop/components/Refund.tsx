@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 
-/*
+/* DEVELOPER NOTE:
 * this card displays the alert message that a refund has been processed
 */
 

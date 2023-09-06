@@ -5,12 +5,12 @@ import "../types/session";
 import PiNetwork from 'pi-backend';
 import env from "../environments";
 
-/*
+/* 
+* DEVELOPER NOTE:
 * payment implementations are explained in our SDKs linked below, for more information
 * User to App Payments - https://github.com/pi-apps/pi-platform-docs/blob/master/README.md
 * App to User Payments - https://github.com/pi-apps/pi-platform-docs/blob/master/payments_advanced.md
 */
-
 
 // DO NOT expose these values to public
 const pi = new PiNetwork(env.pi_api_key, env.wallet_secret_seed);
@@ -25,6 +25,7 @@ export default function mountPaymentsEndpoints(router: Router) {
       const txURL = payment.transaction && payment.transaction._link;
   
       /* 
+        DEVELOPER NOTE:
         implement your logic here
         e.g. verifying the payment, delivering the item to the user, etc...
   
@@ -78,6 +79,7 @@ export default function mountPaymentsEndpoints(router: Router) {
     const orderCollection = app.locals.orderCollection;
 
     /* 
+      DEVELOPER NOTE:
       implement your logic here 
       e.g. creating an order record, reserve an item if the quantity is limited, etc...
     */
@@ -110,6 +112,7 @@ export default function mountPaymentsEndpoints(router: Router) {
     const orderCollection = app.locals.orderCollection;
 
     /* 
+      DEVELOPER NOTE:
       implement your logic here
       e.g. verify the transaction, deliver the item to the user, etc...
     */
@@ -128,7 +131,8 @@ export default function mountPaymentsEndpoints(router: Router) {
     const paymentId = req.body.paymentId;
     const orderCollection = app.locals.orderCollection;
 
-    /*
+    /* 
+      DEVELOPER NOTE:
       implement your logic here
       e.g. mark the order record to cancelled, etc...
     */
@@ -152,6 +156,7 @@ export default function mountPaymentsEndpoints(router: Router) {
     }
   
     /*
+      DEVELOPER NOTE:
       implement your logic here
       e.g. mark the order record to cancelled, etc...
     */
@@ -174,7 +179,8 @@ export default function mountPaymentsEndpoints(router: Router) {
       return res.status(401).json({ error: 'unauthorized', message: "User needs to sign in first" });
     }
 
-    /*
+    /* 
+      DEVELOPER NOTE:
       implement your logic here
       e.g. mark the order record to cancelled, etc...
     */
@@ -220,7 +226,6 @@ export default function mountPaymentsEndpoints(router: Router) {
   
     //Send Refund Transaction
     const paymentId = await pi.createPayment(paymentData);
-
 
     // save the payment information in the DB
     await orderCollection.insertOne({

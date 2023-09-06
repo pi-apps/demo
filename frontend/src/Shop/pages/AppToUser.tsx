@@ -13,7 +13,7 @@ const _window: WindowWithEnv = window;
 const backendURL = _window.__ENV && _window.__ENV.backendURL;
 const axiosClient = axios.create({ baseURL: `${backendURL}`, timeout: 35000, withCredentials: true});
 
-/*
+/* DEVELOPER NOTE:
 * this page retrieves and displays all the eligible refunds a user has. 
 * it will execute the refund when signaled by the user and return an alert when done.
 */
@@ -50,6 +50,7 @@ export default function AppToUserPayments() {
 
   useEffect(() => {
     saveRefunds();
+    // eslint-disable-next-line
   },[]);
 
 return (    

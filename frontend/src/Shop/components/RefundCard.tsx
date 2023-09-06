@@ -1,7 +1,7 @@
 import AspectRatio from '@mui/joy/AspectRatio';
 import { Button, Grid } from '@mui/material';
 
-/*
+/* DEVELOPER NOTE:
 * the RefundCard is used to create the standard output of pies
 * on the App to User refunds page of the app.
 */

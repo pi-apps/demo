@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { UserContext } from "../components/Auth";
 import React from "react";
 
-/*
+/* DEVELOPER NOTE:
 * this page facilitates the purchase of pies for pi. all of the callbacks
 * can be found on the Payments.tsx file in components file. 
 */

@@ -11,7 +11,6 @@ import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import { Grid } from '@mui/material';
 
-
 export default function ColorInversionFooter() {
   const [ color ] = React.useState<ColorPaletteProp>('neutral');
 
@@ -32,8 +31,7 @@ export default function ColorInversionFooter() {
         flexGrow: 1,
         p: 2,
         borderRadius: { xs: 0, sm: 'sm' },
-      }}
-      
+      }}  
     >
       <Grid container justifyContent='center'>
         <Typography alignContent="center">

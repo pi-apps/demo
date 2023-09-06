@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 
-/*
+/* DEVELOPER NOTE:
 * this card displays the Sign-In alert when a user is not signed in
 */
 
