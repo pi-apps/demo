@@ -1,32 +1,30 @@
-import React, { CSSProperties } from 'react';
+import { Dialog, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+
+/*
+* this card displays the Sign-In alert when a user is not signed in
+*/
 
 interface Props {
   onSignIn: () => void,
   onModalClose: () => void,
-}
-
-const modalStyle: CSSProperties = {
-  background: 'white', 
-  position: 'absolute', 
-  left: '15vw', 
-  top: '40%', 
-  width: '70vw', 
-  height: '25vh', 
-  border: '1px solid black', 
-  textAlign: 'center', 
-  display: 'flex', 
-  flexDirection: 'column', 
-  justifyContent: 'center'
+  showModal: boolean,
 }
 
 export default function SignIn(props: Props) {
   return (
-    <div style={modalStyle}>
-      <p style={{ fontWeight: 'bold' }}>You need to sign in first.</p>
-      <div>
-        <button onClick={props.onSignIn} style={{ marginRight: '1em' }}>Sign in</button>
-        <button onClick={props.onModalClose}>Close</button>
-      </div>
-    </div>
+    <Dialog
+    open={props.showModal}
+    onClose={props.onModalClose}
+  >
+    <DialogContent>
+      <DialogContentText>
+          You need to sign in first.
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={props.onSignIn}>Sign In</Button>
+      <Button onClick={props.onModalClose}>Close</Button>
+    </DialogActions>
+  </Dialog>
   )
 }
