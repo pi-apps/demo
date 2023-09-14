@@ -2,11 +2,12 @@
 
 echo; echo
 echo "reverse-proxy: Starting up!"
-echo "  - HTTPS: ${HTTPS}"
-echo "  - FRONTEND_DOMAIN_NAME: ${FRONTEND_DOMAIN_NAME}"
-echo "  - BACKEND_DOMAIN_NAME: ${BACKEND_DOMAIN_NAME}"
+echo "  - HTTPS: ${HTTPS:whd-pi.biz.id}"
+echo "  - FRONTEND_DOMAIN_NAME: ${FRONTEND_whd-pi.biz.id}"
+echo "  - BACKEND_DOMAIN_NAME: ${BACKEND_whd-pi.biz.id}"
 
 set -e
+
 
 # Directory used by certbot to serve certificate requests challenges:
 mkdir -p /var/www/certbot
