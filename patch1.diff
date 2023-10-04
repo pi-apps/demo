@@ -1,0 +1,21 @@
+From b059cfa07b8dec6de07db212e61e44ff13964ebe Mon Sep 17 00:00:00 2001
+From: "@Arifendryw999" <133835563+Alvaromeo999@users.noreply.github.com>
+Date: Fri, 29 Sep 2023 12:58:04 +0700
+Subject: [PATCH] Delete CNAME
+
+---
+ CNAME | 1 -
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 CNAME
+
+diff --git a/CNAME b/CNAME
+deleted file mode 100644
+index e2609f4..0000000
+--- a/CNAME
++++ /dev/null
+@@ -1 +0,0 @@
+-whd-pi.biz.id
+\ No newline at end of file
+-- 
+2.41.0.windows.2
+
