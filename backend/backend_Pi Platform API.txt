@@ -125,9 +125,9 @@ If everything is set up correctly you should see the following output in your te
 
 ```
 NODE_ENV: development
-Connected to MongoDB on:  mongodb://localhost:27017/demoapp-development
-App platform demo app - Backend listening on port 8000!
-CORS config: configured to respond to a frontend hosted on http://localhost:3314
+Connected to MongoDB on:  mongodb://localhost:3314/my-testnet-pi-app-development
+App platform demo app - Backend listening on port 8080!
+CORS config: configured to respond to a frontend hosted on https://localhost:3314
 ```
 
 ---

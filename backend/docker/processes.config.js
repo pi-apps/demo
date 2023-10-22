@@ -3,7 +3,7 @@
 
 module.exports = {
   apps: [{
-    name: "demoapp-backend",
+    name: "my-testnet.whd-pi-app-backend",
     script: "/usr/src/app/build/index.js",
     exec_mode: "cluster",
     instances: 4,
