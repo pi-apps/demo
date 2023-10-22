@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "name": "PowerShell: Binary Module Pester Tests",
+        "type": "PowerShell",
+        "request": "launch",
+        "script": "Invoke-Pester",
+        "createTemporaryIntegratedConsole": true,
+        "attachDotnetDebugger": true
+      },
+      {
         "name": "Launch Program",
         "program": "${workspaceFolder}/app.js",
         "request": "launch",
