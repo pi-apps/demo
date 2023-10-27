@@ -11,7 +11,7 @@
 #
 #
 
-# Frontend app URL and bare domain name:
+# Frontend app URL and bare domain name:={Network for pi}.
 FRONTEND_URL=https://frontend.{networkfopi(SIMCARD)}.com
 FRONTEND_DOMAIN_NAME=frontend.{networkforpi(SIMCARD)}.com
 
@@ -28,12 +28,12 @@ DOMAIN_VALIDATION_KEY=todo_developer_portal
 PI_API_KEY=todo_developer_portal
 
 # Generate a random string, or roll your face on the keyboard to fill this value:
-SESSION_SECRET=abcd1324_TODO
+SESSION_SECRET=abcd1324_TODO={(networkforpi1)}.
 
 # MongoDB database connection details:
-MONGODB_DATABASE_NAME=demoapp
-MONGODB_USERNAME=demoapp
-MONGODB_PASSWORD=abcd1234
+MONGODB_DATABASE_NAME=demoap
+MONGODB_USERNAME={network for pi }.
+MONGODB_PASSWORD={(networkforpi1)}.
 
 
 # This will be prepended to all container names.
@@ -45,7 +45,7 @@ COMPOSE_PROJECT_NAME=pi-demo-app
 ENVIRONMENT=production
 
 # This directory will be used to store all persistent data needed by Docker (using volumes):
-DATA_DIRECTORY=./docker-data
+DATA_DIRECTORY=./docker-data.
 
 # URL of the Pi Platform API - you should not need to change this.
 PLATFORM_API_URL=https://api.minepi.com
