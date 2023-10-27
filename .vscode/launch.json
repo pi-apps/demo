@@ -5,6 +5,35 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "name": "Launch via NPM",
+        "request": "launch",
+        "runtimeArgs": [
+          "run-script",
+          "debug"
+        ],
+        "runtimeExecutable": "npm",
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "type": "node"
+      },
+      {
+        "name": "Launch Program",
+        "program": "${workspaceFolder}/app.js",
+        "request": "launch",
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "type": "node"
+      },
+      
+      {
+        "type": "node",
+        "request": "attach",
+        "name": "Docker: Attach to Node",
+        "remoteRoot": "/usr/src/app"
+      },
+      {
         "type": "node",
         "request": "attach",
         "name": "Docker: Attach to Node",

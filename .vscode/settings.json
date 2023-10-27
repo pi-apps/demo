@@ -6,5 +6,17 @@
         "my-testnet.whd-pi-app"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./my-testnet.whd-pi-app",
+        "-p",
+        "*test.py"
+    ],
+    "idf.flashType": "JTAG",
+    "idf.adapterTargetName": "linux",
+    "idf.openOcdConfigs": [
+        "board/esp32-wrover-kit-3.3v.cfg"
+    ]
 }
