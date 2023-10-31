@@ -1,31 +1,23 @@
-# Pi Demo App
+# WHOLE HUMAN DEVELOPMENT (WHD)
+![logo WHD](https://github.com/Alvaromeo999/testnet/assets/133835563/cdd9b91c-cb45-478b-b09c-acd80ba9a961)
 
-Pi Demo App is an example of how you can implement the various required flows in your app's code.
-It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
+# INTRODUCTION :
 
+We hope that with the passage of time, every human being has the opportunity to obtain a decent life.
 
-It is composed of two major parts:
+It is hoped that pioneers with ecosystem utilities can gather or accommodate all aspects and sectors of humanity.
 
-* **backend**: a backend app (a very simple JSON API built using Node and ExpressJS)
-* **frontend**: a single-page frontend app (built using React and create-react-app)
+From Indonesia wants to speak out about real and genuine development. Go ahead, all pioneers and keep up the enthusiasm.
 
+There is a saying that a tiger dies leaving its skin, an elephant dies leaving its tusks, a human dies hopefully leaving good deeds, useful knowledge and always devoted to parents.
 
-## Initial Development
+While there is an opportunity to always do good to anyone, .... Insha Allah.
 
-Read [`doc/development.md`](./doc/development.md) to get started and learn how to run this app in development.
+This Hackathon project runs a method or system :
 
-> **WARNING**
->
-> The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
-> To properly test all of the features of the Demo App, we recommend you to open the sandbox app using Mozilla Firefox.
+# e-learning :
+![e-learning](https://github.com/Alvaromeo999/testnet/assets/133835563/68b92489-7f6d-4b1d-8aa9-ee953ecc47f3)
 
-
-## Deployment
-
-Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app on a server using Docker and docker-compose.
+e-learning from the 
 
 
-## Flows
-
-To dive into the implementation of the flows that support the demo app features, please refer to
-[Pi Demo App Flows](./FLOWS.md).
