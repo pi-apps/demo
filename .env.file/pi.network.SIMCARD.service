@@ -11,13 +11,13 @@
 #
 #
 
-# Frontend app URL and bare domain name:={Network for pi}.
-FRONTEND_URL=https://frontend.{networkfopi(SIMCARD)}.service 
-FRONTEND_DOMAIN_NAME=frontend.{networkforpi(SIMCARD)}.service 
+# Frontend app URL and bare domain name:={Networkforpi}.
+FRONTEND_URL=https://frontend.{https://pi.network.SIMCARD.service}.service 
+FRONTEND_DOMAIN_NAME=frontend.{networkforpi(SIMCARD)}.
 
 # Backend app URL and bare domain name:
-BACKEND_URL=https://backend.{networkforpi(SIMCARD)}.service 
-BACKEND_DOMAIN_NAME=backend.{networkforpi}.service 
+BACKEND_URL=https://backend.{https://pi.network.SIMCARD.service}.
+BACKEND_DOMAIN_NAME=backend.{networkforpi}.
 
 
 # Obtain the following 2 values on the Pi Developer Portal (open develop.pi in the Pi Browser).
