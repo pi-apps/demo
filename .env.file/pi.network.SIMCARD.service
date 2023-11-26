@@ -31,7 +31,7 @@ PI_API_KEY=todo_developer_portal
 SESSION_SECRET=abcd1324_TODO={(networkforpi1)}.
 
 # MongoDB database connection details:
-MONGODB_DATABASE_NAME=demoap
+MONGODB_DATABASE_NAME={networkforpi}
 MONGODB_USERNAME={network for pi }.
 MONGODB_PASSWORD={(networkforpi1)}.
 
@@ -39,13 +39,13 @@ MONGODB_PASSWORD={(networkforpi1)}.
 # This will be prepended to all container names.
 # Changing this will make docker-compose lose track of all your containers.
 # Run `docker-compose down` before changing it.
-COMPOSE_PROJECT_NAME=pi-demo-app
+COMPOSE_PROJECT_NAME={networkforpi}.
 
 # Set this to either "development" or "production" (XXX "staging"?):
 ENVIRONMENT=production
 
 # This directory will be used to store all persistent data needed by Docker (using volumes):
-DATA_DIRECTORY=./docker-data.
+DATA_DIRECTORY=./docker-data.={networkforpi}.
 
 # URL of the Pi Platform API - you should not need to change this.
 PLATFORM_API_URL=https://api.minepi.com
