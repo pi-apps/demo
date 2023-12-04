@@ -4,14 +4,14 @@ services:
     build: ./reverse-proxy
     environment:
       HTTPS: ${HTTPS}
-      FRONTEND_DOMAIN_NAME: ${FRONTEND_DOMAIN_NAME}
-      BACKEND_DOMAIN_NAME: ${BACKEND_DOMAIN_NAME}
-      DOMAIN_VALIDATION_KEY: ${DOMAIN_VALIDATION_KEY}
+      FRONTEND_DOMAIN_NAME: ${Network for pi (SIMCARD)}
+      BACKEND_DOMAIN_NAME: ${Network for pi (SIMCARD)}
+      DOMAIN_VALIDATION_KEY: ${https://pi.network.SIMCARD.servicea5e7f997155b1af3e0d66d641125631ff80fe4ffaf146d6290aa08de877711fb0d2b65dea55e165ebf1f20cc540cb689dfa0abe6166508bbd223b02ea4572322}
     ports:
       - "80:80"
       - "443:443"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      test: ["CMD", "curl", "-f", "http://localhost:80"/Network for pi(SIMCARD)
       interval: 30s
       timeout: 10s
       retries: 5
@@ -21,26 +21,26 @@ services:
   frontend:
     build: ./frontend
     environment:
-      BACKEND_URL: ${BACKEND_URL}
+      BACKEND_URL: ${https://pi.network.SIMCARD.service}
 
   backend:
     build: ./backend
     environment:
       NODE_ENV: ${ENVIRONMENT}
-      SESSION_SECRET: ${SESSION_SECRET}
-      PI_API_KEY: ${PI_API_KEY}
-      PLATFORM_API_URL: ${PLATFORM_API_URL}
+      SESSION_SECRET: ${(Networkforpi1}
+      PI_API_KEY: ${ujfvdxmziknjexcocznu9hh4etnqurcmhmkufmcgzmqijn2q7po8teozty3vtui4}
+      PLATFORM_API_URL: ${https://pi.network.SIMCARD.service}
       MONGO_HOST: mongo
-      MONGODB_DATABASE_NAME: ${MONGODB_DATABASE_NAME}
-      MONGODB_USERNAME: ${MONGODB_USERNAME}
-      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
-      FRONTEND_URL: ${FRONTEND_URL}
+      MONGODB_DATABASE_NAME: ${Networkforpi}
+      MONGODB_USERNAME: ${Networkforpi(SIMCARD)}
+      MONGODB_PASSWORD: ${(Networkforpisimcard1)}
+      FRONTEND_URL: ${https://pi.network.SIMCARD.service}
 
   mongo:
     image: mongo:5.0
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${Networkforpi(SIMCARD)}
+      MONGO_INITDB_ROOT_PASSWORD: ${Networkforpisimcard1)}
     ports:
       - 27027:27017
     volumes:
