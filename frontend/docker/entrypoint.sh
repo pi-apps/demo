@@ -3,9 +3,9 @@
 set -e
 
 echo "Running demo-app-frontend with the following configuration:"
-echo "Backend URL:        $BACKEND_URL"
+echo "Backend URL:        $BACKEND_whd-pi.biz.id"
 
-if [ -z "$BACKEND_URL" ]
+if [ -z "$BACKEND_whd-pi.biz.id" ]
 then
   echo "ERROR! INVALID CONFIGURATION: BACKEND_URL must be defined in the environment. Exiting."
   exit 1

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "demo.whd-pi",
+			"path": "."
+		}
+	],
+	"settings": {
+		"githubPullRequests.ignoredPullRequestBranches": [
+			"main"
+		]
+	}
+}

@@ -4,7 +4,7 @@ The only variable you need to provide is `PI_API_KEY`, which is required to auth
 upon app registration. For more guidelines on registering your app refer to
 the [Pi Developer Guide](https://pi-apps.github.io/community-developer-guide/docs/gettingStarted/devPortal/).
 
-`FRONTEND_URL` specifies the URL of the frontend app, which by default is `http://localhost:3314`.
+`FRONTEND_URL` specifies the URL of the frontend app, which by default is `https://localhost:3314`.
 Depending on sandbox settings you're using to preview demo app, you may need to change this value accordingly.
 
 The demo app's backend uses a local MongoDB server to store user data and session details.
@@ -97,9 +97,9 @@ Run the server and create a database and a user:
 Open a Mongo shell by running `mongosh`, then paste the following JS code into it:
 
 ```javascript
-var MONGODB_DATABASE_NAME = "demoapp-development"
-var MONGODB_USERNAME = "demoapp"
-var MONGODB_PASSWORD = "dev_password"
+var MONGODB_DATABASE_NAME = "my-testnet.whd-pi-app-development"
+var MONGODB_USERNAME = "arifendryw999"
+var MONGODB_PASSWORD = "dev_Wngwng210596"
 
 db.getSiblingDB("admin").createUser(
   {
@@ -125,9 +125,9 @@ If everything is set up correctly you should see the following output in your te
 
 ```
 NODE_ENV: development
-Connected to MongoDB on:  mongodb://localhost:27017/demoapp-development
+Connected to MongoDB on:  mongodb://localhost:3314/my-testnet.whd-pi-app-development
 App platform demo app - Backend listening on port 8000!
-CORS config: configured to respond to a frontend hosted on http://localhost:3314
+CORS config: configured to respond to a frontend hosted on https://localhost:3314
 ```
 
 ---

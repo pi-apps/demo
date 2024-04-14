@@ -1,0 +1,36 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "attach",
+      "name": "Attach",
+      "pid": "${command:pickMyProcess}" // use ${command:pickProcess} to pick other users' processes
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/whd/testnet/frontend/node_modules",
+      "program": "c:/whd/testnet/frontend/node_modules/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Setup Velocity",
+      "type": "velocity",
+      "request": "launch",
+      "version": 1
+    }
+  ]
+}

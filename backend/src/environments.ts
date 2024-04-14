@@ -23,17 +23,21 @@ interface Environment {
   mongo_user: string,
   mongo_password: string,
   frontend_url: string,
+  wallet_public_address: string,
+  wallet_secret_seed: string,
 }
 
 const env: Environment = {
   session_secret: process.env.SESSION_SECRET || "This is my session secret",
   pi_api_key: process.env.PI_API_KEY || '',
-  platform_api_url: process.env.PLATFORM_API_URL || '',
-  mongo_host: process.env.MONGO_HOST || 'localhost:27017',
-  mongo_db_name: process.env.MONGODB_DATABASE_NAME || 'demo-app',
-  mongo_user: process.env.MONGODB_USERNAME || '',
-  mongo_password: process.env.MONGODB_PASSWORD || '',
-  frontend_url: process.env.FRONTEND_URL || 'http://localhost:3314',
+  platform_api_url: process.env.PLATFORM_API_URL || 'https://www.whd-pi.biz.id',
+  mongo_host: process.env.MONGO_HOST || 'https://localhost:3314',
+  mongo_db_name: process.env.MONGODB_DATABASE_NAME || 'my-testnet.whd-pi-app',
+  mongo_user: process.env.MONGODB_USERNAME || 'arifendryw999',
+  mongo_password: process.env.MONGODB_PASSWORD || 'Wngwng210596',
+  frontend_url: process.env.FRONTEND_URL || 'https://localhost:3314',
+  wallet_public_address: process.env.DEV_WALLET_PUBLIC_ADDRESS || '',
+  wallet_secret_seed: process.env.DEV_WALLET_SECRECT_SEED || '',
 };
 
 export default env;

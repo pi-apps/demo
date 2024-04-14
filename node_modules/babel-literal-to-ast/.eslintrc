@@ -1,0 +1,5 @@
+extends:
+  - metalab
+rules:
+  metalab/import/no-unresolved: 0
+  metalab/filenames/match-exported: 0
