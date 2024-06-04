@@ -7,5 +7,4 @@ module.exports = {
     script: "/usr/src/app/build/index.js",
     exec_mode: "cluster",
     instances: 4,
-  }]
-}
+  }]}
