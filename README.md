@@ -1,7 +1,7 @@
 # Pay with Pi App
 
 Pay with Pi App is an example of how you can implement the various required flows in your app's code.
-It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
+It aims to show you how to use Pi Platform API on the backend side and Pay with Pi SDK on the frontend side of your app.
 
 
 It is composed of two major parts:
