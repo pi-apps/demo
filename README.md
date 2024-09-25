@@ -28,5 +28,5 @@ Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app 
 
 ## Flows
 
-To dive into the implementation of the flows that support the demo app features, please refer to
+To dive into the implementation of the flows that support the Pay with Pi app features, please refer to
 [Pay with Pi App Flows](./FLOWS.md).
