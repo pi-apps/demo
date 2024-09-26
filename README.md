@@ -1,7 +1,7 @@
-# Pi Demo App
+# Pay with Pi App
 
-Pi Demo App is an example of how you can implement the various required flows in your app's code.
-It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
+Pay with Pi App is an example of how you can implement the various required flows in your app's code.
+It aims to show you how to use Pi Platform API on the backend side and Pay with Pi SDK on the frontend side of your app.
 
 
 It is composed of two major parts:
@@ -16,8 +16,9 @@ Read [`doc/development.md`](./doc/development.md) to get started and learn how t
 
 > **WARNING**
 >
-> The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
-> To properly test all of the features of the Demo App, we recommend you to open the sandbox app using Mozilla Firefox.
+> The Pay with Pi App uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
+> To properly test all of the features of the Pay with Pi App
+, we recommend you to open the sandbox app using Mozilla Firefox.
 
 
 ## Deployment
@@ -27,5 +28,5 @@ Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app 
 
 ## Flows
 
-To dive into the implementation of the flows that support the demo app features, please refer to
-[Pi Demo App Flows](./FLOWS.md).
+To dive into the implementation of the flows that support the Pay with Pi app features, please refer to
+[Pay with Pi App Flows](./FLOWS.md).
