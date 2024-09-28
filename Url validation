@@ -1,0 +1,59 @@
+from urllib.parse import urlparse
+
+def is_valid_url(url):
+    parsed_url = urlparse(url)
+    return bool(parsed_url.scheme and parsed_url.netloc)
+
+# Example usage
+url = "https://www.example.com/path?query=value"
+print("Valid URL!" if is_valid_url(url) else "Invalid URL!")
+
+npm install validator
+
+const validator = require('validator');
+
+function isValidUrl(url) {
+    return validator.isURL(url);
+}
+
+// Example usage
+const url = "https://www.example.com/path?query=value";
+console.log(isValidUrl(url) ? "Valid URL!" : "Invalid URL!");
+
+<input type="text" id="urlInput" placeholder="Enter URL">
+<button onclick="validateUrl()">Validate URL</button>
+<p id="result"></p>
+
+<script>
+    function validateUrl() {
+        const url = document.getElementById('urlInput').value;
+        fetch('/validate-url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ url })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('result').innerText = data.isValid ? "Valid URL!" : "Invalid URL!";
+        });
+    }
+</script>
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const validator = require('validator');
+
+const app = express();
+app.use(bodyParser.json());
+
+app.post('/validate-url', (req, res) => {
+    const { url } = req.body;
+    const isValid = validator.isURL(url);
+    res.json({ isValid });
+});
+
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
