@@ -55,6 +55,34 @@ Please refer to:
 * [the Demo App](https://github.com/pi-apps/demo) to view an example of how you can implement the various required flows in your app's code
 
 
+react-scripts build Creating an optimized production build... Error: error:0308010C:digital envelope routines::unsupported at new Hash (node:internal/crypto/hash:67:19) at Object.createHash (node:crypto:130:10) at module.exports (/my-project/node_modules/webpack/lib/util/createHash.js:135:53) at NormalModule._initBuildHash (/my-project/node_modules/webpack/lib/NormalModule.js:417:16) at handleParseError (/my-project/node_modules/webpack/lib/NormalModule.js:471:10) at /my-project/node_modules/webpack/lib/NormalModule.js:503:5 at /my-project/node_modules/webpack/lib/NormalModule.js:358:12 at /my-project/node_modules/loader-runner/lib/LoaderRunner.js:373:3 at iterateNormalLoaders (/my-project/node_modules/loader-runner/lib/LoaderRunner.js:214:10) at iterateNormalLoaders (/my-project/node_modules/loader-runner/lib/LoaderRunner.js:221:10) at /my-project/node_modules/loader-runner/lib/LoaderRunner.js:236:3 at runSyncOrAsync (/my-project/node_modules/loader-runner/lib/LoaderRunner.js:130:11) at iterateNormalLoaders (/my-project/node_modules/loader-runner/lib/LoaderRunner.js:232:2) at Array.<anonymous> (/my-project/node_modules/loader-runner/lib/LoaderRunner.js:205:4) at Storage.finished (/my-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:55:16) at /my-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:91:9 /my-project/node_modules/react-scripts/scripts/build.js:19 throw err; ^ Error: error:0308010C:digital envelope routines::unsupported at new Hash (node:internal/crypto/hash:67:19) at Object.createHash (node:crypto:130:10) at module.exports (/my-project/node_modules/webpack/lib/util/createHash.js:135:53) at NormalModule._initBuildHash (/my-project/node_modules/webpack/lib/NormalModule.js:417:16) at /my-project/node_modules/webpack/lib/NormalModule.js:452:10 at /my-project/node_modules/webpack/lib/NormalModule.js:323:13 at /my-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11 at /my-project/node_modules/loader-runner/lib/LoaderRunner.js:233:18 at context.callback (/my-project/node_modules/loader-runner/lib/LoaderRunner.js:111:13) at /my-project/node_modules/babel-loader/lib/index.js:59:103 { opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ], library: 'digital envelope routines', reason: 'unsupported', code: 'ERR_OSSL_EVP_UNSUPPORTED' } Node.js v17.0.0 ERROR: Job failed: exit status 1
+
+
+
+
+
+
+current version of create-react-app: 4.0.3
+  running from /home/.npm/_npx/34113/lib/node_modules/create-react-app
+
+  System:
+    OS: Linux 5.13 Ubuntu 21.10 21.10 (Impish Indri)
+    CPU: (4) x64 Intel(R) Core(TM) i5-4460  CPU @ 3.20GHz
+  Binaries:
+    Node: 17.0.0 - /usr/bin/node
+    Yarn: Not Found
+    npm: 8.1.0 - /usr/bin/npm
+  Browsers:
+    Chrome: 95.0.4638.54
+    Firefox: 93.0
+  npmPackages:
+    react: ^16.13.1 => 16.13.1 
+    react-dom: ^16.13.1 => 16.13.1 
+    react-scripts: ^4.0.3 => 4.0.3 
+  npmGlobalPackages:
+    create-react-app: Not Found
+
+
 
 
 
