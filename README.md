@@ -27,3 +27,6 @@ Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app 
 
 To dive into the implementation of the flows that support the demo app features, please refer to
 [Pi Demo App Flows](./FLOWS.md).
+
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script> <script> Pi.init({ version: "2.0", sandbox: true }); </script>
