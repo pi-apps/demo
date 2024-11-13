@@ -30,7 +30,3 @@ To dive into the implementation of the flows that support the demo app features,
 
 
 
-https://sandbox.minepi.com/app/moja-3b24d0bd54f45e15
-
-
-https://sandbox.minepi.com/app/munawarmoja
