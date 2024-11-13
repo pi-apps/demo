@@ -28,5 +28,3 @@ Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app 
 To dive into the implementation of the flows that support the demo app features, please refer to
 [Pi Demo App Flows](./FLOWS.md).
 
-git clone git@github.com:pi-apps/platform-demo-app.git
-cd platform-demo-app
