@@ -30,3 +30,6 @@ To dive into the implementation of the flows that support the demo app features,
 
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script> <script> Pi.init({ version: "2.0", sandbox: true }); </script>
+
+git clone git@github.com:pi-apps/platform-demo-app.git
+cd platform-demo-app
