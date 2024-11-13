@@ -9,8 +9,6 @@ It is composed of two major parts:
 * **backend**: a backend app (a very simple JSON API built using Node and ExpressJS)
 * **frontend**: a single-page frontend app (built using React and create-react-app)
 
-<script src="https://sdk.minepi.com/pi-sdk.js"></script> <script> Pi.init({ version: "2.0" }); </script>
-## Initial Development
 
 Read [`doc/development.md`](./doc/development.md) to get started and learn how to run this app in development.
 
