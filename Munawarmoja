@@ -1,3 +1,71 @@
+
+Pi Demo App Flows
+
+- [Authentication](#authentication)
+  - [Pi.authenticate()](#1-obtain-user-data-with-piauthenticate-sdk-method)
+  - [GET /me Platform API endpoint](#2-verify-the-user-by-calling-pi-platform-api-get-me-endpoint)
+- [Payments](#payments)
+  - [onReadyForServerApproval](#1-onreadyforserverapproval)
+  - [onReadyForServerCompletion](#2-onreadyforservercompletion)
+  - [onCancel](#3-oncancel)
+  - [onError](#4-onerror)
+  - [onIncompletePaymentFound](#onincompletepaymentfound)
+
+## Authentication
+
+User authentication consists of two steps:
+
+1. obtaining user accessToken using Pi SDK
+2. verifying accessToken using Pi Platform API
+
+<br />
+
+> Disclaimer:
+>
+> Pi SDK method Pi.authenticate() should only be used to retrieve user accessToken and MUST be verified on the backend side of your app.
+>
+> For a detailed guide on how to use Pi SDK, please refer to [SDK Docs](https://github.com/pi-apps/pi-platform-docs/blob/master/SDK_reference.md)
+>
+> Pi Platform API should remain the only source of truth about user data in your app (a malicious user could tamper with the requests and send you wrong data).
+>
+> For a detailed guide on how to use Pi Platform API, please refer to [Platform API Docs](https://github.com/pi-apps/pi-platform-docs/blob/master/platform_API.md)
+
+<br />
+
+### 1. Obtain user data with Pi.authenticate() SDK method
+
+Pi.authenticate() method takes in two arguments: scopes and onIncompletePaymentFound and returns AuthResult object with different keys available.
+
+scopes determine what keys are available on the AuthResult object. For full documentation on available scopes, please refer to [SDK Docs](https://github.com/pi-apps/pi-platform-docs/blob/master/SDK_reference.md#scopes).
+
+onIncompletePaymentFound is a function that connects both Authorization and Payments flows. To preview example implementation, proceed to [onIncompletePaymentFound](#onincompletepaymentfound) section.
+
+// frontend/src/shop/index.ts
+
+const signIn = async () => {
+  const scopes = ["username", "payments"];
+  const authResponse = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
+
+  /* pass obtained data to backend */
+  await signInUser(authResponse);
+
+  /* use the obtained data however you want */
+  setUser(authResponse.user);
+};
+
+const signInUser = (authResult: any) => {
+  axiosClient.post("/signin", { authResult }, config);
+
+  return setShowModal(false);
+};
+<br />
+
+### 2. Verify the user by calling Pi Platform API GET /me endpoint
+
+<br />
+
+
+
 Pi Demo App
 
 https://github.com/Munawarmoja/demo
