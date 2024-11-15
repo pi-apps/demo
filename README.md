@@ -1,5 +1,5 @@
-
-
+validation-key 
+https://github.munawarmoja.com/validation-key.txtb326b315d412570cbfa80e810e6f069e364b65eef8374a4c995264501110d518a8455d30c753c197f3aae087db225fe9f051b3080293ba45be3c0aa6b7b76439
 Pi Demo App is an example of how you can implement the various required flows in your app's code.
 It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
 
