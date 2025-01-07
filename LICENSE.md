@@ -1,4 +1,4 @@
-PiOS License
+minepi.com/aliakhanii8a18deb3673274adede49cd44232dc3cd3d47d26 License
 
 Copyright (C) 2022 Pi Core Team
 
