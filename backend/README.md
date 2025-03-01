@@ -13,7 +13,7 @@ The demo app's backend uses a local MongoDB server to store user data and sessio
 
 ### 1. Install dependencies:
 
-You will need a working NodeJS installation, and `yarn`. **The demo app frontend isn't meant to support npm**.
+You will need a working NodeJS installation, and `yarn`. **The demo app backend isn't meant to support npm**.
 In most cases, `yarn` will come along with your NodeJS installation.
 
 Install dependencies by running `yarn install`.
