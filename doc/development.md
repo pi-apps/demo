@@ -108,3 +108,4 @@ Here are some debugging techniques for Node.js applications:
 * **Use a test framework**: Writing tests for your code using frameworks like Mocha or Jest can help you catch bugs early and ensure that your code behaves as expected.
 * **Use a profiler**: Profiling tools like `clinic` can help you identify performance bottlenecks in your application by providing detailed information about CPU and memory usage.
 * **Use a monitoring tool**: Monitoring tools like `pm2` (used in `backend/docker/processes.config.js`) can help you keep track of your application's performance and health in real-time, allowing you to quickly identify and address issues.
+
