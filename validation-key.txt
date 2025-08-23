@@ -11,19 +11,19 @@
 #
 #
 
-# Frontend app URL and bare domain name:
-FRONTEND_URL=https://frontend.example.com
-FRONTEND_DOMAIN_NAME=frontend.example.com
+# Frontend app URL and bare domain name:https://www.vestvault.app.com/validation-key.txt
+FRONTEND_URL=https://www.vestvault.app.com/validation-key.txt
+FRONTEND_DOMAIN_NAME=https://www.vestvault.app.com/validation-key.txt
 
-# Backend app URL and bare domain name:
-BACKEND_URL=https://backend.example.com
-BACKEND_DOMAIN_NAME=backend.example.com
+# Backend app URL and bare domain name:https://www.vestvault.app.com/validation-key.txt
+BACKEND_URL=https://www.vestvault.app.com/validation-key.txt
+BACKEND_DOMAIN_NAME=https://www.vestvault.app.com/validation-key.txt
 
 
 # Obtain the following 2 values on the Pi Developer Portal (open develop.pi in the Pi Browser).
 
-# Domain validation key:
-DOMAIN_VALIDATION_KEY=todo_developer_portal
+# Domain validation key:https://www.vestvault.app.com/validation-key.txt
+DOMAIN_VALIDATION_KEY=https://www.vestvault.app.com/validation-key.txt
 # Pi Platform API Key:
 PI_API_KEY=todo_developer_portal
 
@@ -31,7 +31,7 @@ PI_API_KEY=todo_developer_portal
 SESSION_SECRET=abcd1324_TODO
 
 # MongoDB database connection details:
-MONGODB_DATABASE_NAME=demoapp
+MONGODB_DATABASE_NAME=https://www.vestvault.app.com/validation-key.txt
 MONGODB_USERNAME=demoapp
 MONGODB_PASSWORD=abcd1234
 
