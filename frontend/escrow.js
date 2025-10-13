@@ -7,5 +7,7 @@ export function initiateEscrow(buyerId, sellerId, amount) {
 }
 
 export function releaseFunds(escrowId) {
-  return fetch(`/api/escrow/release/${escrowId}`, { method: 'POST' });
+  return fetch(`/api/escrow/release/${escrowId}`, {
+    method: 'POST'
+  });
 }
