@@ -1,12 +1,17 @@
-app.post('/api/escrow/initiate', async (req, res) => {
+const express = require('express');
+const router = express.Router();
+
+router.post('/initiate', async (req, res) => {
   const { buyerId, sellerId, amount } = req.body;
-  const escrowId = generateEscrowId();
-  // Save escrow record to DB
+  const escrowId = Date.now(); // Simple unique ID
+  // TODO: Save to database or in-memory store
   res.json({ escrowId, status: 'pending' });
 });
 
-app.post('/api/escrow/release/:id', async (req, res) => {
+router.post('/release/:id', async (req, res) => {
   const escrowId = req.params.id;
-  // Validate and release funds
-  res.json({ status: 'released' });
+  // TODO: Validate and release funds
+  res.json({ escrowId, status: 'released' });
 });
+
+module.exports = router;
