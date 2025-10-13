@@ -13,9 +13,9 @@ function LandingPage() {
         <li><a href="/escrow">🔐 Escrow Demo</a></li>
         <li><a href="/reputation">📊 Reputation Score</a></li>
         <li><a href="/dispute">⚖️ Dispute Form</a></li>
-        <li><a href="https://github.com/your-username/trustsphere-demo" target="_blank" rel="noopener noreferrer">📁 GitHub Repo</a></li>
-        <li><a href="https://github.com/your-username/trustsphere-demo/blob/main/docs/api.md" target="_blank" rel="noopener noreferrer">📚 API Docs</a></li>
-        <li><a href="https://github.com/your-username/trustsphere-demo/blob/main/roadmap.md" target="_blank" rel="noopener noreferrer">🛣️ Roadmap</a></li>
+        <li><a href="https://github.com/oreo-collab/demo" target="_blank" rel="noopener noreferrer">📁 GitHub Repo</a></li>
+        <li><a href="https://github.com/oreo-collab/demo/blob/main/docs/api.md" target="_blank" rel="noopener noreferrer">📚 API Docs</a></li>
+        <li><a href="https://github.com/oreo-collab/demo/blob/main/roadmap.md" target="_blank" rel="noopener noreferrer">🛣️ Roadmap</a></li>
       </ul>
     </div>
   );
