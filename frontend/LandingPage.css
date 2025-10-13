@@ -1,0 +1,25 @@
+.landing-container {
+  padding: 2rem;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h1 {
+  color: #5c2d91;
+}
+
+.link-list {
+  list-style: none;
+  padding: 0;
+}
+
+.link-list li {
+  margin: 1rem 0;
+}
+
+.link-list a {
+  color: #5c2d91;
+  text-decoration: none;
+  font-weight: bold;
+}
