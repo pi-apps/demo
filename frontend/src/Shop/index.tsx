@@ -75,6 +75,7 @@ export default function Shop() {
       title: "Test Notification",
       body: "This is a test notification",
       user_uid: user?.uid,
+      subroute: "/shop"
     };
     axiosClient.post(
       "/notifications/send",
