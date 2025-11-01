@@ -1,0 +1,163 @@
+/* --- App.css (Lengkap & Diperbaiki) --- */
+
+:root {
+  --primary-blue: #0047ab;
+  --accent-yellow: #ffd700;
+  --white-bg: #ffffff;
+  --text-dark: #333333;
+}
+
+/* --- Tambahkan Keyframe Animasi Load di Sini --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  max-width: 1280px;
+  margin: 20px auto;
+}
+
+/* --- WRAPPER SEKARANG MENGATUR LAYOUT & ANIMASI LOAD --- */
+.product-card-wrapper {
+  /* Layout & Grid */
+  margin: 10px;
+  min-width: 280px;
+  width: calc(25% - 20px);
+
+  /* Aturan Animasi Load */
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+  /* animation-delay akan didapat dari inline style di index.tsx */
+}
+
+/* --- Media Queries diterapkan ke WRAPPER --- */
+@media (max-width: 1024px) {
+  .product-card-wrapper {
+    width: calc(33.33% - 20px);
+    min-width: 250px;
+  }
+}
+@media (max-width: 768px) {
+  .product-card-wrapper {
+    width: calc(50% - 20px);
+    min-width: 150px;
+  }
+}
+/* ---------------------------------- */
+
+/* ... Sisa file (Header, Body, dll.) tetap sama ... */
+.tekindomall-header {
+  background-color: var(--white-bg) !important;
+  padding: 10px 20px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+.tekindomall-header .logo-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tekindomall-header .logo {
+  height: 40px;
+  width: auto;
+}
+
+.tekindomall-header .search-container {
+  flex-grow: 1;
+  max-width: 600px;
+}
+
+.tekindomall-header .search-input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tekindomall-header .search-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 5px rgba(0, 71, 171, 0.3);
+}
+
+.tekindomall-header .user-actions {
+  flex-shrink: 0;
+}
+
+.tekindomall-header button {
+  background-color: var(--primary-blue) !important;
+  color: var(--white-bg) !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+  font-weight: bold !important;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.tekindomall-header button:hover {
+  background-color: #003788 !important;
+}
+
+body {
+  margin: 0;
+  background-color: #f8f8f8;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .tekindomall-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px !important;
+  }
+
+  .tekindomall-header .logo-container {
+    margin-bottom: 10px;
+  }
+
+  .tekindomall-header .search-container {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 10px;
+  }
+
+  .tekindomall-header .user-actions {
+    order: 2;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+
+  .tekindomall-header .logo-container {
+    margin: 0;
+    padding-right: 80px;
+  }
+}

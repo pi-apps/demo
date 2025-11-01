@@ -1,0 +1,100 @@
+/* --- SignIn.css --- */
+
+:root {
+  --primary-blue: #0047ab;
+  --accent-yellow: #ffd700;
+  --white-bg: #ffffff;
+  --text-dark: #333333;
+}
+
+/* Overlay gelap di belakang modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Sedikit lebih gelap */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Pastikan di atas semua elemen lain */
+}
+
+/* Kontainer utama modal */
+.modal-content {
+  background-color: var(--white-bg);
+  padding: 30px;
+  border-radius: 12px; /* Sudut lebih bulat */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Bayangan lebih dalam */
+  text-align: center;
+  max-width: 400px; /* Lebar maksimum modal */
+  width: 90%; /* Responsif */
+  transform: translateY(-20px); /* Sedikit geser ke atas untuk efek */
+  animation: modal-fade-in 0.3s forwards; /* Animasi muncul */
+}
+
+/* Animasi muncul modal */
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content h2 {
+  color: var(--primary-blue); /* Judul warna biru */
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+
+.modal-content p {
+  color: var(--text-dark);
+  font-size: 1.1em;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px; /* Jarak antar tombol */
+  justify-content: center;
+}
+
+.modal-button {
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  flex: 1; /* Agar tombol memiliki lebar yang sama */
+  max-width: 150px;
+}
+
+.modal-button.primary {
+  background-color: var(--primary-blue);
+  color: var(--white-bg);
+  border: 2px solid var(--primary-blue);
+}
+
+.modal-button.primary:hover {
+  background-color: #003788;
+  border-color: #003788;
+}
+
+.modal-button.secondary {
+  background-color: transparent;
+  color: var(--text-dark);
+  border: 2px solid #ccc;
+}
+
+.modal-button.secondary:hover {
+  background-color: #f0f0f0;
+  color: var(--text-dark);
+  border-color: #aaa;
+}
