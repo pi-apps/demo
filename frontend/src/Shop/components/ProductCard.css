@@ -1,0 +1,157 @@
+/* --- ProductCard.css (Lengkap & Diperbaiki) --- */
+
+:root {
+  --primary-blue: #0047ab;
+  --accent-yellow: #ffd700;
+  --white-bg: #ffffff;
+  --text-dark: #333333;
+  --text-medium: #666666;
+  --text-light: #999999;
+  --sale-red: #d9534f;
+}
+
+/* --- Keyframe DIHAPUS dari sini --- */
+
+.product-card {
+  font-family: Arial, sans-serif;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  background: var(--white-bg);
+  display: flex;
+  flex-direction: column;
+
+  /* --- INI BAGIAN PENTING UNTUK HOVER --- */
+  /* State awal transform (tidak bergerak) */
+  transform: translateY(0);
+  /* Transisi untuk hover (TIDAK ADA KONFLIK LAGI) */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  /* Layout, Grid, dan Animasi Load DIHAPUS dari sini */
+
+  /* Pastikan kartu mengisi wrapper-nya */
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* --- Animasi Hover (SEKARANG AKAN BEKERJA) --- */
+.product-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* --- Konten Kartu (TETAP SAMA) --- */
+.product-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+}
+
+.product-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-alert {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--accent-yellow);
+  color: var(--text-dark);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  font-weight: bold;
+  z-index: 1;
+  text-transform: uppercase;
+}
+
+.product-info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-type {
+  font-size: 0.8em;
+  color: var(--text-medium);
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.product-info h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+  min-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-rating {
+  margin-bottom: 10px;
+  color: var(--accent-yellow);
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+}
+.product-rating span {
+  margin-right: 2px;
+}
+.product-rating .rating-value {
+  color: var(--text-medium);
+  font-size: 0.9em;
+  margin-left: 5px;
+}
+
+.product-price {
+  margin-top: auto;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.product-price-original {
+  font-size: 0.9em;
+  color: var(--text-light);
+  text-decoration: line-through;
+}
+
+.product-price-discount {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: var(--sale-red);
+}
+
+.product-action-button {
+  background-color: var(--primary-blue);
+  color: var(--white-bg);
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.product-action-button:hover {
+  background-color: #003788;
+}
+
+/* --- Media Queries DIHAPUS dari sini --- */
