@@ -10,7 +10,8 @@ type AuthResult = {
   accessToken: string,
   user: {
     uid: string,
-    username: string
+    username: string,
+    roles: string[],
   }
 };
 
@@ -58,7 +59,7 @@ export default function Shop() {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const signIn = async () => {
-    const scopes = ['username', 'payments'];
+    const scopes = ['username', 'payments', 'roles', 'in_app_notifications'];
     const authResult: AuthResult = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
     signInUser(authResult);
     setUser(authResult.user);
@@ -68,6 +69,20 @@ export default function Shop() {
     setUser(null);
     signOutUser();
   }
+
+  const onSendTestNotification = () => {
+    const notification = {
+      title: "Test Notification",
+      body: "This is a test notification",
+      user_uid: user?.uid,
+      subroute: "/shop"
+    };
+    axiosClient.post(
+      "/notifications/send",
+      { notifications: [notification] },
+      config
+    );
+  };
 
   const signInUser = (authResult: AuthResult) => {
     axiosClient.post('/user/signin', {authResult});
@@ -127,7 +142,7 @@ export default function Shop() {
 
   return (
     <>
-      <Header user={user} onSignIn={signIn} onSignOut={signOut}/>
+      <Header user={user} onSignIn={signIn} onSignOut={signOut} onSendTestNotification={onSendTestNotification}/>
 
       <ProductCard
         name="Apple Pie"
