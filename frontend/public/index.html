@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -6,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Life Nexus Technology</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
+  
+  <script src="https://sdk.mine.pi/pi-sdk.js"></script>
   <style>
     /* ====== General Settings ====== */
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -70,6 +71,11 @@
     .btn:hover{
       transform:scale(1.05);
       box-shadow:0 0 15px #a53cff;
+    }
+    
+    /* ====== Pi Login Button Style (New) ====== */
+    .pi-btn{
+      background:linear-gradient(90deg, #2a76f7, #007bff); /* لون أزرق لزر Pi */
     }
 
     /* ====== Domains (Grid Cards + Neon Glow) ====== */
@@ -186,6 +192,8 @@
     <div class="dynamic-text" id="dynamicText">Intelligence</div>
     <p>Intelligence, Technology, Finance, and Innovation in One Ecosystem</p>
     <a href="#domains" class="btn">Our Projects</a>
+    
+    <a href="#" id="piLoginBtn" class="btn pi-btn">Login with Pi</a>
     <a href="#contact" class="btn">Contact Us</a>
   </header>
 
@@ -229,7 +237,38 @@
   </footer>
 
   <script>
-    // ====== Dynamic Text ======
+    
+    // =======================================
+    // [كود Pi SDK للمصادقة - تم تشغيله مباشرة بعد تحميل العناصر]
+    // =======================================
+    if (typeof Pi !== 'undefined') {
+        Pi.init({ version: "2.0", sandbox: false }); // تهيئة Pi SDK
+
+        const piLoginBtn = document.getElementById('piLoginBtn');
+        
+        function onIncompletePaymentFound(payment) {
+            console.warn('Incomplete payment found:', payment);
+        }
+
+        piLoginBtn.addEventListener('click', () => {
+            Pi.authenticate(['username'], onIncompletePaymentFound) 
+            .then(function(auth) {
+                alert(`Welcome back, ${auth.user.username}!`);
+                piLoginBtn.textContent = `Hello, ${auth.user.username}`;
+                piLoginBtn.style.pointerEvents = 'none'; 
+            })
+            .catch(function(error) {
+                console.error('Authentication Failed:', error);
+                alert('Login failed. Please try again.');
+            });
+        });
+    } else {
+        console.warn("Pi SDK is not loaded. Login button may not function.");
+    }
+    // =======================================
+
+
+    // ====== Dynamic Text (كما هو) ======
     const words = ["Intelligence","Innovation","Finance","Technology","Connection","Elite","Life Nexus"];
     let i = 0;
     const dynamicText = document.getElementById("dynamicText");
@@ -238,7 +277,7 @@
       i = (i + 1) % words.length;
     }, 2000);
 
-    // ====== Scroll Reveal ======
+    // ====== Scroll Reveal (كما هو) ======
     function revealOnScroll() {
       const elements = document.querySelectorAll('.domains, .contact, footer');
       const windowBottom = window.innerHeight + window.scrollY;
@@ -251,9 +290,9 @@
       });
     }
     window.addEventListener('scroll', revealOnScroll);
-    window.addEventListener('load', revealOnScroll);
+    window.addEventListener('load', revealOnScroll); // تم الإبقاء على هذا كما كان في الأصل
 
-    // ====== Canvas Particles ======
+    // ====== Canvas Particles (كما هو) ======
     const canvas = document.getElementById('bg');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -288,7 +327,7 @@
       canvas.height = window.innerHeight;
     });
 
-    // ====== Dark/Light Mode Switch ======
+    // ====== Dark/Light Mode Switch (كما هو) ======
     const themeSwitch = document.getElementById('themeSwitch');
     themeSwitch.addEventListener('click', () => {
       document.body.classList.toggle('dark');
