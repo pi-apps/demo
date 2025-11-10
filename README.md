@@ -1,6 +1,6 @@
 # Pi Demo App
-
-Pi Demo App is an example of how you can implement the various required flows in your app's code.
+https://loony3.wufoo.com/validation-key.txt.74032ac4e4a38319dc725ac25d3784428b4935d8d36ca24ba06d1ff709a23bacf2f979d3827ffcf1a0580d8d9c60e546dd8cbac088d0619b0189749732423ec9
+74032ac4e4a38319dc725ac25d3784428b4935d8d36ca24ba06d1ff709a23bacf2f979d3827ffcf1a0580d8d9c60e546dd8cbac088d0619b0189749732423ec9i Demo App is an example of how you can implement the various required flows in your app's code.
 It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
 
 
