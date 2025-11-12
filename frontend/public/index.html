@@ -1,408 +1,354 @@
 <!DOCTYPE html> 
- <html lang="en"> 
-   <head> 
-     <meta charset="utf-8" /> 
-     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> 
-     <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-     <meta name="theme-color" content="#000000" /> 
-     <meta 
-       name="description" 
-       content="Web site created using create-react-app" 
-     /> 
-     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> 
-     <!-- 
-       manifest.json provides metadata used when your web app is installed on a 
-       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/ 
-     --> 
-     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> 
-     <!-- 
-       Notice the use of %PUBLIC_URL% in the tags above. 
-       It will be replaced with the URL of the `public` folder during the build. 
-       Only files inside the `public` folder can be referenced from the HTML. 
-  
-       Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will 
-       work correctly both with client-side routing and a non-root public URL. 
-       Learn how to configure a non-root public URL by running `npm run build`. 
-     --> 
-  
-     <script> 
-       // Hacking react-scripts method for defining environment variables because we want to be able to 
-       // pass them at runtime when the container starts, instead of having to build the frontend once for 
-       // each environment (e.g staging / production). 
-       // 
-       // This will be automatically templated: 
-       // - in DEV, by react-scripts (see https://create-react-app.dev/docs/adding-custom-environment-variables/) 
-       // - in PROD, by the container's entrypoint script found in docker/entrypoint.sh (this enables passing the 
-       //   variables at runtime instead of consuming it at build time and building a non-portable container) 
-       window.__ENV = { 
-         backendURL: "%REACT_APP_BACKEND_URL%", 
-         sandbox: "%REACT_APP_SANDBOX_SDK%", 
-       } 
-     </script> 
-  
-     <!-- Import the Pi Network App Platform SDK: --> 
-     <script src="https://sdk.minepi.com/pi-sdk.js"></script> 
- <html lang="en" dir="ltr"> 
- <head> 
-   <meta charset="UTF-8"> 
-   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-   <title>Life Nexus Technology</title> 
-   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet"> 
-    
-   <script src="https://sdk.mine.pi/pi-sdk.js"></script> 
-   <style> 
-     /* ====== General Settings ====== */ 
-     *{box-sizing:border-box;margin:0;padding:0;} 
-     body{ 
-       font-family:'Cairo',sans-serif; 
-       line-height:1.6; 
-       overflow-x:hidden; 
-       transition:background 0.5s,color 0.5s; 
-     } 
-     a{text-decoration:none;color:inherit;} 
-     body.dark{background:#0b0114;color:#fff;} 
-     body.light{background:#f9f9f9;color:#111;} 
-  
-     /* ====== Canvas Background ====== */ 
-     canvas#bg{ 
-       position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1; 
-       transition:background 0.5s; 
-     } 
-  
-     /* ====== Header ====== */ 
-     header{ 
-       text-align:center;padding:100px 20px;position:relative; 
-     } 
-     .logo{ 
-       font-size:2.5rem;font-weight:700;color:#b86bff; 
-       text-shadow:0 0 15px rgba(165,60,255,0.6); 
-       margin-bottom:20px; 
-       animation:fadeInDown 1s ease forwards; 
-     } 
-     h1{ 
-       font-size:2.8rem;color:inherit;margin-bottom:10px; 
-       text-shadow:0 0 15px rgba(165,60,255,0.7); 
-       animation:fadeInDown 1.2s ease forwards; 
-     } 
-     p{ 
-       font-size:1.2rem;margin-bottom:20px; 
-       animation:fadeIn 1.5s ease forwards; 
-     } 
-  
-     /* ====== Dynamic Text ====== */ 
-     .dynamic-text{ 
-       font-size:1.6rem;font-weight:700;color:#fff; 
-       text-shadow:0 0 10px #a53cff,0 0 20px #b86bff,0 0 30px #9333ea; 
-       margin-bottom:30px; 
-       animation:fadeIn 1.5s ease forwards; 
-       min-height:40px; 
-       transition:color 0.5s; 
-     } 
-  
-     /* ====== Buttons ====== */ 
-     .btn{ 
-       display:inline-block; 
-       background:linear-gradient(90deg,#a53cff,#6a00ff); 
-       color:#fff; 
-       padding:12px 35px; 
-       margin:6px; 
-       border-radius:40px; 
-       font-weight:700; 
-       transition:all 0.3s ease; 
-       animation:fadeInUp 1.5s ease forwards; 
-     } 
-     .btn:hover{ 
-       transform:scale(1.05); 
-       box-shadow:0 0 15px #a53cff; 
-     } 
-      
-     /* ====== Pi Login Button Style (New) ====== */ 
-     .pi-btn{ 
-       background:linear-gradient(90deg, #2a76f7, #007bff); /* لون أزرق لزر Pi */ 
-     } 
-  
-     /* ====== Domains (Grid Cards + Neon Glow) ====== */ 
-     .domains{ 
-       display:grid; 
-       grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); 
-       gap:15px; 
-       margin:40px 20px; 
-       opacity:0; 
-       transform:translateY(20px); 
-     } 
-     .card{ 
-       background:rgba(255,255,255,0.05); 
-       border:1px solid rgba(165,60,255,0.3); 
-       padding:15px; 
-       border-radius:15px; 
-       text-align:center; 
-       font-weight:600; 
-       color:inherit; 
-       transition:all 0.3s ease; 
-       box-shadow:0 0 5px rgba(165,60,255,0.2); 
-     } 
-     .card:hover{ 
-       background:rgba(165,60,255,0.15); 
-       transform:translateY(-5px); 
-       box-shadow:0 0 20px #a53cff,0 0 40px #b86bff,0 0 60px #9333ea; 
-       animation:neonBlink 1.5s infinite alternate; 
-     } 
-     @keyframes neonBlink{ 
-       0%{box-shadow:0 0 10px #a53cff,0 0 20px #b86bff,0 0 30px #9333ea;} 
-       100%{box-shadow:0 0 20px #a53cff,0 0 40px #b86bff,0 0 60px #9333ea;} 
-     } 
-  
-     /* ====== Contact Section ====== */ 
-     .contact{ 
-       text-align:center; 
-       padding:50px 20px; 
-       background:linear-gradient(180deg,#0b0114,#16002a); 
-       opacity:0; 
-       transform:translateY(20px); 
-       transition:background 0.5s; 
-     } 
-     body.light .contact{ 
-       background:linear-gradient(180deg,#e0e0e0,#f0f0f0); 
-     } 
-     .contact h2{ 
-       color:#b86bff; 
-       margin-bottom:10px; 
-       text-shadow:0 0 10px #a53cff; 
-     } 
-     .contact p{margin-bottom:15px;} 
-     .call-btn{ 
-       background:linear-gradient(90deg,#6a0dad,#9b30ff); 
-       color:#fff; 
-       padding:12px 28px; 
-       border-radius:30px; 
-       font-weight:700; 
-       display:inline-block; 
-       transition:0.3s; 
-     } 
-     .call-btn:hover{ 
-       transform:scale(1.05); 
-       box-shadow:0 0 15px #a53cff; 
-     } 
-     .phone-number{ 
-       margin-top:6px; 
-       font-size:0.9rem; 
-     } 
-  
-     /* ====== Footer ====== */ 
-     footer{ 
-       text-align:center; 
-       padding:20px; 
-       border-top:1px solid rgba(255,255,255,0.08); 
-       opacity:0; 
-       transform:translateY(20px); 
-       transition:color 0.5s; 
-       border-color:rgba(165,60,255,0.2); 
-     } 
-  
-     /* ====== Animations ====== */ 
-     @keyframes fadeIn{from{opacity:0;}to{opacity:1;}} 
-     @keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}} 
-     @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}} 
-  
-     .theme-switch{ 
-       position:fixed; 
-       top:20px; 
-       left:20px; 
-       background:#a53cff; 
-       color:#fff; 
-       padding:10px 18px; 
-       border-radius:30px; 
-       font-weight:700; 
-       cursor:pointer; 
-       transition:0.3s; 
-       z-index:100; 
-     } 
-     .theme-switch:hover{ 
-       box-shadow:0 0 15px #b86bff; 
-       transform:scale(1.05); 
-     } 
-   </style> 
- </head> 
-  
- <body class="dark"> 
-   <div class="theme-switch" id="themeSwitch">Dark / Light</div> 
-  
-   <canvas id="bg"></canvas> 
-  
-   <header> 
-     <div class="logo">Life Nexus Logo</div> 
-     <h1>Life Nexus Technology</h1> 
-     <div class="dynamic-text" id="dynamicText">Intelligence</div> 
-     <p>Intelligence, Technology, Finance, and Innovation in One Ecosystem</p> 
-     <a href="#domains" class="btn">Our Projects</a> 
+<html lang="en" dir="ltr"> 
+  <head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Life Nexus Technology</title> 
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> 
+    <meta name="theme-color" content="#000000" /> 
+    <meta name="description" content="Web site created using create-react-app" /> 
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> 
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> 
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet"> 
+     
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script> 
+
+    <script> 
+      // Hacking react-scripts method for defining environment variables
+      window.__ENV = { 
+        backendURL: "%REACT_APP_BACKEND_URL%", 
+        sandbox: "%REACT_APP_SANDBOX_SDK%", 
+      } 
+    </script> 
+ 
+    <style> 
+      /* ====== General Settings ====== */ 
+      *{box-sizing:border-box;margin:0;padding:0;} 
+      body{ 
+        font-family:'Cairo',sans-serif; 
+        line-height:1.6; 
+        overflow-x:hidden; 
+        transition:background 0.5s,color 0.5s; 
+      } 
+      a{text-decoration:none;color:inherit;} 
+      body.dark{background:#0b0114;color:#fff;} 
+      body.light{background:#f9f9f9;color:#111;} 
+ 
+      /* ====== Canvas Background ====== */ 
+      canvas#bg{ 
+        position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1; 
+        transition:background 0.5s; 
+      } 
+ 
+      /* ====== Header ====== */ 
+      header{ 
+        text-align:center;padding:100px 20px;position:relative; 
+      } 
+      .logo{ 
+        font-size:2.5rem;font-weight:700;color:#b86bff; 
+        text-shadow:0 0 15px rgba(165,60,255,0.6); 
+        margin-bottom:20px; 
+        animation:fadeInDown 1s ease forwards; 
+      } 
+      h1{ 
+        font-size:2.8rem;color:inherit;margin-bottom:10px; 
+        text-shadow:0 0 15px rgba(165,60,255,0.7); 
+        animation:fadeInDown 1.2s ease forwards; 
+      } 
+      p{ 
+        font-size:1.2rem;margin-bottom:20px; 
+        animation:fadeIn 1.5s ease forwards; 
+      } 
+ 
+      /* ====== Dynamic Text ====== */ 
+      .dynamic-text{ 
+        font-size:1.6rem;font-weight:700;color:#fff; 
+        text-shadow:0 0 10px #a53cff,0 0 20px #b86bff,0 0 30px #9333ea; 
+        margin-bottom:30px; 
+        animation:fadeIn 1.5s ease forwards; 
+        min-height:40px; 
+        transition:color 0.5s; 
+      } 
+ 
+      /* ====== Buttons ====== */ 
+      .btn{ 
+        display:inline-block; 
+        background:linear-gradient(90deg,#a53cff,#6a00ff); 
+        color:#fff; 
+        padding:12px 35px; 
+        margin:6px; 
+        border-radius:40px; 
+        font-weight:700; 
+        transition:all 0.3s ease; 
+        animation:fadeInUp 1.5s ease forwards; 
+      } 
+      .btn:hover{ 
+        transform:scale(1.05); 
+        box-shadow:0 0 15px #a53cff; 
+      } 
+       
+      /* ====== Pi Login Button Style (New) ====== */ 
+      .pi-btn{ 
+        background:linear-gradient(90deg, #2a76f7, #007bff); /* لون أزرق لزر Pi */ 
+      } 
+ 
+      /* ====== Domains (Grid Cards + Neon Glow) ====== */ 
+      .domains{ 
+        display:grid; 
+        grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); 
+        gap:15px; 
+        margin:40px 20px; 
+        opacity:0; 
+        transform:translateY(20px); 
+      } 
+      .card{ 
+        background:rgba(255,255,255,0.05); 
+        border:1px solid rgba(165,60,255,0.3); 
+        padding:15px; 
+        border-radius:15px; 
+        text-align:center; 
+        font-weight:600; 
+        color:inherit; 
+        transition:all 0.3s ease; 
+        box-shadow:0 0 5px rgba(165,60,255,0.2); 
+      } 
+      .card:hover{ 
+        background:rgba(165,60,255,0.15); 
+        transform:translateY(-5px); 
+        box-shadow:0 0 20px #a53cff,0 0 40px #b86bff,0 0 60px #9333ea; 
+        animation:neonBlink 1.5s infinite alternate; 
+      } 
+      @keyframes neonBlink{ 
+        0%{box-shadow:0 0 10px #a53cff,0 0 20px #b86bff,0 0 30px #9333ea;} 
+        100%{box-shadow:0 0 20px #a53cff,0 0 40px #b86bff,0 0 60px #9333ea;} 
+      } 
+ 
+      /* ====== Contact Section ====== */ 
+      .contact{ 
+        text-align:center; 
+        padding:50px 20px; 
+        background:linear-gradient(180deg,#0b0114,#16002a); 
+        opacity:0; 
+        transform:translateY(20px); 
+        transition:background 0.5s; 
+      } 
+      body.light .contact{ 
+        background:linear-gradient(180deg,#e0e0e0,#f0f0f0); 
+      } 
+      .contact h2{ 
+        color:#b86bff; 
+        margin-bottom:10px; 
+        text-shadow:0 0 10px #a53cff; 
+      } 
+      .contact p{margin-bottom:15px;} 
+      .call-btn{ 
+        background:linear-gradient(90deg,#6a0dad,#9b30ff); 
+        color:#fff; 
+        padding:12px 28px; 
+        border-radius:30px; 
+        font-weight:700; 
+        display:inline-block; 
+        transition:0.3s; 
+      } 
+      .call-btn:hover{ 
+        transform:scale(1.05); 
+        box-shadow:0 0 15px #a53cff; 
+      } 
+      .phone-number{ 
+        margin-top:6px; 
+        font-size:0.9rem; 
+      } 
+ 
+      /* ====== Footer ====== */ 
+      footer{ 
+        text-align:center; 
+        padding:20px; 
+        border-top:1px solid rgba(255,255,255,0.08); 
+        opacity:0; 
+        transform:translateY(20px); 
+        transition:color 0.5s; 
+        border-color:rgba(165,60,255,0.2); 
+      } 
+ 
+      /* ====== Animations ====== */ 
+      @keyframes fadeIn{from{opacity:0;}to{opacity:1;}} 
+      @keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}} 
+      @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}} 
+ 
+      .theme-switch{ 
+        position:fixed; 
+        top:20px; 
+        left:20px; 
+        background:#a53cff; 
+        color:#fff; 
+        padding:10px 18px; 
+        border-radius:30px; 
+        font-weight:700; 
+        cursor:pointer; 
+        transition:0.3s; 
+        z-index:100; 
+      } 
+      .theme-switch:hover{ 
+        box-shadow:0 0 15px #b86bff; 
+        transform:scale(1.05); 
+      } 
+    </style> 
+  </head> 
+   
+  <body class="dark"> 
+    <div class="theme-switch" id="themeSwitch">Dark / Light</div> 
+ 
+    <canvas id="bg"></canvas> 
+ 
+    <header> 
+      <div class="logo">Life Nexus Logo</div> 
+      <h1>Life Nexus Technology</h1> 
+      <div class="dynamic-text" id="dynamicText">Intelligence</div> 
+      <p>Intelligence, Technology, Finance, and Innovation in One Ecosystem</p> 
+      <a href="#domains" class="btn">Our Projects</a> 
+ 
+      <a href="#" id="piLoginBtn" class="btn pi-btn">Login with Pi</a> 
+      <a href="#contact" class="btn">Contact Us</a> 
+    </header> 
+ 
+    <section id="domains" class="domains"> 
+      <a href="life/" class="card">Life</a> 
+      <a href="insure/" class="card">Insure</a> 
+      <a href="commerce/" class="card">Commerce</a> 
+      <a href="ecommerce/" class="card">Ecommerce</a> 
+      <a href="assets/" class="card">Assets</a> 
+      <a href="fundx/" class="card">Fundx</a> 
+      <a href="dx/" class="card">Dx</a> 
+      <a href="analytics/" class="card">Analytics</a> 
+      <a href="nbf/" class="card">Nbf</a> 
+      <a href="epic/" class="card">Epic</a> 
+      <a href="legend/" class="card">Legend</a> 
+      <a href="connection/" class="card">Connection</a> 
+      <a href="system/" class="card">System</a> 
+      <a href="alert/" class="card">Alert</a> 
+      <a href="tec/" class="card">Tec</a> 
+      <a href="estate/" class="card">Estate</a> 
+      <a href="nx/" class="card">Nx</a> 
+      <a href="explorer/" class="card">Explorer</a> 
+      <a href="nexus/" class="card">Nexus</a> 
+      <a href="brookfield/" class="card">Brookfield</a> 
+      <a href="sab/" class="card">Sab</a> 
+      <a href="vip/" class="card">Vip</a> 
+      <a href="elite/" class="card">Elite</a> 
+      <a href="titan/" class="card">Titan</a> 
+      <a href="zone/" class="card">Zone</a> 
+    </section> 
+ 
+    <section id="contact" class="contact"> 
+      <h2>Contact Us</h2> 
+      <p>Have a question or potential partnership? We'd love to hear from you.</p> 
+      <a href="tel:01115141346" class="call-btn">Call Us Now</a> 
+      <p class="phone-number">01115141346</p> 
+    </section> 
+ 
+    <footer> 
+      <p>© 2025 Life Nexus Technology — All Rights Reserved.</p> 
+    </footer> 
+ 
+    <script> 
+      // تحديد وضع التشغيل (Sandbox/Production)
+      var runSDKInSandboxMode = window.__ENV.sandbox === "true"; 
+
+      // 🟢 تهيئة Pi SDK باستخدام المعرّف ووضع Testnet
+      if (typeof Pi !== 'undefined') { 
+          // App ID: z-4f622fa3756f5cea (من لقطة شاشة Pi Developer Portal)
+          Pi.init({ version: "2.0", sandbox: true, app_id: "z-4f622fa3756f5cea" }); 
+ 
+          const piLoginBtn = document.getElementById('piLoginBtn'); 
+           
+          function onIncompletePaymentFound(payment) { 
+              console.warn('Incomplete payment found:', payment); 
+          } 
+ 
+          // كود المصادقة (Authentication)
+          piLoginBtn.addEventListener('click', () => { 
+              // طلب المصادقة وطلب صلاحية 'username'
+              Pi.authenticate(['username'], onIncompletePaymentFound)  
+              .then(function(auth) { 
+                  alert(`Welcome back, ${auth.user.username}!`); 
+                  piLoginBtn.textContent = `Hello, ${auth.user.username}`; 
+                  piLoginBtn.style.pointerEvents = 'none';  
+              }) 
+              .catch(function(error) { 
+                  console.error('Authentication Failed:', error); 
+                  alert('Login failed. Please try again.'); 
+              }); 
+          }); 
+      } else { 
+          console.warn("Pi SDK is not loaded. Login button may not function."); 
+      } 
  
  
-     <!-- TODO make sandbox conditional to env (dev / prod) --> 
-     <script> 
-       // Make the decision whether Pi SDK should run in "Sandbox" mode or "Pi Browser" mode based on the 
-       // dedicated environment variable: 
-       var runSDKInSandboxMode = window.__ENV.sandbox === "true"; // treat env vars as strings, not booleans 
-        
-       // Init Pi SDK: 
-       Pi.init({ version: "2.0", sandbox: runSDKInSandboxMode }); 
-     </script> 
-     <a href="#" id="piLoginBtn" class="btn pi-btn">Login with Pi</a> 
-     <a href="#contact" class="btn">Contact Us</a> 
-   </header> 
-  
-   <section id="domains" class="domains"> 
-     <a href="life/" class="card">Life</a> 
-     <a href="insure/" class="card">Insure</a> 
-     <a href="commerce/" class="card">Commerce</a> 
-     <a href="ecommerce/" class="card">Ecommerce</a> 
-     <a href="assets/" class="card">Assets</a> 
-     <a href="fundx/" class="card">Fundx</a> 
-     <a href="dx/" class="card">Dx</a> 
-     <a href="analytics/" class="card">Analytics</a> 
-     <a href="nbf/" class="card">Nbf</a> 
-     <a href="epic/" class="card">Epic</a> 
-     <a href="legend/" class="card">Legend</a> 
-     <a href="connection/" class="card">Connection</a> 
-     <a href="system/" class="card">System</a> 
-     <a href="alert/" class="card">Alert</a> 
-     <a href="tec/" class="card">Tec</a> 
-     <a href="estate/" class="card">Estate</a> 
-     <a href="nx/" class="card">Nx</a> 
-     <a href="explorer/" class="card">Explorer</a> 
-     <a href="nexus/" class="card">Nexus</a> 
-     <a href="brookfield/" class="card">Brookfield</a> 
-     <a href="sab/" class="card">Sab</a> 
-     <a href="vip/" class="card">Vip</a> 
-     <a href="elite/" class="card">Elite</a> 
-     <a href="titan/" class="card">Titan</a> 
-     <a href="zone/" class="card">Zone</a> 
-   </section> 
-  
-   <section id="contact" class="contact"> 
-     <h2>Contact Us</h2> 
-     <p>Have a question or potential partnership? We'd love to hear from you.</p> 
-     <a href="tel:01115141346" class="call-btn">Call Us Now</a> 
-     <p class="phone-number">01115141346</p> 
-   </section> 
-  
-   <footer> 
-     <p>© 2025 Life Nexus Technology — All Rights Reserved.</p> 
-   </footer> 
-  
-   <script> 
+      // ====== Dynamic Text (كما كان) ====== 
+      const words = ["Intelligence","Innovation","Finance","Technology","Connection","Elite","Life Nexus"]; 
+      let i = 0; 
+      const dynamicText = document.getElementById("dynamicText"); 
+      setInterval(() => { 
+        dynamicText.textContent = words[i]; 
+        i = (i + 1) % words.length; 
+      }, 2000); 
  
+      // ====== Scroll Reveal (كما كان) ====== 
+      function revealOnScroll() { 
+        const elements = document.querySelectorAll('.domains, .contact, footer'); 
+        const windowBottom = window.innerHeight + window.scrollY; 
+        elements.forEach(el => { 
+          if (el.offsetTop < windowBottom - 50) { 
+            el.style.opacity = '1'; 
+            el.style.transform = 'translateY(0)'; 
+            el.style.transition = 'opacity 1s ease, transform 1s ease'; 
+          } 
+        }); 
+      } 
+      window.addEventListener('scroll', revealOnScroll); 
+      window.addEventListener('load', revealOnScroll);
  
-     <title>React App</title> 
-   </head> 
-   <body> 
-     <noscript>You need to enable JavaScript to run this app.</noscript> 
-     <div id="root"></div> 
-     <!-- 
-       This HTML file is a template. 
-       If you open it directly in the browser, you will see an empty page. 
-  
-       You can add webfonts, meta tags, or analytics to this file. 
-       The build step will place the bundled scripts into the <body> tag. 
-  
-       To begin the development, run `npm start` or `yarn start`. 
-       To create a production bundle, use `npm run build` or `yarn build`. 
-     --> 
-   </body> 
-     // ======================================= 
-     // [كود Pi SDK للمصادقة - تم تشغيله مباشرة بعد تحميل العناصر] 
-     // ======================================= 
-     if (typeof Pi !== 'undefined') { 
-         Pi.init({ version: "2.0", sandbox: false }); // تهيئة Pi SDK 
-  
-         const piLoginBtn = document.getElementById('piLoginBtn'); 
-          
-         function onIncompletePaymentFound(payment) { 
-             console.warn('Incomplete payment found:', payment); 
-         } 
-  
-         piLoginBtn.addEventListener('click', () => { 
-             Pi.authenticate(['username'], onIncompletePaymentFound)  
-             .then(function(auth) { 
-                 alert(`Welcome back, ${auth.user.username}!`); 
-                 piLoginBtn.textContent = `Hello, ${auth.user.username}`; 
-                 piLoginBtn.style.pointerEvents = 'none';  
-             }) 
-             .catch(function(error) { 
-                 console.error('Authentication Failed:', error); 
-                 alert('Login failed. Please try again.'); 
-             }); 
-         }); 
-     } else { 
-         console.warn("Pi SDK is not loaded. Login button may not function."); 
-     } 
-     // ======================================= 
-  
-  
-     // ====== Dynamic Text (كما هو) ====== 
-     const words = ["Intelligence","Innovation","Finance","Technology","Connection","Elite","Life Nexus"]; 
-     let i = 0; 
-     const dynamicText = document.getElementById("dynamicText"); 
-     setInterval(() => { 
-       dynamicText.textContent = words[i]; 
-       i = (i + 1) % words.length; 
-     }, 2000); 
-  
-     // ====== Scroll Reveal (كما هو) ====== 
-     function revealOnScroll() { 
-       const elements = document.querySelectorAll('.domains, .contact, footer'); 
-       const windowBottom = window.innerHeight + window.scrollY; 
-       elements.forEach(el => { 
-         if (el.offsetTop < windowBottom - 50) { 
-           el.style.opacity = '1'; 
-           el.style.transform = 'translateY(0)'; 
-           el.style.transition = 'opacity 1s ease, transform 1s ease'; 
-         } 
-       }); 
-     } 
-     window.addEventListener('scroll', revealOnScroll); 
-     window.addEventListener('load', revealOnScroll); // تم الإبقاء على هذا كما كان في الأصل 
-  
-     // ====== Canvas Particles (كما هو) ====== 
-     const canvas = document.getElementById('bg'); 
-     const ctx = canvas.getContext('2d'); 
-     canvas.width = window.innerWidth; 
-     canvas.height = window.innerHeight; 
-     const particles = []; 
-     for (let j = 0; j < 80; j++) { 
-       particles.push({ 
-         x: Math.random() * canvas.width, 
-         y: Math.random() * canvas.height, 
-         r: Math.random() * 2 + 1, 
-         dx: (Math.random() - 0.5) * 0.5, 
-         dy: (Math.random() - 0.5) * 0.5 
-       }); 
-     } 
-     function animateParticles() { 
-       ctx.clearRect(0, 0, canvas.width, canvas.height); 
-       ctx.fillStyle = "rgba(165,60,255,0.6)"; 
-       particles.forEach(p => { 
-         ctx.beginPath(); 
-         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); 
-         ctx.fill(); 
-         p.x += p.dx; 
-         p.y += p.dy; 
-         if (p.x < 0 || p.x > canvas.width) p.dx *= -1; 
-         if (p.y < 0 || p.y > canvas.height) p.dy *= -1; 
-       }); 
-       requestAnimationFrame(animateParticles); 
-     } 
-     animateParticles(); 
-     window.addEventListener('resize', () => { 
-       canvas.width = window.innerWidth; 
-       canvas.height = window.innerHeight; 
-     }); 
-  
-     // ====== Dark/Light Mode Switch (كما هو) ====== 
-     const themeSwitch = document.getElementById('themeSwitch'); 
-     themeSwitch.addEventListener('click', () => { 
-       document.body.classList.toggle('dark'); 
-       document.body.classList.toggle('light'); 
-     }); 
-   </script> 
- </body> 
-  </html>
+      // ====== Canvas Particles (كما كان) ====== 
+      const canvas = document.getElementById('bg'); 
+      const ctx = canvas.getContext('2d'); 
+      canvas.width = window.innerWidth; 
+      canvas.height = window.innerHeight; 
+      const particles = []; 
+      for (let j = 0; j < 80; j++) { 
+        particles.push({ 
+          x: Math.random() * canvas.width, 
+          y: Math.random() * canvas.height, 
+          r: Math.random() * 2 + 1, 
+          dx: (Math.random() - 0.5) * 0.5, 
+          dy: (Math.random() - 0.5) * 0.5 
+        }); 
+      } 
+      function animateParticles() { 
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        ctx.fillStyle = "rgba(165,60,255,0.6)"; 
+        particles.forEach(p => { 
+          ctx.beginPath(); 
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); 
+          ctx.fill(); 
+          p.x += p.dx; 
+          p.y += p.dy; 
+          if (p.x < 0 || p.x > canvas.width) p.dx *= -1; 
+          if (p.y < 0 || p.y > canvas.height) p.dy *= -1; 
+        }); 
+        requestAnimationFrame(animateParticles); 
+      } 
+      animateParticles(); 
+      window.addEventListener('resize', () => { 
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight; 
+      }); 
+ 
+      // ====== Dark/Light Mode Switch (كما كان) ====== 
+      const themeSwitch = document.getElementById('themeSwitch'); 
+      themeSwitch.addEventListener('click', () => { 
+        document.body.classList.toggle('dark'); 
+        document.body.classList.toggle('light'); 
+      }); 
+    </script> 
+  </body> 
+</html>
