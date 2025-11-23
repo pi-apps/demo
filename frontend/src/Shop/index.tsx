@@ -74,7 +74,7 @@ export default function Shop() {
     const notification = {
       title: "Test Notification",
       body: "This is a test notification",
-      user_uid: user?.uid,
+      third_party_app_user_uid: user?.uid,
       subroute: "/shop"
     };
     axiosClient.post(
