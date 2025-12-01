@@ -1,72 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Nexus</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Cairo', sans-serif; }
+    body { background: linear-gradient(135deg, #1a1a2e, #16213e); color: #fff; min-height:100vh; }
+    .container { max-width: 1200px; margin: auto; padding: 20px; }
+    .logo { text-align:center; font-size:2.5em; margin:20px 0; color:#00d4ff; }
+    .pi-login { margin:30px auto; text-align:center; }
+    .pi-login button { background:#00d4ff; border:none; padding:12px 30px; border-radius:50px; color:#000; font-weight:bold; cursor:pointer; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:15px; }
+    .card { background:rgba(255,255,255,0.1); border-radius:15px; padding:20px; text-align:center; transition:0.3s; border:1px solid #00d4ff; }
+    .card:hover { transform:scale(1.05); background:rgba(0,212,255,0.2); }
+    .card a { color:#fff; text-decoration:none; font-weight:bold; }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="logo">Life Nexus</div>
+    <p style="text-align:center;color:#00d4ff;font-size:18px;">تجارة | تأمين | استثمار | تقنية</p>
+    <div class="pi-login">
+      <pi-login></pi-login>
+    </div>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <div class="grid">
+      <div class="card"><a href="https://commerce.pi">🛒 Commerce</a></div>
+      <div class="card"><a href="https://insure.pi">🛡️ Insure</a></div>
+      <div class="card"><a href="https://life.pi">💙 Life</a></div>
+      <div class="card"><a href="https://assets.pi">💰 Assets</a></div>
+      <div class="card"><a href="https://elite.pi">⭐ Elite</a></div>
+      <div class="card"><a href="https://titan.pi">⚔️ Titan</a></div>
+      <div class="card"><a href="https://nexus.pi">🔗 Nexus</a></div>
+      <div class="card"><a href="https://tec.pi">🤖 Tec</a></div>
+    </div>
+  </div>
 
-    <script>
-      // Hacking react-scripts method for defining environment variables because we want to be able to
-      // pass them at runtime when the container starts, instead of having to build the frontend once for
-      // each environment (e.g staging / production).
-      //
-      // This will be automatically templated:
-      // - in DEV, by react-scripts (see https://create-react-app.dev/docs/adding-custom-environment-variables/)
-      // - in PROD, by the container's entrypoint script found in docker/entrypoint.sh (this enables passing the
-      //   variables at runtime instead of consuming it at build time and building a non-portable container)
-      window.__ENV = {
-        backendURL: "%REACT_APP_BACKEND_URL%",
-        sandbox: "%REACT_APP_SANDBOX_SDK%",
-      }
-    </script>
-
-    <!-- Import the Pi Network App Platform SDK: -->
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    
-    <!-- TODO make sandbox conditional to env (dev / prod) -->
-    <script>
-      // Make the decision whether Pi SDK should run in "Sandbox" mode or "Pi Browser" mode based on the
-      // dedicated environment variable:
-      var runSDKInSandboxMode = window.__ENV.sandbox === "true"; // treat env vars as strings, not booleans
-      
-      // Init Pi SDK:
-      Pi.init({ version: "2.0", sandbox: runSDKInSandboxMode });
-    </script>
-    
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <script>
+    Pi.init({ version: "2.0" });
+  </script>
+</body>
 </html>
