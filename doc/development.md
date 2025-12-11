@@ -90,8 +90,22 @@ Lastly, **on your desktop browser** open the sandbox URL from Step 6 of App Chec
 > The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
 > To properly test all of the features of the Demo App, we recommend you to open the sandbox app using Mozilla Firefox.
 
-#### Congratulations! The app should work in the developer portal and enable you to sign in, place an order and make a testnet payment.
+Congratulations! The app should work in the developer portal and enable you to sign in, place an order and make a testnet payment.
 
-# More Information - Developing on Pi
+More Information - Developing on Pi
 For guidelines on how to register an app and get the Sandbox URL, please refer to the
 [Pi Developer Guide](https://pi-apps.github.io/community-developer-guide/).
+
+ Debugging Techniques for Node.js Applications
+
+Here are some debugging techniques for Node.js applications:
+
+* **Use a debugger**: Node.js has a built-in debugger that you can use to set breakpoints, step through code, and inspect variables. You can start the debugger by running `node inspect <your-script.js>`.
+* **Use console.log**: Adding `console.log` statements to your code can help you understand what is happening at different points in your application. For example, you can log the values of variables, the flow of execution, and any errors that occur.
+* **Use a logging library**: Libraries like `morgan` (used in `backend/src/index.ts`) can help you log HTTP requests and responses, which can be useful for debugging issues related to API calls.
+* **Use environment variables**: You can use environment variables to control the behavior of your application in different environments (e.g., development, production). For example, you can set the `NODE_ENV` variable to `development` to enable more verbose logging and error messages.
+* **Use a linter**: Linters like ESLint can help you catch syntax errors and enforce coding standards, which can prevent bugs from being introduced in the first place.
+* **Use a test framework**: Writing tests for your code using frameworks like Mocha or Jest can help you catch bugs early and ensure that your code behaves as expected.
+* **Use a profiler**: Profiling tools like `clinic` can help you identify performance bottlenecks in your application by providing detailed information about CPU and memory usage.
+* **Use a monitoring tool**: Monitoring tools like `pm2` (used in `backend/docker/processes.config.js`) can help you keep track of your application's performance and health in real-time, allowing you to quickly identify and address issues.
+
