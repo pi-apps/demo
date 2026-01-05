@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html hanya="di dalam">
+<kepala>
+    <meta rangkaian karakter="UTF-8">
+    <meta nama="area pandang" isi="lebar=lebar perangkat, skala awal=1,0">
+    <judul>Aplikasi WHD Pi Testnet</judul>
+    <naskah src="https://sdk.minepi.com/pi-sdk.js"></naskah>
+    <gaya>
+        tubuh { font-keluarga: sans-serif; perataan teks: tengah; lapisan: 20 piksel; warna latar belakang: #f4f4f4; }
+        .wadah { latar belakang: putih; lapisan: 20 piksel; radius perbatasan: 10 piksel; bayangan kotak: 0 4 piksel 6 piksel rgba(0,0,0,0.1); lebar maksimal: 400 piksel; batas: otomatis; }
+        tombol { warna latar belakang: #673ab7; warna: putih; berbatasan: tidak ada; lapisan: 10 piksel 20 piksel; radius perbatasan: 5 piksel; kursor: penunjuk; ukuran font: 16 piksel; }
+        tombol:dengan disabilitas { warna latar belakang: #ccc; }
+        #info-pengguna { margin-atas: 20 piksel; berat font: berani; }
+    </gaya>
+</kepala>
+<tubuh>
+
+    <div kelas="wadah">
+        <h1>Jaringan Tes WHD Pi</h1>
+        <P>Selamat datang di aplikasi Testnet kami.</P>
+        
+        <tombol pengenal="auth-btn">Login dengan Pi</tombol>
+        
+        <div pengenal="info pengguna"></div>
+    </div>
+
+    <naskah>
+        // Inisialisasi Pi SDK
+        konstanta Pi = jendela.Minuman;
+        pi.init({ versi: "2.0", bak pasir: BENAR }); // sandbox: true untuk testing di browser biasa
+
+        konstanta authBtn = dokumen.getElementById('auth-btn');
+        konstanta Info pengguna = dokumen.getElementById('info pengguna');
+
+        authBtn.addEventListener('klik', asinkron () => {
+            mencoba {
+                // Proses Autentikasi
+                konstanta cakupan = ['nama belakang', 'pembayaran'];
+                konstanta autentikasi = menunggu Pi.authenticate(cakupan, onIncompletePaymentFound);
+                
+                info pengguna.innerHTML = `Halo, ${auth.pengguna.nama pengguna}! <br> Anda berhasil login.`;
+                authBtn.style.display = 'tidak ada';
+                
+                menghibur.log("Otentikasi Sukses:", autentikasi);
+            } menangkap (salah) {
+                menghibur.kesalahan("Kesalahan Otentikasi:", salah);
+                peringatan("Gagal login: " + err.pesan);
+            }
+        });
+
+        fungsi pada Pembayaran Tidak Lengkap Ditemukan(pembayaran) {
+            menghibur.log("Ada pembayaran yang belum selesai:", pembayaran);
+        };
+    </naskah>
+</tubuh>
+</html>
