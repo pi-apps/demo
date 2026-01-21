@@ -1,0 +1,141 @@
+
+Pi Demo App Flows
+
+- [Authentication](#authentication)
+  - [Pi.authenticate()](#1-obtain-user-data-with-piauthenticate-sdk-method)
+  - [GET /me Platform API endpoint](#2-verify-the-user-by-calling-pi-platform-api-get-me-endpoint)
+- [Payments](#payments)
+  - [onReadyForServerApproval](#1-onreadyforserverapproval)
+  - [onReadyForServerCompletion](#2-onreadyforservercompletion)
+  - [onCancel](#3-oncancel)
+  - [onError](#4-onerror)
+  - [onIncompletePaymentFound](#onincompletepaymentfound)
+
+## Authentication
+
+User authentication consists of two steps:
+
+1. obtaining user accessToken using Pi SDK
+2. verifying accessToken using Pi Platform API
+
+<br />
+
+> Disclaimer:
+>
+> Pi SDK method Pi.authenticate() should only be used to retrieve user accessToken and MUST be verified on the backend side of your app.
+>
+> For a detailed guide on how to use Pi SDK, please refer to [SDK Docs](https://github.com/pi-apps/pi-platform-docs/blob/master/SDK_reference.md)
+>
+> Pi Platform API should remain the only source of truth about user data in your app (a malicious user could tamper with the requests and send you wrong data).
+>
+> For a detailed guide on how to use Pi Platform API, please refer to [Platform API Docs](https://github.com/pi-apps/pi-platform-docs/blob/master/platform_API.md)
+
+<br />
+
+### 1. Obtain user data with Pi.authenticate() SDK method
+
+Pi.authenticate() method takes in two arguments: scopes and onIncompletePaymentFound and returns AuthResult object with different keys available.
+
+scopes determine what keys are available on the AuthResult object. For full documentation on available scopes, please refer to [SDK Docs](https://github.com/pi-apps/pi-platform-docs/blob/master/SDK_reference.md#scopes).
+
+onIncompletePaymentFound is a function that connects both Authorization and Payments flows. To preview example implementation, proceed to [onIncompletePaymentFound](#onincompletepaymentfound) section.
+
+// frontend/src/shop/index.ts
+
+const signIn = async () => {
+  const scopes = ["username", "payments"];
+  const authResponse = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
+
+  /* pass obtained data to backend */
+  await signInUser(authResponse);
+
+  /* use the obtained data however you want */
+  setUser(authResponse.user);
+};
+
+const signInUser = (authResult: any) => {
+  axiosClient.post("/signin", { authResult }, config);
+
+  return setShowModal(false);
+};
+<br />
+
+### 2. Verify the user by calling Pi Platform API GET /me endpoint
+
+<br />
+
+
+
+Pi Demo App
+
+https://github.com/Munawarmoja/demo
+Pi Demo App is an example of how you can implement the various required flows in your app's code.
+It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
+
+
+It is composed of two major parts:
+
+* **backend**: a backend app (a very simple JSON API built using Node and ExpressJS)
+* **frontend**: a single-page frontend app (built using React and create-react-app)
+
+
+Read [`doc/development.md`](./doc/development.md) to get started and learn how to run this app in development.
+
+> **WARNING**
+>
+> The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
+> To properly test all of the features of the Demo App, we recommend you to open the sandbox app using Mozilla Firefox.
+
+
+## Deployment
+
+Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app on a server using Docker and docker-compose.
+
+
+## Flows
+
+To dive into the implementation of the flows that support the demo app features, please refer to
+[Pi Demo App Flows](./FLOWS.md).
+
+
+
+
+Frontend Javascript SDK
+
+The JS SDK is the frontend SDK, designed to be used in your HTML pages or Single-Page Apps, served in the Pi Browser.
+
+In order to enable the SDK to function correctly, you need to declare your apps on the Developer Portal (open
+develop.pi in the Pi Browser to access the Developer Portal).
+
+This SDK is not for a server-side NodeJS app.
+
+
+In order to make sure that all involved parties (your app, your server, the Pi servers, and the Pi Blockchain) are in sync,
+the payment needs to go through a Server-Side Approval flow (for User-to-App payment) and/or a Server-Side Completion
+flow (for all types of payments).
+
+Please refer to:
+* [the full Payments documentation](./payments.md) to learn about the complete payment flow
+* [the Advanced Payments documentation](./payments_advanced.md) to learn about App-to-User payment flow
+* [the Platform API documentation](./platform_API.md) to learn how to confirm the payment and acknowledge it from your
+  server
+* [the client SDK documentation](./SDK_reference.md) to learn about Pi Apps SDK and provided methods in detail
+* [the Demo App](https://github.com/pi-apps/demo) to view an example of how you can implement the various required flows in your app's code
+
+
+
+# These are supported funding model platforms
+
+github: # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
+patreon: # Replace with a single Patreon username
+open_collective: # Replace with a single Open Collective username
+ko_fi: # Replace with a single Ko-fi username
+tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
+community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
+liberapay: # Replace with a single Liberapay username
+issuehunt: # Replace with a single IssueHunt username
+lfx_crowdfunding: # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
+polar: # Replace with a single Polar username
+buy_me_a_coffee: # Replace with a single Buy Me a Coffee username
+thanks_dev: # Replace with a single thanks.dev username
+custom: # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
