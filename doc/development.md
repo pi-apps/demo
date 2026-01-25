@@ -52,7 +52,7 @@ This will bring you to the App Dashboard, from this screen you can continue the 
  
  <img title="Developer Portal App Checklist" alt="App Checklist" src="./img/app_checklist.png" style="width:300px;height:1100px;" />
  
- <br/>
+ <br/>703dad1dcea36d76ec9e5e9f516cafca2196f598c5d0b479d3203d397df78ec2364cb7cab0e8e52c05ddd5ace20e909e4fc2b3b89c782db002453ae6a315b651
  
 - App Configuration: Additional information that can be adjusted
   - Whitelisted usernames: you can leave this blank at this point
