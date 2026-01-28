@@ -1,0 +1,5 @@
+import cors from "cors";
+app.use(cors({
+  origin: ["https://royal-mix-global.onrender.com"],
+  methods: ["GET", "POST"],
+}));

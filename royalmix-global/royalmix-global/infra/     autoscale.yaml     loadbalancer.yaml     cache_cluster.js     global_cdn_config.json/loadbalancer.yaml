@@ -1,0 +1,6 @@
+loadBalancer:
+  rules:
+    - path: /payments
+      target: payment-service
+    - path: /fleet
+      target: fleet-service

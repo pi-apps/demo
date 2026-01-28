@@ -1,0 +1,6 @@
+{
+  "newContent": { "priority": 1 },
+  "scheduleTick": { "priority": 2 },
+  "trendingDetected": { "priority": 1 },
+  "lowPerformance": { "priority": 3 }
+}

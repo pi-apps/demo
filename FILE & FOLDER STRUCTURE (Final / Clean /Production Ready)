@@ -1,0 +1,26 @@
+/services
+   ├── StockService.js
+   ├── StockMonitor.js
+   ├── AutoReorderService.js
+   └── PredictionEngine.js
+
+/controllers
+   └── stockController.js
+
+/models
+   ├── Stock.js
+   ├── Supplier.js
+   └── ReorderLog.js
+
+/events
+   └── eventBus.js
+
+/utils
+   ├── notifications.js
+   └── security.js
+
+/api
+   └── stockRoutes.js
+
+/config
+   └── db.js

@@ -1,0 +1,4 @@
+const payment = await Pi.createPayment({
+  amount: 1,
+  memo: "Royal Mix Global Test",
+});

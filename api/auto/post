@@ -1,0 +1,12 @@
+router.post("/auto/post", async (req, res) => {
+  const { platform, topic } = req.body;
+  const caption = buildCaption(topic);
+  const script = generateScript(topic);
+
+  addToQueue({
+    platformAPI: platformSelector(platform),
+    content: { script, caption }
+  });
+
+  res.json({ status: "queued", platform, topic });
+});
