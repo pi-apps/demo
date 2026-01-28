@@ -1,0 +1,5 @@
+router.post("/auto-reorder", async (req, res) => {
+   const { productId } = req.body;
+   const result = await AutoReorderService.trigger(productId);
+   res.json(result);
+});

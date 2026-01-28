@@ -1,0 +1,12 @@
+const cors = require("./security/cors");
+const helmet = require("./security/helmet");
+const sanitize = require("./security/sanitize");
+const rateLimit = require("./security/rateLimit");
+const validateSignature = require("./security/validateSignature");
+const errorHandler = require("./security/errorHandler");
+
+app.use(helmet);
+app.use(sanitize);
+app.use(rateLimit);
+app.use(validateSignature);
+app.use(errorHandler);

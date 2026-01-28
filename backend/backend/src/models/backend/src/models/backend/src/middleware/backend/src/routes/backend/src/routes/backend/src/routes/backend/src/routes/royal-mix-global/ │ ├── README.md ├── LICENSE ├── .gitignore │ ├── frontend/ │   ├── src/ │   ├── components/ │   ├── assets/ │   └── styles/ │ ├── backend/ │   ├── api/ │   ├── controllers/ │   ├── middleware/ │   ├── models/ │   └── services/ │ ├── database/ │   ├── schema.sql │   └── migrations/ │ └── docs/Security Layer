@@ -1,0 +1,1 @@
+chore(security): implement auth middleware and token validation

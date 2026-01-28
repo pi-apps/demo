@@ -1,0 +1,5 @@
+router.post("/update", async (req, res) => {
+   const { productId, quantity } = req.body;
+   const updated = await StockService.update(productId, quantity);
+   res.json(updated);
+});

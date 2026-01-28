@@ -1,0 +1,3 @@
+Settings → Secrets → Actions → New Secret
+Name: RENDER_DEPLOY_HOOK
+Value: (copy from render dashboard)

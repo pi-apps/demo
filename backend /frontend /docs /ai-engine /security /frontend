@@ -1,0 +1,7 @@
+/frontend
+   /src
+      /screens
+      /components
+      /hooks
+      /context
+      App.js

@@ -1,0 +1,2 @@
+app.use("/integration-layer/govtech", require("./integration-layer/routes/govtech.routes"));
+app.use("/integration-layer/payments", require("./integration-layer/routes/payments.routes"));
