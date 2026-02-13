@@ -1,0 +1,2 @@
+const verified = await verifyPayment(payment);
+if (!verified) return res.status(403).send("Verification failed");

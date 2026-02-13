@@ -1,0 +1,5 @@
+{
+  "posting_interval_minutes": 30,
+  "trend_scan_interval_hours": 2,
+  "optimization_cycle_hours": 6
+}

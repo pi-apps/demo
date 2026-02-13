@@ -1,0 +1,16 @@
+name: Auto Deploy to Render
+
+on:
+  push:
+    branches: [ Royal-Mix-Global ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Trigger Deploy
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"

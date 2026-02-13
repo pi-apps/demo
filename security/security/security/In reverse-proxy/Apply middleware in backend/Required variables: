@@ -1,0 +1,5 @@
+PI_API_KEY=
+PI_API_SECRET=
+MONGO_URL=
+SESSION_SECRET=
+FRONTEND_URL=https://royal-mix-global.onrender.com

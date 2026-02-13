@@ -1,0 +1,2 @@
+git add ai-system/content-brain/
+git commit -m "feat: add trend detector, script generator, caption builder engines"

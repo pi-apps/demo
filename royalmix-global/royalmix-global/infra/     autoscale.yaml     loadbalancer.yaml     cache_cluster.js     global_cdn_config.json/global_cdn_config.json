@@ -1,0 +1,4 @@
+{
+  "regions": ["Africa-East", "Africa-South", "Europe", "Asia"],
+  "cacheTTL": 3600
+}

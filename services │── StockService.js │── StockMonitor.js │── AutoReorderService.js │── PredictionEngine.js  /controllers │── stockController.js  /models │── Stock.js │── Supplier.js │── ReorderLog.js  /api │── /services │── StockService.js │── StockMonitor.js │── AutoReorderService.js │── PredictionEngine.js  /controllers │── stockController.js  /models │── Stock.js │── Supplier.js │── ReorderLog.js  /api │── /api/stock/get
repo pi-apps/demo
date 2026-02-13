@@ -1,0 +1,4 @@
+router.get("/get", async (req, res) => {
+   const data = await StockService.getAll();
+   res.json(data);
+});

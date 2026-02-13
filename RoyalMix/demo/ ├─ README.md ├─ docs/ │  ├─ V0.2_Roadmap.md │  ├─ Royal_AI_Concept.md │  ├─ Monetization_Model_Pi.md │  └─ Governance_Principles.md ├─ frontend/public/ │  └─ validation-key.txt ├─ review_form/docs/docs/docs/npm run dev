@@ -1,0 +1,15 @@
+---
+
+## 3️⃣ Documentation paths
+
+**Folder:** `docs/`  
+**Files & commit messages:**
+
+| File | Commit message |
+|------|----------------|
+| `V0.2_Roadmap.md` | `docs: add V0.2 roadmap with Royal AI + monetization` |
+| `Royal_AI_Concept.md` | `docs: add Royal AI concept documentation` |
+| `Monetization_Model_Pi.md` | `docs: add Pi monetization model` |
+| `Governance_Principles.md` | `docs: add governance principles` |
+
+**Example folder structure on GitHub:**

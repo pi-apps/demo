@@ -1,0 +1,53 @@
+/royalmix-global
+│
+├── /api
+│   ├── /auth
+│   ├── /payments
+│   ├── /wallet
+│   ├── /marketplace
+│   ├── /liquor
+│   ├── /pharmacy
+│   └── index.js
+│
+├── /config
+│   ├── db.js
+│   ├── pi-sdk.js
+│   └── env.js
+│
+├── /controllers
+│   ├── authController.js
+│   ├── paymentController.js
+│   ├── walletController.js
+│   ├── marketController.js
+│   └── aiEngine.js
+│
+├── /services
+│   ├── PiPaymentService.js
+│   ├── WalletService.js
+│   ├── LiquorService.js
+│   ├── PharmacyService.js
+│   └── AI_Recommendation.js
+│
+├── /models
+│   ├── User.js
+│   ├── Wallet.js
+│   ├── Order.js
+│   ├── Product.js
+│   └── Transaction.js
+│
+├── /utils
+│   ├── logger.js
+│   ├── validator.js
+│   └── encryption.js
+│
+├── /public
+│   ├── icons
+│   ├── banners
+│   └── uploads
+│
+├── /docs
+│   ├── API_PAYMENTS.md
+│   ├── INTEGRATION_GUIDE.md
+│   └── SECURITY_POLICY.md
+│
+└── server.js

@@ -1,3 +1,8 @@
+nano README.md
+# add one line: "Auto deploy test OK"
+git add README.md
+git commit -m "test: trigger automatic deploy"
+git push origin main
 # Pi Platform Demo app: Deployment Guide
 
 **Warning: The purpose of this project is to be simple to run, with very few configuration steps. There is no**
