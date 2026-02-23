@@ -44,18 +44,31 @@ export default function PaymentPage() {
         { amount: parsedAmount, memo: `Donazione ${parsedAmount} Pi - Chat Pionieri`, metadata: { purpose: "donation" } },
         {
           onReadyForServerApproval: async (paymentId: string) => {
-            await fetch("/api/pi/approve", {
+            const res = await fetch("/api/pi/approve", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ paymentId }),
             })
+            if (!res.ok) {
+              const data = await res.json().catch(() => ({}))
+              console.error("Approve error:", data)
+              setErrorMsg(data.error || "Errore approvazione pagamento")
+              setStatus("error")
+            }
           },
           onReadyForServerCompletion: async (paymentId: string, txid: string) => {
-            await fetch("/api/pi/complete", {
+            const res = await fetch("/api/pi/complete", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ paymentId, txid }),
             })
+            if (!res.ok) {
+              const data = await res.json().catch(() => ({}))
+              console.error("Complete error:", data)
+              setErrorMsg(data.error || "Errore completamento pagamento")
+              setStatus("error")
+              return
+            }
             setStatus("success")
           },
           onCancel: () => setStatus("idle"),
