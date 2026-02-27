@@ -12,6 +12,7 @@ interface Message {
   display_name: string
   reply_to?: string | null
   reply_message?: { content: string; display_name: string } | null
+  image_url?: string | null
 }
 
 interface ChatRoomProps {
@@ -28,7 +29,9 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
   const [banReason, setBanReason] = useState("")
   const [onlineUsers, setOnlineUsers] = useState<{ user_id: string; username: string }[]>([])
   const [showOnlineList, setShowOnlineList] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Load messages
   useEffect(() => {
@@ -138,6 +141,57 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
     setBanReason("")
   }
 
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith("image/")) {
+      alert("Solo immagini sono permesse")
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Immagine troppo grande (max 5MB)")
+      return
+    }
+
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+      const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
+      if (!uploadRes.ok) {
+        alert("Errore upload immagine")
+        return
+      }
+      const { url } = await uploadRes.json()
+
+      const replyRef = replyTo
+      setReplyTo(null)
+
+      const optimistic: Message = {
+        id: "temp-" + Date.now(),
+        content: "",
+        created_at: new Date().toISOString(),
+        user_id: currentUserId,
+        display_name: currentUsername,
+        reply_to: replyRef?.id || null,
+        reply_message: replyRef ? { content: replyRef.content, display_name: replyRef.display_name } : null,
+        image_url: url,
+      }
+      setMessages((prev) => [...prev, optimistic])
+
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: "", userId: currentUserId, replyTo: replyRef?.id || null, imageUrl: url }),
+      })
+    } catch {
+      alert("Errore invio immagine")
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ""
+    }
+  }
+
   function handleLogout() {
     localStorage.removeItem("pi_session")
     window.location.href = "/auth/login"
@@ -221,7 +275,32 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
       )}
 
       {/* Input */}
-      <form onSubmit={sendMessage} className="sticky bottom-0 flex gap-2 border-t border-border bg-card p-3">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleImageUpload}
+      />
+      <form onSubmit={sendMessage} className="sticky bottom-0 flex items-center gap-2 border-t border-border bg-card p-3">
+        <button
+          type="button"
+          disabled={uploading}
+          onClick={() => fileInputRef.current?.click()}
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-foreground disabled:opacity-50"
+        >
+          {uploading ? (
+            <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" strokeDasharray="30" strokeDashoffset="10" />
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <path d="m21 15-5-5L5 21" />
+            </svg>
+          )}
+        </button>
         <input
           type="text"
           value={input}
@@ -232,7 +311,7 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
         <button
           type="submit"
           disabled={!input.trim()}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F7A800] text-foreground disabled:opacity-50"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground disabled:opacity-50"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />

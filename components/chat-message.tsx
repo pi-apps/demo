@@ -10,6 +10,7 @@ interface Message {
   display_name: string
   reply_to?: string | null
   reply_message?: { content: string; display_name: string } | null
+  image_url?: string | null
 }
 
 interface ChatMessageProps {
@@ -54,7 +55,15 @@ export function ChatMessage({ message, isOwn, isAdmin, onReply, onDelete, onBan 
           </div>
         )}
 
-        <p className="text-sm break-words text-foreground">{message.content}</p>
+        {message.image_url && (
+          <img
+            src={message.image_url}
+            alt="Immagine condivisa"
+            className="mt-1 max-w-full rounded-lg"
+            style={{ maxHeight: 300 }}
+          />
+        )}
+        {message.content && <p className="text-sm break-words text-foreground">{message.content}</p>}
         <p className={`mt-1 text-[10px] ${isOwn ? "text-foreground/70" : "text-muted-foreground"}`}>
           {timeStr}
         </p>
