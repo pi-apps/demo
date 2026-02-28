@@ -4,7 +4,8 @@ import { User } from "../";
 interface Props {
   onSignIn: () => void;
   onSignOut: () => void;
-  user: User | null
+  onSendTestNotification: () => void;
+  user: User | null;
 }
 
 const headerStyle: CSSProperties = {
@@ -27,7 +28,15 @@ export default function Header(props: Props) {
           <button onClick={props.onSignIn}>Sign in</button>
         ) : (
           <div>
-            @{props.user.username} <button type="button" onClick={props.onSignOut}>Sign out</button>
+            @{props.user.username}{" "}
+            <button type="button" onClick={props.onSignOut}>
+              Sign out
+            </button>
+            {props.user.roles.includes("core_team") && (
+              <button onClick={props.onSendTestNotification}>
+                Send Test Notification to yourself
+              </button>
+            )}
           </div>
         )}
       </div>
