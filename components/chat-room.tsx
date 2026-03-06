@@ -198,6 +198,98 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
     }
   }
 
+  async function startRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4"
+      const mediaRecorder = new MediaRecorder(stream, { mimeType })
+      mediaRecorderRef.current = mediaRecorder
+      audioChunksRef.current = []
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data)
+      }
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop())
+        if (recordingTimerRef.current) clearInterval(recordingTimerRef.current)
+        setRecordingTime(0)
+
+        const blob = new Blob(audioChunksRef.current, { type: mimeType })
+        if (blob.size === 0) return
+
+        setUploading(true)
+        try {
+          const formData = new FormData()
+          const ext = mimeType === "audio/webm" ? "webm" : "m4a"
+          formData.append("file", blob, `audio-${Date.now()}.${ext}`)
+          const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
+          if (!uploadRes.ok) { alert("Errore upload audio"); return }
+          const { url } = await uploadRes.json()
+
+          const replyRef = replyTo
+          setReplyTo(null)
+
+          const optimistic: Message = {
+            id: "temp-" + Date.now(),
+            content: "",
+            created_at: new Date().toISOString(),
+            user_id: currentUserId,
+            display_name: currentUsername,
+            reply_to: replyRef?.id || null,
+            reply_message: replyRef ? { content: replyRef.content, display_name: replyRef.display_name } : null,
+            audio_url: url,
+          }
+          setMessages((prev) => [...prev, optimistic])
+
+          await fetch("/api/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content: "", userId: currentUserId, replyTo: replyRef?.id || null, audioUrl: url }),
+          })
+        } catch {
+          alert("Errore invio audio")
+        } finally {
+          setUploading(false)
+        }
+      }
+
+      mediaRecorder.start()
+      setRecording(true)
+      setRecordingTime(0)
+      recordingTimerRef.current = setInterval(() => setRecordingTime((t) => t + 1), 1000)
+    } catch {
+      alert("Permesso microfono negato")
+    }
+  }
+
+  function stopRecording() {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop()
+    }
+    setRecording(false)
+  }
+
+  function cancelRecording() {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.ondataavailable = null
+      mediaRecorderRef.current.onstop = () => {
+        mediaRecorderRef.current?.stream?.getTracks().forEach((t) => t.stop())
+      }
+      mediaRecorderRef.current.stop()
+    }
+    if (recordingTimerRef.current) clearInterval(recordingTimerRef.current)
+    setRecording(false)
+    setRecordingTime(0)
+    audioChunksRef.current = []
+  }
+
+  function formatTime(seconds: number) {
+    const m = Math.floor(seconds / 60)
+    const s = seconds % 60
+    return `${m}:${s.toString().padStart(2, "0")}`
+  }
+
   function handleLogout() {
     localStorage.removeItem("pi_session")
     window.location.href = "/auth/login"
@@ -288,42 +380,85 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
         className="hidden"
         onChange={handleImageUpload}
       />
-      <form onSubmit={sendMessage} className="sticky bottom-0 flex items-center gap-2 border-t border-border bg-card p-3">
-        <button
-          type="button"
-          disabled={uploading}
-          onClick={() => fileInputRef.current?.click()}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-foreground disabled:opacity-50"
-        >
-          {uploading ? (
-            <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" strokeDasharray="30" strokeDashoffset="10" />
-            </svg>
-          ) : (
+      {recording ? (
+        <div className="sticky bottom-0 flex items-center gap-3 border-t border-border bg-card p-3">
+          <button
+            type="button"
+            onClick={cancelRecording}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-destructive text-destructive"
+          >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <path d="m21 15-5-5L5 21" />
+              <path d="M18 6L6 18M6 6l12 12" />
             </svg>
+          </button>
+          <div className="flex flex-1 items-center gap-2">
+            <span className="inline-block h-3 w-3 animate-pulse rounded-full bg-red-500" />
+            <span className="text-sm font-bold text-foreground">{formatTime(recordingTime)}</span>
+            <span className="text-xs text-muted-foreground">Registrando...</span>
+          </div>
+          <button
+            type="button"
+            onClick={stopRecording}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={sendMessage} className="sticky bottom-0 flex items-center gap-2 border-t border-border bg-card p-3">
+          <button
+            type="button"
+            disabled={uploading}
+            onClick={() => fileInputRef.current?.click()}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-foreground disabled:opacity-50"
+          >
+            {uploading ? (
+              <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" strokeDasharray="30" strokeDashoffset="10" />
+              </svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <path d="m21 15-5-5L5 21" />
+              </svg>
+            )}
+          </button>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Scrivi un messaggio..."
+            className="flex-1 rounded-full border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground outline-none focus:border-[#F7A800]"
+          />
+          {input.trim() ? (
+            <button
+              type="submit"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+              </svg>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={startRecording}
+              disabled={uploading}
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground disabled:opacity-50"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            </button>
           )}
-        </button>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Scrivi un messaggio..."
-          className="flex-1 rounded-full border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground outline-none focus:border-[#F7A800]"
-        />
-        <button
-          type="submit"
-          disabled={!input.trim()}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground disabled:opacity-50"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-          </svg>
-        </button>
-      </form>
+        </form>
+      )}
 
       {/* Ban modal */}
       {banModal && (
