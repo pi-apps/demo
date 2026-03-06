@@ -13,6 +13,7 @@ interface Message {
   reply_to?: string | null
   reply_message?: { content: string; display_name: string } | null
   image_url?: string | null
+  audio_url?: string | null
 }
 
 interface ChatRoomProps {
@@ -30,8 +31,13 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
   const [onlineUsers, setOnlineUsers] = useState<{ user_id: string; username: string }[]>([])
   const [showOnlineList, setShowOnlineList] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [recording, setRecording] = useState(false)
+  const [recordingTime, setRecordingTime] = useState(0)
   const bottomRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
+  const recordingTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   // Load messages
   useEffect(() => {
