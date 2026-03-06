@@ -6,7 +6,7 @@ export async function GET() {
     const supabase = getAdmin()
     const { data: messages, error } = await supabase
       .from("messages")
-      .select("id, content, created_at, user_id, reply_to, image_url")
+      .select("id, content, created_at, user_id, reply_to, image_url, audio_url")
       .order("created_at", { ascending: true })
       .limit(200)
 
@@ -46,8 +46,8 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { content, userId, replyTo, imageUrl } = await req.json()
-    if ((!content?.trim() && !imageUrl) || !userId) {
+    const { content, userId, replyTo, imageUrl, audioUrl } = await req.json()
+    if ((!content?.trim() && !imageUrl && !audioUrl) || !userId) {
       return NextResponse.json({ error: "Dati mancanti" }, { status: 400 })
     }
     const supabase = getAdmin()
@@ -65,6 +65,7 @@ export async function POST(req: Request) {
     const insertData: Record<string, unknown> = { content: content?.trim() || "", user_id: userId }
     if (replyTo) insertData.reply_to = replyTo
     if (imageUrl) insertData.image_url = imageUrl
+    if (audioUrl) insertData.audio_url = audioUrl
 
     const { error } = await supabase.from("messages").insert(insertData)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })

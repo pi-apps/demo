@@ -11,6 +11,7 @@ interface Message {
   reply_to?: string | null
   reply_message?: { content: string; display_name: string } | null
   image_url?: string | null
+  audio_url?: string | null
 }
 
 interface ChatMessageProps {
@@ -62,6 +63,13 @@ export function ChatMessage({ message, isOwn, isAdmin, onReply, onDelete, onBan 
             className="mt-1 max-w-full rounded-lg"
             style={{ maxHeight: 300 }}
           />
+        )}
+        {message.audio_url && (
+          <audio controls className="mt-1 w-full max-w-[250px]" preload="metadata">
+            <source src={message.audio_url} type="audio/webm" />
+            <source src={message.audio_url} type="audio/mp4" />
+            Il tuo browser non supporta l'audio.
+          </audio>
         )}
         {message.content && <p className="text-sm break-words text-foreground">{message.content}</p>}
         <p className={`mt-1 text-[10px] ${isOwn ? "text-foreground/70" : "text-muted-foreground"}`}>
