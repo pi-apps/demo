@@ -199,10 +199,31 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
   }
 
   async function startRecording() {
+    // Check if browser supports audio recording
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("Il tuo browser non supporta la registrazione audio. Prova ad usare un browser diverso.")
+      return
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4"
-      const mediaRecorder = new MediaRecorder(stream, { mimeType })
+      
+      // Check supported mimeType
+      let mimeType = "audio/webm"
+      if (!MediaRecorder.isTypeSupported("audio/webm")) {
+        if (MediaRecorder.isTypeSupported("audio/mp4")) {
+          mimeType = "audio/mp4"
+        } else if (MediaRecorder.isTypeSupported("audio/ogg")) {
+          mimeType = "audio/ogg"
+        } else {
+          mimeType = ""
+        }
+      }
+
+      const mediaRecorder = mimeType 
+        ? new MediaRecorder(stream, { mimeType }) 
+        : new MediaRecorder(stream)
+      
       mediaRecorderRef.current = mediaRecorder
       audioChunksRef.current = []
 
@@ -215,13 +236,13 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
         if (recordingTimerRef.current) clearInterval(recordingTimerRef.current)
         setRecordingTime(0)
 
-        const blob = new Blob(audioChunksRef.current, { type: mimeType })
+        const blob = new Blob(audioChunksRef.current, { type: mediaRecorder.mimeType || "audio/webm" })
         if (blob.size === 0) return
 
         setUploading(true)
         try {
           const formData = new FormData()
-          const ext = mimeType === "audio/webm" ? "webm" : "m4a"
+          const ext = mediaRecorder.mimeType?.includes("mp4") ? "m4a" : mediaRecorder.mimeType?.includes("ogg") ? "ogg" : "webm"
           formData.append("file", blob, `audio-${Date.now()}.${ext}`)
           const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
           if (!uploadRes.ok) { alert("Errore upload audio"); return }
@@ -258,8 +279,14 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
       setRecording(true)
       setRecordingTime(0)
       recordingTimerRef.current = setInterval(() => setRecordingTime((t) => t + 1), 1000)
-    } catch {
-      alert("Permesso microfono negato")
+    } catch (err: any) {
+      if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+        alert("Permesso microfono negato. Per registrare audio, consenti l'accesso al microfono nelle impostazioni del browser.")
+      } else if (err.name === "NotFoundError") {
+        alert("Nessun microfono trovato. Assicurati che il dispositivo abbia un microfono.")
+      } else {
+        alert("Errore accesso microfono: " + (err.message || "Errore sconosciuto"))
+      }
     }
   }
 
