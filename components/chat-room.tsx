@@ -268,6 +268,11 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
           </div>
         </div>
         <div className="flex gap-2">
+          {isAdmin && (
+            <a href="/chat/admin" className="rounded-lg border border-border bg-muted px-3 py-2 text-xs text-foreground">
+              Accessi
+            </a>
+          )}
           <a href="/chat/payment" className="rounded-lg bg-[#F7A800] px-3 py-2 text-xs font-bold text-foreground">
             Pi Pay
           </a>
