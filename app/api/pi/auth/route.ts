@@ -71,6 +71,12 @@ export async function POST(req: Request) {
       display_name: username,
     }, { onConflict: "id" })
 
+    // Log access
+    await supabase.from("access_logs").insert({
+      user_id: piUser.uid,
+      username,
+    })
+
     return NextResponse.json({
       userId,
       username,
