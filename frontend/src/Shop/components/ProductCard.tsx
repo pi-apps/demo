@@ -18,14 +18,14 @@ export default function ProductCard(props: Props) {
         </div>
 
         <div style={{ width: "66%" }}>
-          <h3>{props.name}</h3>
-          <p>{props.description}</p>          
+          <h3>{props.name}كاتب المنشور:</h3>
+          <p>{props.description}محتوى المنشور:</p>          
         </div>
       </div>
 
       <div style={{textAlign: 'center', marginBottom: 8}}>
-        <strong>{props.price} Test-π</strong> <br />
-        <button onClick={props.onClickBuy}>Order</button>
+        <strong>{props.price}pi-π</strong> <br />
+        <button onClick={props.onClickBuy}>إرسالpi</button>
       </div>
 
       <span style={{fontSize: '0.6em'}}>{props.pictureCaption}</span>
