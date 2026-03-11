@@ -69,7 +69,7 @@ function LoginForm() {
 
       <h1 className="mt-6 text-2xl font-bold text-foreground">Chat Pionieri</h1>
       <p className="mt-2 text-center text-muted-foreground">
-        Chat esclusiva per Pionieri verificati con KYC approvato o provvisorio
+        Chat esclusiva per Pionieri verificati con KYC approvato o provvisorio e prima migrazione completata
       </p>
 
       <button
@@ -87,6 +87,9 @@ function LoginForm() {
         <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
           <li className="flex items-center gap-2">
             <span className="text-[#F7A800]">&#10003;</span> KYC approvato o provvisorio su Pi Network
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="text-[#F7A800]">&#10003;</span> Prima migrazione al Mainnet completata
           </li>
           <li className="flex items-center gap-2">
             <span className="text-[#F7A800]">&#10003;</span> Accesso tramite Pi Browser
