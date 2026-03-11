@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import axios from 'axios';
 import ProductCard from './components/ProductCard';
 import SignIn from './components/SignIn';
 import Header from './components/Header';
-
+declare global {
+  interface Window {
+    Pi: any;
+  }
+}
 type MyPaymentMetadata = {};
 
 type AuthResult = {
