@@ -6,7 +6,7 @@ export async function GET() {
     const supabase = getAdmin()
     const { data: messages, error } = await supabase
       .from("messages")
-      .select("id, content, created_at, user_id, reply_to")
+      .select("id, content, created_at, user_id, reply_to, media_url, media_type")
       .order("created_at", { ascending: true })
       .limit(200)
 
@@ -46,8 +46,10 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { content, userId, replyTo } = await req.json()
-    if (!content?.trim() || !userId) {
+    const { content, userId, replyTo, mediaUrl, mediaType } = await req.json()
+    
+    // Allow messages with content OR media
+    if ((!content?.trim() && !mediaUrl) || !userId) {
       return NextResponse.json({ error: "Dati mancanti" }, { status: 400 })
     }
     const supabase = getAdmin()
@@ -62,8 +64,13 @@ export async function POST(req: Request) {
       if (banned) return NextResponse.json({ error: "Utente bannato" }, { status: 403 })
     }
 
-    const insertData: Record<string, unknown> = { content: content.trim(), user_id: userId }
+    const insertData: Record<string, unknown> = { 
+      content: content?.trim() || "", 
+      user_id: userId 
+    }
     if (replyTo) insertData.reply_to = replyTo
+    if (mediaUrl) insertData.media_url = mediaUrl
+    if (mediaType) insertData.media_type = mediaType
 
     const { error } = await supabase.from("messages").insert(insertData)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })

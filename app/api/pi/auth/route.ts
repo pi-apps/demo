@@ -71,6 +71,16 @@ export async function POST(req: Request) {
       display_name: username,
     }, { onConflict: "id" })
 
+    // Log the access for admin panel
+    try {
+      await supabase.from("access_logs").insert({
+        pi_uid: piUser.uid,
+        username,
+      })
+    } catch {
+      // Table might not exist yet, continue
+    }
+
     return NextResponse.json({
       userId,
       username,

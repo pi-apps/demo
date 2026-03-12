@@ -10,6 +10,8 @@ interface Message {
   display_name: string
   reply_to?: string | null
   reply_message?: { content: string; display_name: string } | null
+  media_url?: string | null
+  media_type?: "image" | "video" | null
 }
 
 interface ChatMessageProps {
@@ -54,7 +56,28 @@ export function ChatMessage({ message, isOwn, isAdmin, onReply, onDelete, onBan 
           </div>
         )}
 
-        <p className="text-sm break-words text-foreground">{message.content}</p>
+        {/* Media content */}
+        {message.media_url && message.media_type === "image" && (
+          <img 
+            src={message.media_url} 
+            alt="Immagine condivisa"
+            className="mt-1 max-w-full rounded-lg"
+            style={{ maxHeight: "300px" }}
+          />
+        )}
+        {message.media_url && message.media_type === "video" && (
+          <video 
+            src={message.media_url} 
+            controls
+            className="mt-1 max-w-full rounded-lg"
+            style={{ maxHeight: "300px" }}
+          />
+        )}
+
+        {/* Text content */}
+        {message.content && (
+          <p className="text-sm break-words text-foreground">{message.content}</p>
+        )}
         <p className={`mt-1 text-[10px] ${isOwn ? "text-foreground/70" : "text-muted-foreground"}`}>
           {timeStr}
         </p>
