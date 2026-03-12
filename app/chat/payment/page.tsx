@@ -38,16 +38,19 @@ export default function PaymentPage() {
 
     try {
       Pi.init({ version: "2.0", sandbox: false })
-      await Pi.authenticate(["payments", "username"], () => {})
+      const authResult = await Pi.authenticate(["payments", "username"], () => {}) as { user?: { uid?: string; username?: string } }
+      const piUid = authResult?.user?.uid || "unknown"
+      const username = authResult?.user?.username || "Anonimo"
+      const memo = `Donazione ${parsedAmount} Pi - Chat Pionieri`
 
       Pi.createPayment(
-        { amount: parsedAmount, memo: `Donazione ${parsedAmount} Pi - Chat Pionieri`, metadata: { purpose: "donation" } },
+        { amount: parsedAmount, memo, metadata: { purpose: "donation" } },
         {
           onReadyForServerApproval: async (paymentId: string) => {
             const res = await fetch("/api/pi/approve", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ paymentId }),
+              body: JSON.stringify({ paymentId, piUid, username, amount: parsedAmount, memo }),
             })
             if (!res.ok) {
               const data = await res.json().catch(() => ({}))

@@ -30,7 +30,7 @@ export async function GET(req: Request) {
       .order("logged_at", { ascending: false })
 
     if (error) {
-      return NextResponse.json({ error: "Errore database" }, { status: 500 })
+      return NextResponse.json({ error: "Errore database: " + error.message }, { status: 500 })
     }
 
     // Count unique users

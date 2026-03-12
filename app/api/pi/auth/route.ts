@@ -100,12 +100,14 @@ export async function POST(req: Request) {
     }, { onConflict: "id" })
 
     // Log access
+    // Log the access for admin panel (use correct column names: user_id, logged_at)
     const { error: logError } = await supabase.from("access_logs").insert({
       user_id: piUser.uid,
       username,
     })
     if (logError) {
       console.error("[v0] Failed to log access:", logError)
+      console.log("[v0] Access log error:", logError.message)
     }
 
     return NextResponse.json({
