@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server"
+import { getAdmin } from "@/lib/supabase/admin"
 
 export async function POST(req: Request) {
   try {
+    const { paymentId, piUid, username, amount, memo } = await req.json()
+    
+    // Approve with Pi Network
     const { paymentId } = await req.json()
     if (!process.env.PI_API_KEY) {
       console.error("[v0] PI_API_KEY non configurata")
@@ -15,6 +19,23 @@ export async function POST(req: Request) {
         "Content-Type": "application/json",
       },
     })
+    if (!res.ok) return NextResponse.json({ error: "Errore approvazione" }, { status: 500 })
+
+    // Save donation to database with 'approved' status
+    const supabase = getAdmin()
+    try {
+      await supabase.from("donations").insert({
+        pi_uid: piUid || "unknown",
+        username: username || "Anonimo",
+        pi_payment_id: paymentId,
+        amount: amount || 0,
+        memo: memo || "Donazione",
+        status: "approved",
+      })
+    } catch {
+      // Table might not exist yet, continue
+    }
+
     const data = await res.text()
     console.log("[v0] Approve response:", res.status, data)
     if (!res.ok) return NextResponse.json({ error: `Errore approvazione: ${data}` }, { status: res.status })

@@ -12,6 +12,8 @@ interface Message {
   display_name: string
   reply_to?: string | null
   reply_message?: { content: string; display_name: string } | null
+  media_url?: string | null
+  media_type?: "image" | "video" | null
   image_url?: string | null
   audio_url?: string | null
 }
@@ -116,6 +118,63 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content, userId: currentUserId, replyTo: replyRef?.id || null }),
     })
+  }
+
+  async function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Reset input
+    if (fileInputRef.current) fileInputRef.current.value = ""
+
+    setUploading(true)
+
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+
+      const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!uploadRes.ok) {
+        const err = await uploadRes.json()
+        alert(err.error || "Errore durante l'upload")
+        setUploading(false)
+        return
+      }
+
+      const { url, mediaType } = await uploadRes.json()
+
+      // Create optimistic message
+      const optimistic: Message = {
+        id: "temp-" + Date.now(),
+        content: "",
+        created_at: new Date().toISOString(),
+        user_id: currentUserId,
+        display_name: currentUsername,
+        media_url: url,
+        media_type: mediaType,
+      }
+      setMessages((prev) => [...prev, optimistic])
+
+      // Send message with media
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          content: "", 
+          userId: currentUserId, 
+          mediaUrl: url, 
+          mediaType 
+        }),
+      })
+    } catch {
+      alert("Errore durante l'upload")
+    } finally {
+      setUploading(false)
+    }
   }
 
   async function handleDelete(messageId: string) {
@@ -269,6 +328,7 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
         </div>
         <div className="flex gap-2">
           {isAdmin && (
+            <a href="/chat/accessi" className="rounded-lg border border-border px-3 py-2 text-xs text-foreground">
             <a href="/chat/admin" className="rounded-lg border border-border bg-muted px-3 py-2 text-xs text-foreground">
               Accessi
             </a>
@@ -333,6 +393,27 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
       )}
 
       {/* Input */}
+      <form onSubmit={sendMessage} className="sticky bottom-0 flex items-center gap-2 border-t border-border bg-card p-3">
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*,video/*"
+          onChange={handleFileSelect}
+          className="hidden"
+        />
+        
+        {/* Media upload button */}
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground disabled:opacity-50"
+        >
+          {uploading ? (
+            <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
       <input
         ref={fileInputRef}
         type="file"
@@ -362,6 +443,11 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
               <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+          )}
+        </button>
+
               <path d="m21 15-5-5L5 21" />
             </svg>
           )}
@@ -373,6 +459,15 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
           placeholder="Scrivi un messaggio..."
           className="flex-1 rounded-full border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground outline-none focus:border-[#F7A800]"
         />
+        <button
+          type="submit"
+          disabled={!input.trim() || uploading}
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground disabled:opacity-50"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+          </svg>
+        </button>
         {input.trim() ? (
           <button
             type="submit"
