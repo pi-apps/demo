@@ -4,17 +4,15 @@ import { useEffect, useState } from "react"
 
 interface AccessLog {
   id: string
-  pi_uid: string
+  user_id: string
   username: string
-  created_at: string
+  logged_at: string
 }
 
 interface AccessData {
   logs: AccessLog[]
-  stats: {
-    totalAccesses: number
-    uniqueUsers: number
-  }
+  totalAccesses: number
+  uniqueUsers: number
 }
 
 export default function AccessiPage() {
@@ -108,11 +106,11 @@ export default function AccessiPage() {
         {data && (
           <div className="mb-4 grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-border bg-card p-4">
-              <p className="text-2xl font-bold text-[#F7A800]">{data.stats.totalAccesses}</p>
+              <p className="text-2xl font-bold text-[#F7A800]">{data.totalAccesses}</p>
               <p className="text-xs text-muted-foreground">Accessi totali</p>
             </div>
             <div className="rounded-xl border border-border bg-card p-4">
-              <p className="text-2xl font-bold text-[#F7A800]">{data.stats.uniqueUsers}</p>
+              <p className="text-2xl font-bold text-[#F7A800]">{data.uniqueUsers}</p>
               <p className="text-xs text-muted-foreground">Utenti unici</p>
             </div>
           </div>
@@ -134,9 +132,9 @@ export default function AccessiPage() {
                 <div key={log.id} className="flex items-center justify-between px-4 py-3">
                   <div>
                     <p className="font-bold text-foreground">{log.username}</p>
-                    <p className="text-xs text-muted-foreground">ID: {log.pi_uid.substring(0, 8)}...</p>
+                    <p className="text-xs text-muted-foreground">ID: {log.user_id.substring(0, 8)}...</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">{formatTime(log.created_at)}</p>
+                  <p className="text-sm text-muted-foreground">{formatTime(log.logged_at)}</p>
                 </div>
               ))}
             </div>
