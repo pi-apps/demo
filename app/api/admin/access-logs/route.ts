@@ -4,6 +4,9 @@ import { getAdmin } from "@/lib/supabase/admin"
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url)
+    const adminUsername = searchParams.get("adminUsername")
+    if (adminUsername !== "cipollas") return NextResponse.json({ error: "Non autorizzato" }, { status: 403 })
+    
     const date = searchParams.get("date") || new Date().toISOString().split("T")[0]
     
     const supabase = getAdmin()

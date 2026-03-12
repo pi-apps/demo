@@ -23,6 +23,7 @@ export default function AccessiPage() {
     return new Date().toISOString().split("T")[0]
   })
   const [isAdmin, setIsAdmin] = useState(false)
+  const [adminUsername, setAdminUsername] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -32,6 +33,9 @@ export default function AccessiPage() {
       try {
         const parsed = JSON.parse(session)
         setIsAdmin(parsed.isAdmin === true)
+        if (parsed.isAdmin === true) {
+          setAdminUsername(parsed.username)
+        }
       } catch {
         setIsAdmin(false)
       }
@@ -40,9 +44,10 @@ export default function AccessiPage() {
 
   useEffect(() => {
     async function loadLogs() {
+      if (!adminUsername) return
       setLoading(true)
       try {
-        const res = await fetch(`/api/admin/access-logs?date=${selectedDate}`)
+        const res = await fetch(`/api/admin/access-logs?date=${selectedDate}&adminUsername=${encodeURIComponent(adminUsername)}`)
         if (res.ok) {
           const result = await res.json()
           setData(result)
@@ -54,7 +59,7 @@ export default function AccessiPage() {
       }
     }
     loadLogs()
-  }, [selectedDate])
+  }, [selectedDate, adminUsername])
 
   function formatTime(dateStr: string) {
     const date = new Date(dateStr)
