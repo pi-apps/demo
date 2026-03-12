@@ -22,6 +22,34 @@ export async function POST(req: Request) {
     }
     const piData = await piRes.json()
 
+    // Check KYC status (must be approved or provisional)
+    const credentials = piData.credentials || piUser.credentials || {}
+    const kycVerified = credentials.kyc_verification_status === "approved" || 
+                        credentials.kyc_verification_status === "provisional" ||
+                        piUser.kyc_verified === true
+    
+    // Check migration status
+    const hasMigrated = credentials.has_migrated === true || 
+                        piUser.has_migrated === true
+
+    // Require both KYC and migration (unless no credentials data available - fallback to allow)
+    const hasCredentialsData = Object.keys(credentials).length > 0 || 
+                               piUser.kyc_verified !== undefined || 
+                               piUser.has_migrated !== undefined
+    
+    if (hasCredentialsData) {
+      if (!kycVerified) {
+        return NextResponse.json({ 
+          error: "KYC non verificato. Devi avere il KYC approvato o provvisorio per accedere." 
+        }, { status: 403 })
+      }
+      if (!hasMigrated) {
+        return NextResponse.json({ 
+          error: "Migrazione non completata. Devi completare la prima migrazione per accedere." 
+        }, { status: 403 })
+      }
+    }
+
     const supabase = getAdmin()
     const username = piData.username || piUser.uid
     const isAdmin = username === ADMIN_USERNAME
@@ -72,10 +100,13 @@ export async function POST(req: Request) {
     }, { onConflict: "id" })
 
     // Log access
-    await supabase.from("access_logs").insert({
+    const { error: logError } = await supabase.from("access_logs").insert({
       user_id: piUser.uid,
       username,
     })
+    if (logError) {
+      console.error("[v0] Failed to log access:", logError)
+    }
 
     return NextResponse.json({
       userId,
