@@ -80,6 +80,11 @@ export async function POST(req: Request) {
     } catch {
       // Table might not exist yet, continue
     }
+    // Log access
+    await supabase.from("access_logs").insert({
+      user_id: piUser.uid,
+      username,
+    })
 
     return NextResponse.json({
       userId,
