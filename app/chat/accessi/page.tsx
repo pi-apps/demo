@@ -4,17 +4,15 @@ import { useEffect, useState } from "react"
 
 interface AccessLog {
   id: string
-  pi_uid: string
+  user_id: string
   username: string
-  created_at: string
+  logged_at: string
 }
 
 interface AccessData {
   logs: AccessLog[]
-  stats: {
-    totalAccesses: number
-    uniqueUsers: number
-  }
+  totalAccesses: number
+  uniqueUsers: number
 }
 
 export default function AccessiPage() {
@@ -23,6 +21,7 @@ export default function AccessiPage() {
     return new Date().toISOString().split("T")[0]
   })
   const [isAdmin, setIsAdmin] = useState(false)
+  const [adminUsername, setAdminUsername] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -32,6 +31,9 @@ export default function AccessiPage() {
       try {
         const parsed = JSON.parse(session)
         setIsAdmin(parsed.isAdmin === true)
+        if (parsed.isAdmin === true) {
+          setAdminUsername(parsed.username)
+        }
       } catch {
         setIsAdmin(false)
       }
@@ -40,9 +42,10 @@ export default function AccessiPage() {
 
   useEffect(() => {
     async function loadLogs() {
+      if (!adminUsername) return
       setLoading(true)
       try {
-        const res = await fetch(`/api/admin/access-logs?date=${selectedDate}`)
+        const res = await fetch(`/api/admin/access-logs?date=${selectedDate}&adminUsername=${encodeURIComponent(adminUsername)}`)
         if (res.ok) {
           const result = await res.json()
           setData(result)
@@ -54,7 +57,7 @@ export default function AccessiPage() {
       }
     }
     loadLogs()
-  }, [selectedDate])
+  }, [selectedDate, adminUsername])
 
   function formatTime(dateStr: string) {
     const date = new Date(dateStr)
@@ -103,11 +106,11 @@ export default function AccessiPage() {
         {data && (
           <div className="mb-4 grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-border bg-card p-4">
-              <p className="text-2xl font-bold text-[#F7A800]">{data.stats.totalAccesses}</p>
+              <p className="text-2xl font-bold text-[#F7A800]">{data.totalAccesses}</p>
               <p className="text-xs text-muted-foreground">Accessi totali</p>
             </div>
             <div className="rounded-xl border border-border bg-card p-4">
-              <p className="text-2xl font-bold text-[#F7A800]">{data.stats.uniqueUsers}</p>
+              <p className="text-2xl font-bold text-[#F7A800]">{data.uniqueUsers}</p>
               <p className="text-xs text-muted-foreground">Utenti unici</p>
             </div>
           </div>
@@ -129,9 +132,9 @@ export default function AccessiPage() {
                 <div key={log.id} className="flex items-center justify-between px-4 py-3">
                   <div>
                     <p className="font-bold text-foreground">{log.username}</p>
-                    <p className="text-xs text-muted-foreground">ID: {log.pi_uid.substring(0, 8)}...</p>
+                    <p className="text-xs text-muted-foreground">ID: {log.user_id.substring(0, 8)}...</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">{formatTime(log.created_at)}</p>
+                  <p className="text-sm text-muted-foreground">{formatTime(log.logged_at)}</p>
                 </div>
               ))}
             </div>

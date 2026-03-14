@@ -14,6 +14,8 @@ interface Message {
   reply_message?: { content: string; display_name: string } | null
   media_url?: string | null
   media_type?: "image" | "video" | null
+  image_url?: string | null
+  audio_url?: string | null
 }
 
 interface ChatRoomProps {
@@ -33,6 +35,7 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
   const [uploading, setUploading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const audioInputRef = useRef<HTMLInputElement>(null)
 
   // Load messages
   useEffect(() => {
@@ -199,6 +202,108 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
     setBanReason("")
   }
 
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith("image/")) {
+      alert("Solo immagini sono permesse")
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Immagine troppo grande (max 5MB)")
+      return
+    }
+
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+      const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
+      if (!uploadRes.ok) {
+        alert("Errore upload immagine")
+        return
+      }
+      const { url } = await uploadRes.json()
+
+      const replyRef = replyTo
+      setReplyTo(null)
+
+      const optimistic: Message = {
+        id: "temp-" + Date.now(),
+        content: "",
+        created_at: new Date().toISOString(),
+        user_id: currentUserId,
+        display_name: currentUsername,
+        reply_to: replyRef?.id || null,
+        reply_message: replyRef ? { content: replyRef.content, display_name: replyRef.display_name } : null,
+        image_url: url,
+      }
+      setMessages((prev) => [...prev, optimistic])
+
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: "", userId: currentUserId, replyTo: replyRef?.id || null, imageUrl: url }),
+      })
+    } catch {
+      alert("Errore invio immagine")
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ""
+    }
+  }
+
+  async function handleAudioUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith("audio/")) {
+      alert("Solo file audio sono permessi")
+      return
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      alert("File troppo grande (max 10MB)")
+      return
+    }
+
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+      const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
+      if (!uploadRes.ok) {
+        alert("Errore upload audio")
+        return
+      }
+      const { url } = await uploadRes.json()
+
+      const replyRef = replyTo
+      setReplyTo(null)
+
+      const optimistic: Message = {
+        id: "temp-" + Date.now(),
+        content: "",
+        created_at: new Date().toISOString(),
+        user_id: currentUserId,
+        display_name: currentUsername,
+        reply_to: replyRef?.id || null,
+        reply_message: replyRef ? { content: replyRef.content, display_name: replyRef.display_name } : null,
+        audio_url: url,
+      }
+      setMessages((prev) => [...prev, optimistic])
+
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: "", userId: currentUserId, replyTo: replyRef?.id || null, audioUrl: url }),
+      })
+    } catch {
+      alert("Errore invio audio")
+    } finally {
+      setUploading(false)
+      if (audioInputRef.current) audioInputRef.current.value = ""
+    }
+  }
+
   function handleLogout() {
     localStorage.removeItem("pi_session")
     window.location.href = "/auth/login"
@@ -224,6 +329,7 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
         <div className="flex gap-2">
           {isAdmin && (
             <a href="/chat/accessi" className="rounded-lg border border-border px-3 py-2 text-xs text-foreground">
+            <a href="/chat/admin" className="rounded-lg border border-border bg-muted px-3 py-2 text-xs text-foreground">
               Accessi
             </a>
           )}
@@ -308,6 +414,30 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
             <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleImageUpload}
+      />
+      <input
+        ref={audioInputRef}
+        type="file"
+        accept="audio/*"
+        className="hidden"
+        onChange={handleAudioUpload}
+      />
+      <form onSubmit={sendMessage} className="sticky bottom-0 flex items-center gap-2 border-t border-border bg-card p-3">
+        <button
+          type="button"
+          disabled={uploading}
+          onClick={() => fileInputRef.current?.click()}
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-foreground disabled:opacity-50"
+        >
+          {uploading ? (
+            <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" strokeDasharray="30" strokeDashoffset="10" />
             </svg>
           ) : (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -318,6 +448,10 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
           )}
         </button>
 
+              <path d="m21 15-5-5L5 21" />
+            </svg>
+          )}
+        </button>
         <input
           type="text"
           value={input}
@@ -334,6 +468,30 @@ export function ChatRoom({ currentUserId, currentUsername, isAdmin }: ChatRoomPr
             <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
           </svg>
         </button>
+        {input.trim() ? (
+          <button
+            type="submit"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => audioInputRef.current?.click()}
+            disabled={uploading}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7A800] text-foreground disabled:opacity-50"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+          </button>
+        )}
       </form>
 
       {/* Ban modal */}

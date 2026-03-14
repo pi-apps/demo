@@ -7,6 +7,7 @@ export async function GET() {
     const { data: messages, error } = await supabase
       .from("messages")
       .select("id, content, created_at, user_id, reply_to, media_url, media_type")
+      .select("id, content, created_at, user_id, reply_to, image_url, audio_url")
       .order("created_at", { ascending: true })
       .limit(200)
 
@@ -50,6 +51,8 @@ export async function POST(req: Request) {
     
     // Allow messages with content OR media
     if ((!content?.trim() && !mediaUrl) || !userId) {
+    const { content, userId, replyTo, imageUrl, audioUrl } = await req.json()
+    if ((!content?.trim() && !imageUrl && !audioUrl) || !userId) {
       return NextResponse.json({ error: "Dati mancanti" }, { status: 400 })
     }
     const supabase = getAdmin()
@@ -71,6 +74,10 @@ export async function POST(req: Request) {
     if (replyTo) insertData.reply_to = replyTo
     if (mediaUrl) insertData.media_url = mediaUrl
     if (mediaType) insertData.media_type = mediaType
+    const insertData: Record<string, unknown> = { content: content?.trim() || "", user_id: userId }
+    if (replyTo) insertData.reply_to = replyTo
+    if (imageUrl) insertData.image_url = imageUrl
+    if (audioUrl) insertData.audio_url = audioUrl
 
     const { error } = await supabase.from("messages").insert(insertData)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
