@@ -14,9 +14,7 @@ const EngagementTasksPage = () => {
     redirectToLaunchpad();
   };
 
-  const onTapTask = () => {
-    window.alert("test");
-  };
+  const onTapTask = () => {};
 
   return (
     <>
