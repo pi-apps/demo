@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
         name: "html-env-replace",
         transformIndexHtml(html) {
           return html
-            .replace(/\$\$BACKEND_URL\$\$/g, env.VITE_BACKEND_URL || "http://localhost:8000")
+            .replace(/\$\$BACKEND_URL\$\$/g, () => env.VITE_BACKEND_URL || "$$BACKEND_URL$$")
             .replace(/\$\$SANDBOX_SDK\$\$/g, env.VITE_SANDBOX_SDK || "true");
         },
       },

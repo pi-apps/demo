@@ -1,9 +1,12 @@
 import axios from "axios";
 
 const getBaseURL = () => {
-  if (typeof window !== "undefined" && window.__ENV?.backendURL) {
-    return window.__ENV.backendURL;
+  const runtimeURL = typeof window !== "undefined" ? window.__ENV?.backendURL : undefined;
+
+  if (runtimeURL && runtimeURL !== "$$BACKEND_URL$$") {
+    return runtimeURL;
   }
+
   return import.meta.env.VITE_BACKEND_URL;
 };
 

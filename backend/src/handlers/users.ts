@@ -8,6 +8,10 @@ export default function mountUserEndpoints(router: Router) {
     const auth = req.body.authResult;
     const userCollection = req.app.locals.userCollection;
 
+    if (!userCollection) {
+      return res.status(503).json({ error: "service_unavailable", message: "Database not ready" });
+    }
+
     try {
       // Verify the user's access token with the /me endpoint:
       const me = await platformAPIClient.get(`/v2/me`, { headers: { Authorization: `Bearer ${auth.accessToken}` } });
