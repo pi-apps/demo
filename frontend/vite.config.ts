@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
+import * as path from "node:path";
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -16,6 +17,11 @@ export default defineConfig(({ mode }) => {
         },
       },
     ],
+    resolve: {
+      alias: {
+        "@mui/styled-engine": path.resolve(__dirname, "node_modules/@mui/styled-engine-sc"),
+      },
+    },
     server: {
       port: parseInt(env.PORT) || 3314,
     },

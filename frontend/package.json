@@ -12,9 +12,15 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@mui/icons-material": "^7.3.8",
+    "@mui/material": "^7.3.8",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc",
+    "@mui/styled-engine-sc": "^7.3.8",
     "axios": "^1.13.2",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.1",
+    "styled-components": "^6.3.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
