@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:20-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -25,7 +25,7 @@ COPY ./docker/processes.config.js ./processes.config.js
 
 RUN mkdir -p log && touch log/.keep
 
-EXPOSE 8080
+EXPOSE 8000
 CMD [ "pm2-runtime", "./processes.config.js" ]
 
 # CMD [ "pm2-runtime", "build/index.js" ]

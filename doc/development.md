@@ -1,97 +1,87 @@
 # Pi Platform Demo App: Development Environment
 
-The following document explains how to set up a development environment and run the Pi Platform Demo App in the
-sandbox environment.
+This document explains how to set up a development environment and run the Pi Platform Demo App in the sandbox environment.
 
-## Prerequisites:
+## Prerequisites
 
-This guides assumes you have the following two tools installed on your development machine:
+This guide assumes you have the following installed on your development machine:
 
-- a NodeJS installation (recommended version: Node v16 LTS **or lower**)
-  - if you're running with node 17 or higher, you'll need to use `yarn startNode17` to work around [this issue](https://github.com/facebook/create-react-app/issues/11562)
-- a functional Docker or Mongosh installation
+- Node.js (recommended: v18 LTS or v20 LTS)
+- Docker or MongoDB (MongoDB 7.0 compatible)
 
-
-## 1. Clone the Github repo and navigate to the project directory:
+## 1. Clone the repository
 
 ```sh
 git clone git@github.com:pi-apps/platform-demo-app.git
 cd platform-demo-app
 ```
 
+## 2. Register your app on the Developer Portal
 
-## 2. Register your app on the developer portal
+Open `https://develop.pinet.com` in the Pi Browser on your mobile phone and complete the prerequisite steps (e.g., verifying your email address).
 
-Open `develop.pi` in the Pi Browser, on your mobile phone, and go through the prerequisite steps
-(e.g verifying your email address).
+Create a new app by clicking the "New App" button.
 
-Create a new app by clicking the "Register an App" button.
+### Registration process:
 
-The Process is as follows:
+- **App Name:** The name of your app
+- **Description:** A public user-facing description of your app
+- **Network:** Select "Pi Testnet"
 
-- Register an App:
-  - Name: The name of your app
-  - Description: A public user-facing description of your app
-  - Network: select "Pi Testnet"
-  - Submit the form
+Once you submit the form, it will bring you to your app's main page. From here, go to the Checklist to continue setup.
 
-<img title="Register An App" alt="Registration Form for an App" src="./img/register_app.PNG" style="width:300px;height:600px;" />
+### App Checklist (Steps 1-5):
 
-<br/>
+1. **Register an App** - Completed in the previous step
+2. **Configure App Hosting** - Select "Self hosted"
+3. **Create a Pi Wallet** - See the [Pi Wallet Introduction](https://pi-apps.github.io/community-developer-guide/docs/importantTopics/paymentFlow/piWallet/) for more information
+4. **Review Documentation** - Check our [Community Developer Guide](https://pi-apps.github.io/community-developer-guide/)
+5. **Configure Development URL** - Set the URL where your app runs:
+   - Running locally: `http://localhost:3314` (default port)
+     - **Note:** You can change the port in `frontend/.env.development` using the `PORT` variable.
+   - Running via Docker: `http://localhost` (adjust accordingly if there's any change to docker files)
 
-This will bring you to the App Dashboard, from this screen you can continue the development of the demo app. 
- 
-- App Checklist: Complete Steps 1-5 to prepare the app for launch in development mode
-  - Step 1: "Register an App" was completed previously
-  - Step 2: Configure App Hosting - Hosting type: select "Self hosted"
-  - Step 3: Create a Pi Wallet, see this [Pi Wallet Introduction](https://pi-apps.github.io/community-developer-guide/docs/importantTopics/paymentFlow/piWallet/) for more information
-  - Step 4: Review this documentation and our [Community Developer Guide](https://pi-apps.github.io/community-developer-guide/) for help getting setup
-  - Step 5: Configure App Development URL: the URL on which your app is running on your development environment. If your using the default
-    setup for the demo app frontend, this is "http://localhost:3314. **Note:** If you need, you can change the port by specifying it in
-    `frontend/.env` file, as the value of the `PORT` environment variable.
- 
- <img title="Developer Portal App Checklist" alt="App Checklist" src="./img/app_checklist.png" style="width:300px;height:1100px;" />
- 
- <br/>
- 
-- App Configuration: Additional information that can be adjusted
-  - Whitelisted usernames: you can leave this blank at this point
-  - App URL: This is irrelevant for development. You can use the intended production URL of your app (e.g "https://mydemoapp.com"),
-    or simply set it up to an example value (e.g "https://example.com"). This must be an HTTPs URL
-  - Development URL: The URL on which your app is running on your development environment. If your using the default
-    setup for the demo 
+### App Configuration:
 
-## 3. Run the frontend development server
+- **Whitelisted usernames:** Leave blank for now
+- **App URL:** Use your intended production URL (e.g., `https://mydemoapp.com`) or a placeholder (e.g., `https://example.com`). Must be HTTPS.
 
-Setup the frontend app following the [Pi Demo App Frontend documentation](../frontend/README.md).
+Before proceeding, click the "API Key" button on your app's main page and save the generated key—you'll need it for setup.
 
+## 3. Set up your app
 
-## 4. Run the backend development server
+You can run the demo app in two ways:
 
-Setup backend server following the [Pi Demo App Backend documentation](../backend/README.md).
+### Option A: Run locally
 
-## 5. Open the app in the Sandbox
+- Set up the frontend following the [Frontend documentation](../frontend/README.md)
+- Set up the backend following the [Backend documentation](../backend/README.md)
 
-To test all of the Demo App features, you need to run it in the Pi Sandbox.
+### Option B: Run via Docker Compose
 
-The purpose of the Sandbox is to enable running and debugging a Pi App in a desktop browser, although a Pi App
-is meant to be opened in the Pi Browser by end-users.
+- Follow the [Docker Setup documentation](./docker-setup.md)
 
-For more information on the Sandbox head to our [Community Developer Guide](https://pi-apps.github.io/community-developer-guide/docs/gettingStarted/piAppPlatform/piAppPlatformSDK/#the-sandbox-flag).
+## 4. Open the app in the Sandbox
 
-Lastly, **on your desktop browser** open the sandbox URL from Step 6 of App Checklist:
+To test all features, run the app in the Pi Sandbox.
 
-![Sandbox URL](./img/sandbox_url.png)
+The Sandbox enables running and debugging Pi Apps in a desktop browser, even though Pi Apps are designed for the Pi Browser.
+
+For more information, see the [Community Developer Guide](https://pi-apps.github.io/community-developer-guide/docs/gettingStarted/piAppPlatform/piAppPlatformSDK/#the-sandbox-flag).
+
+**On your desktop browser** (use Firefox for this demo app), open the Sandbox URL from Step 6 of your App Checklist. Use your own URL, not the one shown in screenshots.
 
 ![Sandbox URL](./img/sandbox_firefox.png)
 
-> **WARNING**
+> **Warning**
 >
-> The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
-> To properly test all of the features of the Demo App, we recommend you to open the sandbox app using Mozilla Firefox.
+> The demo app uses Express session cookies, which some browsers block in the Sandbox environment.
+> For best results, use **Mozilla Firefox**.
 
-#### Congratulations! The app should work in the developer portal and enable you to sign in, place an order and make a testnet payment.
+**Congratulations!** Your app should now work in the Sandbox, allowing you to sign in, place orders, and make testnet payments.
 
-# More Information - Developing on Pi
-For guidelines on how to register an app and get the Sandbox URL, please refer to the
-[Pi Developer Guide](https://pi-apps.github.io/community-developer-guide/).
+---
+
+## More Information
+
+For additional guidelines on registering apps and using the Sandbox, see the [Pi Developer Guide](https://pi-apps.github.io/community-developer-guide/).

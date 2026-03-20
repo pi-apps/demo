@@ -1,19 +1,107 @@
-# Pi Demo App Frontend
+# Pi Demo App - Frontend
 
-Pi Demo App is an example React app created with [Create React App](https://create-react-app.dev/).
+A React + TypeScript frontend for the Pi Demo App, built with Vite.
 
-### 1. Install dependencies:
+## Getting Started
 
-You will need a working NodeJS installation, and `yarn`. **The demo app frontend isn't meant to support npm**.
-In most cases, `yarn` will come along with your NodeJS installation.
+> For Docker setup, see the [Docker Setup documentation](../doc/docker-setup.md).
 
-Install dependencies by running `yarn install`.
+### 1. Install dependencies
 
-### 2. Start the app:
+```sh
+yarn install
+```
 
-Run the following command to start the app's development server: `yarn start`
-This will open a browser window on http://localhost:3314 which you can close, since the demo app mostly needs
-to run inside of the Pi Sandbox environment in order to work correctly in development.
+### 2. Set up environment variables
+
+Set `.env.development` with the following variables:
+
+| Variable           | Description           | Example                 |
+| ------------------ | --------------------- | ----------------------- |
+| `PORT`             | Dev server port       | `3314`                  |
+| `VITE_BACKEND_URL` | Backend API URL       | `http://localhost:8000` |
+| `VITE_SANDBOX_SDK` | Enable Pi Sandbox SDK | `true`                  |
+
+### 3. Start the development server
+
+```sh
+yarn dev
+```
+
+The app will be available at `http://localhost:3314` (or your configured PORT).
 
 ---
-You've completed the frontend setup, return to [`doc/development.md`](../doc/development.md) to finish setting up the demo app
+
+# React + TypeScript + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(["dist"]),
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+]);
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
+
+export default defineConfig([
+  globalIgnores(["dist"]),
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs["recommended-typescript"],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+]);
+```

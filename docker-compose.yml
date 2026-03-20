@@ -22,9 +22,12 @@ services:
     build: ./frontend
     environment:
       BACKEND_URL: ${BACKEND_URL}
+      SANDBOX_SDK: ${SANDBOX_SDK}
 
   backend:
     build: ./backend
+    ports:
+      - "8000:8000"
     environment:
       NODE_ENV: ${ENVIRONMENT}
       SESSION_SECRET: ${SESSION_SECRET}
@@ -37,7 +40,7 @@ services:
       FRONTEND_URL: ${FRONTEND_URL}
 
   mongo:
-    image: mongo:5.0
+    image: mongo:7.0
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
