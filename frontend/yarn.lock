@@ -518,7 +518,7 @@
     "@mui/utils" "^7.3.9"
     prop-types "^15.8.1"
 
-"@mui/styled-engine-sc@^7.3.8", "@mui/styled-engine@npm:@mui/styled-engine-sc":
+"@mui/styled-engine-sc@^7.3.9", "@mui/styled-engine@npm:@mui/styled-engine-sc":
   version "7.3.9"
   resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-7.3.9.tgz#98a3922038434678faf4f6ca320aa4b458d05349"
   integrity sha512-O9JRFpOuqXy7+p9jPk6SHzbkWX/5PqO3j3VrNgGZDy4G/KvvSPbdsx/U+2VF7LHtbSAzQ03Sw6MJTW4bSKJEgA==
@@ -1921,7 +1921,7 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-styled-components@^6.3.9:
+styled-components@^6.3.12:
   version "6.3.12"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.3.12.tgz#263a1c52bd1c5d1cdd2667e9605e5ffa8df592d0"
   integrity sha512-hFR6xsVkVYbsdcUlzPYFvFfoc6o2KlV0VvgRIQwSYMtdThM7SCxnjX9efh/cWce2kTq16I/Kl3xM98xiLptsXA==
