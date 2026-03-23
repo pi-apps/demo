@@ -14,7 +14,6 @@
   "dependencies": {
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc",
     "@mui/styled-engine-sc": "^7.3.9",
     "axios": "^1.13.2",
     "react": "^19.2.0",
@@ -38,5 +37,8 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"
+  },
+  "resolutions": {
+    "@mui/styled-engine": "@mui/styled-engine-sc"
   }
 }
