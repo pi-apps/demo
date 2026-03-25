@@ -39,6 +39,10 @@ const TaskActionButton = ({ cooldownMs, storageKey, onTap, tapLabel, refreshLabe
   const handleTap = () => {
     onTap();
     const until = Date.now() + cooldownMs;
+    // On Android, everything works fine, even after killing the app.
+    // On iOS, the state is preserved as long as the app isn’t killed. If you we send it to the background or switch via the Launchpad and return to the Demo App, it works correctly. However, once the app is killed, the localStorage is cleared.
+    // At the moment, we don’t have a better way to persist this state.
+    // Consider providing a better way to persist the state in the future.
     localStorage.setItem(storageKey, String(until));
     setCooldownUntil(until);
     setNowMs(Date.now());
