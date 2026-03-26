@@ -69,6 +69,7 @@ const EngagementTasksPage = () => {
             </Box>
             <TaskActionButton
               cooldownMs={COOLDOWN_DURATION_MS}
+              storageKey="engagement_task_tap_cooldown"
               onTap={onTapTask}
               tapLabel="Tap"
               refreshLabel="Refresh"
@@ -110,6 +111,7 @@ const EngagementTasksPage = () => {
             </Box>
             <TaskActionButton
               cooldownMs={COOLDOWN_DURATION_MS}
+              storageKey="engagement_task_new_button_cooldown"
               onTap={onTapTask}
               tapLabel="Tap"
               refreshLabel="Refresh"
