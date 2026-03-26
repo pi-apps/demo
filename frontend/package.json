@@ -39,6 +39,6 @@
     "vite": "^7.2.4"
   },
   "resolutions": {
-    "@mui/styled-engine": "@mui/styled-engine-sc"
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@^7.3.9"
   }
 }
