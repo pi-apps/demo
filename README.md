@@ -1,27 +1,11 @@
-# Pi Demo App
-
-Pi Demo App is an example of how you can implement the various required flows in your app's code.
-It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
-
-It is composed of two major parts:
-
-- **frontend**: a single-page frontend app (built with React and Vite)
-- **backend**: a backend app (a very simple JSON API built with Express and Mongo)
-
-## Initial Development
-
-Read [`doc/development.md`](./doc/development.md) to get started and learn how to run this app in development.
-
-> **WARNING**
->
-> The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
-> To properly test all of the features of the Demo App, use Mozilla Firefox.
-
-## Deployment
-
-Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app on a server using Docker and docker-compose.
-
-## Flows
-
-To dive into the implementation of the flows that support the demo app features, please refer to
-[Pi Demo App Flows](./FLOWS.md).
+CoinBridge 🌐
+​CoinBridge is a decentralized application (dApp) built on the Pi Network. It aims to provide a seamless interface for users to interact with the Pi ecosystem, leveraging secure authentication and verified "Proof of Personhood" through Pi SDK.
+​🚀 Key Features
+​Pi SDK Integration: Secure login and transaction handling directly through the Pi Browser.
+​Real-time Connectivity: Fast, responsive frontend built with React and Vite.
+​Scalable Backend: Secure API built with Express and Node.js.
+​Verified Interactions: Designed to prioritize human-verified users within the Pi ecosystem.
+​🛠️ Technical Stack
+​Frontend: React, Vite, Pi SDK
+​Backend: Node.js, Express, MongoDB
+​Network: Pi Testnet
