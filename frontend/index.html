@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Vite does not use %PUBLIC_URL% -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using React + Vite" />
+
+    <!--
+    Runtime environment variables
+    These values are:
+    - replaced in DEV by Vite (via import.meta.env if needed)
+    - replaced in PROD by Docker entrypoint (string replace)
+  -->
+    <script>
+      window.__ENV = {
+        backendURL: "$$BACKEND_URL$$",
+        sandbox: "$$SANDBOX_SDK$$",
+      };
+    </script>
+
+    <!-- Pi Network SDK -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
+    <script>
+      const runSDKInSandboxMode = window.__ENV.sandbox === "true";
+
+      Pi.init({
+        version: "2.0",
+        sandbox: runSDKInSandboxMode,
+      });
+    </script>
+
+    <title>React App</title>
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="root"></div>
+
+    <!-- Vite entry -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

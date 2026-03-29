@@ -1,50 +1,57 @@
 ##
-## BUILDER CONTAINER
+## BUILDER
 ##
-
-FROM node:12.20.0 as builder
-
-RUN mkdir /app
-
-COPY ./package.json /app/package.json
-COPY ./yarn.lock /app/yarn.lock
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-RUN yarn install
+# Install dependencies first (cache-friendly)
+COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
 
-# Copy the resources needed to build the app
-# We could copy ./ but it weigh more and bust cache more often
-COPY ./src /app/src
-COPY ./public /app/public
-COPY ./tsconfig.json /app/tsconfig.json
+RUN \
+  if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then npm install -g pnpm && pnpm install --frozen-lockfile; \
+  else npm install; \
+  fi
 
-RUN NODE_PATH=./src yarn build
+# Copy source
+COPY . .
+
+# Build Vite app using the same package manager as dependency install
+RUN \
+  if [ -f yarn.lock ]; then yarn build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then pnpm build; \
+  else npm run build; \
+  fi
 
 # We have set GENERATE_SOURCEMAP=false in our build script but we're doing this to add an extra layer
 # of safety - we want to keep JS source maps from getting deployed on the production servers:
-RUN rm -rf ./build/static/js/*.map
+RUN rm -rf ./dist/assets/*.map
+
 
 ##
-## RUNNER CONTAINER
+## RUNNER
 ##
+FROM nginx:1.25-alpine
 
-FROM nginx:1.15.7
+# Remove default config
+RUN rm /etc/nginx/conf.d/default.conf
 
-COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./docker/entrypoint.sh /var/entrypoint.sh
+# Custom nginx config
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy entrypoint script
+COPY docker/entrypoint.sh /var/entrypoint.sh
 RUN chmod +x /var/entrypoint.sh
 
-RUN mkdir -p /var/www/webapp
+# Copy built app (Vite outputs to /dist)
+COPY --from=builder /app/dist /var/www/webapp
 
-COPY --from=builder /app/build /var/www/webapp
+# Optional: better defaults
+RUN sed -i 's/worker_processes  1/worker_processes auto/' /etc/nginx/nginx.conf
 
-# Default nginx configuration has only one worker process running. "Auto" is a better setting.
-# Commenting out any existing setting, and adding the desired one is more robust against new docker image versions.
-RUN sed -i  "s/worker_processes/#worker_processes/" /etc/nginx/nginx.conf && \
-    echo "worker_processes auto;" >> /etc/nginx/nginx.conf && \
-    echo "worker_rlimit_nofile 16384;" >> /etc/nginx/nginx.conf
+EXPOSE 80
 
-# Override the default command of the base image:
-# See: https://github.com/nginxinc/docker-nginx/blob/1.15.7/mainline/stretch/Dockerfile#L99
 CMD ["/var/entrypoint.sh"]

@@ -1,21 +1,19 @@
-#!/usr/bin/env bash
-
+#!/bin/sh
 set -e
 
-echo "Running demo-app-frontend with the following configuration:"
+echo "Running Vite React frontend with the following configuration:"
 echo "Backend URL:        $BACKEND_URL"
+echo "Sandbox SDK:        $SANDBOX_SDK"
 
-if [ -z "$BACKEND_URL" ]
-then
-  echo "ERROR! INVALID CONFIGURATION: BACKEND_URL must be defined in the environment. Exiting."
+if [ -z "$BACKEND_URL" ]; then
+  echo "ERROR! INVALID CONFIGURATION: BACKEND_URL must be defined."
   exit 1
 fi
 
-# Use semicolons instead of slashes as delimiters for sed, to prevent any conflicts with the slashes in the URL params:
-# https://unix.stackexchange.com/questions/379572/escaping-both-forward-slash-and-back-slash-with-sed
-sed -i "s;%REACT_APP_BACKEND_URL%;${BACKEND_URL};" /var/www/webapp/index.html
-sed -i "s;%REACT_APP_SANDBOX_SDK%;${SANDBOX_SDK};" /var/www/webapp/index.html
+# Replace placeholders in /var/www/webapp/index.html at runtime
+# Use semicolons to avoid conflicts with slashes in URLs
+sed -i 's;\$\$BACKEND_URL\$\$;'"${BACKEND_URL}"';g' /var/www/webapp/index.html
+sed -i 's;\$\$SANDBOX_SDK\$\$;'"${SANDBOX_SDK}"';g' /var/www/webapp/index.html
 
-# Call the command that the base image was initally supposed to run
-# See: XXX
+# Start nginx
 nginx -g "daemon off;"
