@@ -1,27 +1,29 @@
-# Pi Demo App
+**CoinBridge** is a secure gateway built on the Pi Network designed to bridge the gap between digital assets and real-world liquidity. Our mission is to allow Pioneers to seamlessly move between Pi and local financial ecosystems.
 
-Pi Demo App is an example of how you can implement the various required flows in your app's code.
-It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
+## 🌟 Key Features
+* **M-Pesa Integration:** Direct withdrawal to mobile money.
+* **Airtime Top-ups:** Convert assets into mobile credit instantly.
+* **External Wallet Support:** Securely bridge to external crypto environments.
+* **Non-Custodial:** High security standards following Pi Network best practices.
 
-It is composed of two major parts:
+---
 
-- **frontend**: a single-page frontend app (built with React and Vite)
-- **backend**: a backend app (a very simple JSON API built with Express and Mongo)
+## ⚙️ Technical Configuration (Pi Developer Portal)
 
-## Initial Development
+To run this demo locally as CoinBridge, update your `Configuration` in the Pi Developer Portal:
 
-Read [`doc/development.md`](./doc/development.md) to get started and learn how to run this app in development.
+1.  **App URL:** Set this to your local tunnel (e.g., `https://your-unique-id.ngrok-free.app`).
+2.  **Wallet:** Your connected app wallet is `GDBXH...NULXY` (as seen in your dashboard).
+3.  **API Key:** Generate a new API Key in the portal and paste it into `backend/.env` as `PLATFORM_API_KEY`.
 
-> **WARNING**
->
-> The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
-> To properly test all of the features of the Demo App, use Mozilla Firefox.
+---
 
-## Deployment
+## 🛠️ Development Setup
 
-Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app on a server using Docker and docker-compose.
-
-## Flows
-
-To dive into the implementation of the flows that support the demo app features, please refer to
-[Pi Demo App Flows](./FLOWS.md).
+### 1. Backend (Node.js)
+The backend handles the communication with the Pi Blockchain and the M-Pesa API.
+```bash
+cd backend
+npm install
+# Add your API keys to .env
+npm start
