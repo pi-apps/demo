@@ -12,8 +12,8 @@ This guide assumes you have the following installed on your development machine:
 ## 1. Clone the repository
 
 ```sh
-git clone git@github.com:pi-apps/platform-demo-app.git
-cd platform-demo-app
+git clone git@github.com:pi-apps/demo.git
+cd demo
 ```
 
 ## 2. Register your app on the Developer Portal
