@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke Generator</title>
+    <script>
+        async function fetchJoke() {
+            const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+            const data = await response.json();
+            let joke = '';
+            if (data.joke) {
+                joke = data.joke;
+            } else {
+                joke = `${data.setup} - ${data.delivery}`;
+            }
+            document.getElementById('joke').innerText = joke;
+        }
+    </script>
+</head>
+<body>
+    <h1>Joke Generator</h1>
+    <button onclick="fetchJoke()">Tell me a joke!</button>
+    <p id="joke"></p>
+</body>
+</html>
