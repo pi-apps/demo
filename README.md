@@ -1,27 +1,60 @@
-# Pi Demo App
+# 🚀 GHN.PI - Giao Hàng Nhanh Thanh Toán Bằng Pi
 
-Pi Demo App is an example of how you can implement the various required flows in your app's code.
-It aims to show you how to use Pi Platform API on the backend side and Pi SDK on the frontend side of your app.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Click_Here-brightgreen?style=for-the-badge)](https://ghn-pi.vercel.app)
+[![GitHub license](https://img.shields.io/github/license/tranduyhung1987/GHN.PI)](LICENSE.md)
+[![Stars](https://img.shields.io/github/stars/tranduyhung1987/GHN.PI?style=social)](https://github.com/tranduyhung1987/GHN.PI)
 
-It is composed of two major parts:
+**Ứng dụng giao hàng nhanh đầu tiên trên Pi Network** – Thanh toán bằng Pi, kết nối shipper và khách hàng.
 
-- **frontend**: a single-page frontend app (built with React and Vite)
-- **backend**: a backend app (a very simple JSON API built with Express and Mongo)
+---
 
-## Initial Development
+## ✨ Giới thiệu
 
-Read [`doc/development.md`](./doc/development.md) to get started and learn how to run this app in development.
+GHN.PI là dự án **Giao Hàng Nhanh** được xây dựng dành riêng cho hệ sinh thái Pi Network.
 
-> **WARNING**
->
-> The demo app uses express session cookies which, in the Sandbox environment, are not correctly saved on the client on some browsers.
-> To properly test all of the features of the Demo App, use Mozilla Firefox.
+- **Tình trạng**: Đang phát triển (Testnet → Mainnet)
+- **Phiên bản**: L14Pro
+- **Fork từ**: [Pi Demo App](https://github.com/pi-apps/demo)
 
-## Deployment
+---
 
-Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app on a server using Docker and docker-compose.
+## 🚀 Tính năng chính
 
-## Flows
+- Xác thực người dùng qua **Pi SDK**
+- Thanh toán **Pi Payment**
+- Quản lý đơn hàng & theo dõi shipper
+- Hỗ trợ Docker & Reverse Proxy
+- Backend Express + MongoDB
 
-To dive into the implementation of the flows that support the demo app features, please refer to
-[Pi Demo App Flows](./FLOWS.md).
+---
+
+## 📱 Xem Demo Trực Tiếp
+
+**[→ Mở GHN.PI ngay](https://ghn-pi.vercel.app)**
+
+---
+
+## 🛠 Hướng dẫn
+
+- [Development Guide](./doc/development.md)
+- [Luồng chức năng](./FLOWS.md)
+- [Hướng dẫn đóng góp](./CONTRIBUTING.md)
+
+---
+
+## 🤝 Đóng góp
+
+Rất hoan nghênh sự đóng góp từ cộng đồng Pi!  
+Xem chi tiết tại [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+---
+
+## 📜 License
+
+Project tuân thủ **PiOS License** của Pi Core Team.
+
+---
+
+**Made with ❤️ by @tranduyhung1987** cho cộng đồng Pi Việt Nam
+
+⭐ Nếu bạn thấy dự án hữu ích, hãy tặng **1 Star** nhé!

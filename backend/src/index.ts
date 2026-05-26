@@ -11,26 +11,22 @@ import env from "./environments";
 import mountPaymentsEndpoints from "./handlers/payments";
 import mountUserEndpoints from "./handlers/users";
 
-// We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
-// have no problem here)
-// https://stackoverflow.com/questions/65108033/property-user-does-not-exist-on-type-session-partialsessiondata#comment125163548_65381085
+// We must import typedefs for ts-node-dev to pick them up when they change
 import "./types/session";
 import mountNotificationEndpoints from "./handlers/notifications";
 
-const dbName = env.mongo_db_name;
-const mongoUri = `mongodb://${env.mongo_host}/${dbName}`;
+// ================== MONGODB CONNECTION (HARDCODE - ĐÃ SỬA) ==================
+const dbName = "ghnpi_db";
+const mongoUri = "mongodb://admin:admin123@localhost:27027/ghnpi_db?authSource=admin";
+
+console.log("🔗 Connecting to MongoDB with hardcoded URI");
+console.log("Database:", dbName);
+
 const mongoClientOptions = {
   authSource: "admin",
-  auth: {
-    username: env.mongo_user,
-    password: env.mongo_password,
-  },
 };
 
-//
 // I. Initialize and set up the express app and various middlewares and packages:
-//
-
 const app: express.Application = express();
 
 // Log requests to the console in a compact format:
@@ -54,7 +50,7 @@ app.use(
   }),
 );
 
-// Handle cookies 🍪
+// Handle cookies
 app.use(cookieParser());
 
 // Use sessions:
@@ -72,16 +68,14 @@ app.use(
   }) as unknown as express.RequestHandler,
 );
 
-//
 // II. Mount app endpoints:
-//
 
 // Payments endpoint under /payments:
 const paymentsRouter = express.Router();
 mountPaymentsEndpoints(paymentsRouter);
 app.use("/payments", paymentsRouter);
 
-// User endpoints (e.g signin, signout) under /user:
+// User endpoints under /user:
 const userRouter = express.Router();
 mountUserEndpoints(userRouter);
 app.use("/user", userRouter);
@@ -91,27 +85,29 @@ const notificationRouter = express.Router();
 mountNotificationEndpoints(notificationRouter);
 app.use("/notifications", notificationRouter);
 
-// Hello World page to check everything works:
+// Hello World page:
 app.get("/", async (_, res) => {
-  res.status(200).send({ message: "Hello, World!" });
+  res.status(200).send({ message: "Hello, World! GHN.PI Backend is running!" });
 });
 
 // III. Boot up the app:
-
 const start = async () => {
   try {
     const client = await MongoClient.connect(mongoUri, mongoClientOptions);
     const db = client.db(dbName);
+    
     app.locals.orderCollection = db.collection("orders");
     app.locals.userCollection = db.collection("users");
-    console.log("Connected to MongoDB on: ", mongoUri);
+
+    console.log("✅ Connected to MongoDB successfully!");
+    console.log(`App platform demo app - Backend listening on port ${env.port}!`);
 
     app.listen(env.port, () => {
-      console.log(`App platform demo app - Backend listening on port ${env.port}!`);
-      console.log(`CORS config: configured to respond to a frontend hosted on ${env.frontend_url}`);
+      console.log(`🚀 Backend running at http://localhost:${env.port}`);
+      console.log(`🌐 Frontend configured at: ${env.frontend_url}`);
     });
   } catch (err) {
-    console.error("Connection to MongoDB failed: ", err);
+    console.error("❌ Connection to MongoDB failed: ", err);
     process.exit(1);
   }
 };

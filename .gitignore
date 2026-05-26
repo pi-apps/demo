@@ -1,3 +1,60 @@
+# Environment variables
 .env
-docker-data
+.env.local
+.env.development
+.env.production
+.env*.local
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Docker
+docker-data/
+.docker/
+Dockerfile.*
+docker-compose*.yml
+
+# Editor & IDE
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Temporary files
+.tmp/
+temp/
+
+# Vercel / Netlify
+.vercel/
+.next/
+out/
+
+# Misc
+.cache/
+coverage/

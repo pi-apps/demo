@@ -7,9 +7,11 @@
     "name": "Pi Core Team"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "NODE_ENV=development ts-node-dev ./src/index.ts"
-  },
+  "build": "tsc",
+  "start": "node dist/index.js",
+  "dev": "ts-node-dev ./src/index.ts",
+  "dev:win": "set NODE_ENV=development && ts-node-dev ./src/index.ts"
+},
   "dependencies": {
     "axios": "^1.7.9",
     "connect-mongo": "^5.1.0",

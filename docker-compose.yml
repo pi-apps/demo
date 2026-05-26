@@ -1,50 +1,36 @@
-version: "3.9"
-services:
-  reverse-proxy:
-    build: ./reverse-proxy
-    environment:
-      HTTPS: ${HTTPS}
-      FRONTEND_DOMAIN_NAME: ${FRONTEND_DOMAIN_NAME}
-      BACKEND_DOMAIN_NAME: ${BACKEND_DOMAIN_NAME}
-      DOMAIN_VALIDATION_KEY: ${DOMAIN_VALIDATION_KEY}
-    ports:
-      - "80:80"
-      - "443:443"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    volumes:
-      - ${DATA_DIRECTORY}/reverse-proxy/etc-letsencrypt:/etc/letsencrypt/
+version: '3.8'
 
-  frontend:
-    build: ./frontend
-    environment:
-      BACKEND_URL: ${BACKEND_URL}
-      SANDBOX_SDK: ${SANDBOX_SDK}
+services:
+  mongo:
+    image: mongo:6
+    container_name: ghn-pi-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
 
   backend:
     build: ./backend
+    container_name: ghn-pi-backend
+    restart: unless-stopped
+    env_file:
+      - .env
     ports:
-      - "8000:8000"
+      - "5000:5000"
+    depends_on:
+      - mongo
     environment:
-      NODE_ENV: ${ENVIRONMENT}
-      SESSION_SECRET: ${SESSION_SECRET}
-      PI_API_KEY: ${PI_API_KEY}
-      PLATFORM_API_URL: ${PLATFORM_API_URL}
-      MONGO_HOST: mongo
-      MONGODB_DATABASE_NAME: ${MONGODB_DATABASE_NAME}
-      MONGODB_USERNAME: ${MONGODB_USERNAME}
-      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
-      FRONTEND_URL: ${FRONTEND_URL}
+      - NODE_ENV=development
 
-  mongo:
-    image: mongo:7.0
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+  frontend:
+    build: ./frontend
+    container_name: ghn-pi-frontend
+    restart: unless-stopped
     ports:
-      - 27027:27017
-    volumes:
-      - ${DATA_DIRECTORY}/mongo/data:/data/db
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

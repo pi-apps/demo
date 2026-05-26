@@ -1,48 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
-
-    <!-- Vite does not use %PUBLIC_URL% -->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Web site created using React + Vite" />
-
-    <!--
-    Runtime environment variables
-    These values are:
-    - replaced in DEV by Vite (via import.meta.env if needed)
-    - replaced in PROD by Docker entrypoint (string replace)
-  -->
-    <script>
-      window.__ENV = {
-        backendURL: "$$BACKEND_URL$$",
-        sandbox: "$$SANDBOX_SDK$$",
-      };
-    </script>
-
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Title & Description -->
+    <title>GHN.PI - Giao Hàng Nhanh Thanh Toán Bằng Pi</title>
+    <meta name="description" content="Giao hàng nhanh nhất Việt Nam - Thanh toán liền mạch bằng Pi Network" />
+    
     <!-- Pi Network SDK -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    
+    <!-- Open Graph / Social Share -->
+    <meta property="og:title" content="GHN.PI - Giao Hàng Nhanh Thanh Toán Bằng Pi" />
+    <meta property="og:description" content="Giao hàng nhanh nhất Việt Nam - Thanh toán liền mạch bằng Pi Network" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ghn-pi.vercel.app" />
+    <meta property="og:image" content="https://ghn-pi.vercel.app/og-image.jpg" />
 
-    <script>
-      const runSDKInSandboxMode = window.__ENV.sandbox === "true";
+    <!-- SEO & PWA -->
+    <meta name="theme-color" content="#4c1d95" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
 
-      Pi.init({
-        version: "2.0",
-        sandbox: runSDKInSandboxMode,
-      });
-    </script>
+    <!-- ===================== ANIMATION & PERFORMANCE ===================== -->
+    <style>
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
 
-    <title>React App</title>
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.88); }
+        to { opacity: 1; transform: scale(1); }
+      }
+
+      .card-hover {
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .card-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 25px -5px rgba(124, 58, 237, 0.18), 
+                    0 10px 10px -5px rgba(124, 58, 237, 0.1);
+      }
+
+      .btn-press {
+        transition: all 0.2s ease;
+      }
+      .btn-press:active {
+        transform: scale(0.95);
+        opacity: 0.9;
+      }
+
+      /* Improve Pi SDK loading */
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    </style>
   </head>
-
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-
     <div id="root"></div>
-
-    <!-- Vite entry -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
