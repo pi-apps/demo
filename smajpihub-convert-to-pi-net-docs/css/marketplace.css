@@ -1,0 +1,392 @@
+.market-hero {
+  background: linear-gradient(140deg, #0b0f1a 0%, #162444 60%, #213663 100%);
+  color: #fff;
+  padding: 68px 0;
+}
+
+.market-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.market-kicker {
+  display: inline-block;
+  background: rgba(125, 60, 255, 0.2);
+  border: 1px solid rgba(125, 60, 255, 0.45);
+  color: #e1d4ff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.market-hero h1 {
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.market-hero p {
+  color: #d2daec;
+  margin-bottom: 16px;
+}
+
+.market-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.market-summary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.market-summary h3 {
+  margin-bottom: 10px;
+}
+
+.market-summary ul {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.market-controls {
+  padding-top: 28px;
+}
+
+.market-search-wrap {
+  border: 1px solid #dce3f5;
+  border-radius: 10px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.market-search-wrap i {
+  color: #7d3cff;
+  font-size: 20px;
+}
+
+.market-search-wrap input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 12px 0;
+  font-size: 15px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-btn {
+  border: 1px solid #dce3f5;
+  border-radius: 999px;
+  background: #fff;
+  padding: 7px 14px;
+  cursor: pointer;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: #7d3cff;
+  border-color: #7d3cff;
+  color: #fff;
+}
+
+.market-content {
+  padding: 20px 0 64px;
+}
+
+.market-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.product-card {
+  background: #fff;
+  border: 1px solid #e5eaf6;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: #d6c9f8;
+  box-shadow: 0 10px 22px rgba(14, 24, 44, 0.08);
+}
+
+.product-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.product-body {
+  padding: 12px;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.product-category {
+  font-size: 11px;
+  border-radius: 999px;
+  background: #f0eaff;
+  color: #6b31e6;
+  padding: 4px 8px;
+  font-weight: 700;
+}
+
+.product-rating {
+  font-size: 12px;
+  color: #8c94ab;
+}
+
+.product-card h4 {
+  color: #161f37;
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+.product-card p {
+  color: #505a74;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.product-price {
+  font-weight: 700;
+  color: #7d3cff;
+  margin-bottom: 10px;
+}
+
+.product-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.product-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-buy {
+  background: #101425;
+  color: #fff;
+}
+
+.btn-buy:hover {
+  background: #7d3cff;
+}
+
+.btn-cart {
+  background: #eceff8;
+  color: #131a31;
+}
+
+.btn-cart:hover {
+  background: #dfe4f2;
+}
+
+.market-empty {
+  display: none;
+  color: #5d6782;
+  padding: 18px 0;
+  text-align: center;
+}
+
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -380px;
+  width: 360px;
+  max-width: 94vw;
+  height: 100vh;
+  background: #0b0f1a;
+  color: #fff;
+  z-index: 1200;
+  transition: right 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-sidebar.active {
+  right: 0;
+}
+
+.cart-head {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cart-head button {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 26px;
+}
+
+#cartItems {
+  list-style: none;
+  padding: 14px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+#cartItems li {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.cart-item-title {
+  font-weight: 700;
+}
+
+.cart-item-meta {
+  color: #cfd6e8;
+  font-size: 13px;
+}
+
+.cart-item-remove {
+  margin-top: 6px;
+  background: #7d3cff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.cart-foot {
+  padding: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cart-foot p {
+  margin-bottom: 10px;
+}
+
+.cart-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  background: #7d3cff;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 700;
+  z-index: 1190;
+}
+
+.buy-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1210;
+  align-items: center;
+  justify-content: center;
+}
+
+.buy-modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  width: min(460px, 92%);
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+}
+
+.modal-content img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  color: #4f5873;
+  margin-bottom: 8px;
+}
+
+.modal-price {
+  color: #7d3cff;
+  font-weight: 700;
+}
+
+.modal-content input {
+  width: 80px;
+  border: 1px solid #dce3f5;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 6px 0 12px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+@media (max-width: 1100px) {
+  .market-hero-grid,
+  .market-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .market-hero {
+    padding: 48px 0;
+  }
+
+  .market-hero-grid,
+  .market-grid {
+    grid-template-columns: 1fr;
+  }
+}

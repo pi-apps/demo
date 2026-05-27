@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Blog - SMAJ PI HUB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/blog.css">
+</head>
+
+<body class="blog-page">
+
+  <header class="header">
+    <div class="container nav">
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="SMAJ PI HUB Logo">
+      </div>
+
+      <div class="menu-toggle" id="menuToggle">
+        <i class='bx bx-menu'></i>
+      </div>
+
+      <div class="menu-overlay" id="menuOverlay"></div>
+
+      <nav id="navMenu">
+        <div class="menu-close" id="menuClose">
+          <i class='bx bx-x'></i>
+        </div>
+        <a href="../index.html">Home</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/service.html">Services</a>
+        <a href="../pages/white-paper.html">White Paper</a>
+        <a href="../pages/how-it-works.html">How It Works</a>
+        <a href="../pages/pricing.html">Pricing</a>
+        
+        <a href="../pages/faq.html">FAQ</a>
+        <a href="../pages/contact.html">Contact</a>
+        <a href="https://officialsmaj.github.io/smaj-ecosystem-dashboard/">My Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="blog-hero">
+      <div class="container blog-hero-grid">
+        <div>
+          <span class="blog-kicker">SMAJ PI HUB INSIGHTS</span>
+          <h1>News, Guides, and Real Pi Utility Stories</h1>
+          <p>
+            Follow product updates, ecosystem announcements, onboarding guides, and real use-cases
+            across SMAJ Store, digital services, and marketplace expansion.
+          </p>
+          <div class="blog-hero-actions">
+            <a href="blog-post.html" class="btn-primary" data-featured-link>Read Featured Story</a>
+            <a href="service.html" class="btn-secondary">Explore Services</a>
+          </div>
+        </div>
+
+        <article class="blog-featured" id="featuredPost">
+          <img src="../assets/images/website-hero.png" alt="Featured article for SMAJ PI HUB blog" id="featuredImage">
+          <div class="blog-featured-content">
+            <p class="blog-meta" id="featuredMeta">Featured . Platform Update</p>
+            <h2 id="featuredTitle">How SMAJ PI HUB Connects Multiple Pi Projects in One Experience</h2>
+            <p id="featuredSnippet">Discover the wallet-connected flow that helps users access services from one trusted hub.</p>
+            <a href="blog-post.html" id="featuredReadLink">Read article <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="blog-toolbar">
+      <div class="container blog-toolbar-inner">
+        <div class="blog-search-wrap">
+          <i class='bx bx-search'></i>
+          <input id="blogSearchInput" type="search" placeholder="Search articles, guides, updates..." aria-label="Search blog posts">
+        </div>
+        <div class="blog-tags" id="blogTagFilters" aria-label="Filter posts by category">
+          <button type="button" class="active" data-tag="all">All</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-listing">
+      <div class="container">
+        <div class="blog-section-head">
+          <h2>Latest Articles</h2>
+          <a href="contact.html">Submit a topic <i class='bx bx-link-external'></i></a>
+        </div>
+
+        <div class="blog-grid" id="blogPostsGrid"></div>
+        <p class="blog-empty" id="blogEmptyState" hidden>No posts matched your search. Try a different keyword or category.</p>
+      </div>
+    </section>
+
+    <section class="blog-cta">
+      <div class="container blog-cta-inner">
+        <div>
+          <h2>Stay Updated with SMAJ PI HUB</h2>
+          <p>Get ecosystem announcements, service releases, and onboarding guides directly from the team.</p>
+        </div>
+        <form class="blog-newsletter">
+          <input type="email" placeholder="Enter your email address">
+          <button type="button" class="btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+    <footer class="footer">
+    <div class="container footer-grid">
+
+      <div>
+        <h4>SMAJ PI HUB</h4>
+        <p>Built for Pi wallet access, with SMAJ Token utility expanding across the ecosystem.</p>
+      </div>
+
+      <div>
+        <h4>Platform</h4>
+        <a href="../index.html">Home</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/service.html">Services</a>
+        <a href="../pages/white-paper.html">White Paper</a>
+        <a href="../pages/service-detail.html">Service Detail</a>
+
+        <a href="../pages/how-it-works.html">How It Works</a>
+        <a href="../pages/pricing.html">Pricing</a>
+        <a href="../pages/blog.html">Blog</a>
+        <a href="../pages/blog-post.html">Blog Post</a>
+
+        <a href="../pages/faq.html">FAQ</a>
+        <a href="../pages/portfolio.html">Portfolio</a>
+        <a href="../pages/contact.html">Contact</a>
+      </div>
+
+      <div>
+        <h4>Programs</h4>
+        <a href="../pages/affiliate.html">Affiliate Program</a>
+        <a href="../pages/collaborate.html">Collaborate With Us</a>
+        <a href="../pages/partners.html">Partners</a>
+        <a href="../pages/community.html">Community</a>
+        <a href="../pages/developers.html">Developers</a>
+        <a href="../pages/help-center.html">Help Center</a>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <a href="../pages/legal/privacy.html">Privacy Policy</a>
+        <a href="../pages/legal/terms.html">Terms & Conditions</a>
+        <a href="../pages/legal/cookie.html">Cookie Policy</a>
+        <a href="../pages/legal/report.html">Report Abuse</a>
+      </div>
+
+      <div>
+        <h4>Follow Us</h4>
+        <div class="socials">
+          <a href="https://x.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class='bx bxl-twitter'></i></a>
+          <a href="https://t.me" aria-label="Telegram" target="_blank" rel="noopener noreferrer"><i class='bx bxl-telegram'></i></a>
+          <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class='bx bxl-facebook'></i></a>
+          <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class='bx bxl-instagram'></i></a>
+          <a href="https://youtube.com" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class='bx bxl-youtube'></i></a>
+          <a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><i class='bx bxl-tiktok'></i></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="copyright">&copy; 2026 SMAJ PI HUB. All rights reserved.</p>
+  </footer>
+
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script src="../js/blog-data.js"></script>
+  <script src="../js/blog.js"></script>
+  <script src="../js/wallet.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+
+</html>
+
+
+

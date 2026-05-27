@@ -1,0 +1,168 @@
+.service-detail-main {
+    padding: 50px 0;
+}
+
+.service-hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.service-image img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.service-image img:hover {
+    transform: scale(1.03);
+}
+
+.service-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.service-info h1 {
+    font-size: 2rem;
+    color: #7d3cff;
+    margin-bottom: 10px;
+}
+
+.service-description {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.service-rating {
+    color: #f5b50a;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.service-options {
+    margin-bottom: 20px;
+}
+
+.service-options select {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.service-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+button.btn {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+button.btn.primary {
+    background: #7d3cff;
+    color: #fff;
+}
+
+button.btn.primary:hover {
+    background: #5a26b5;
+}
+
+button.btn.secondary {
+    background: #eee;
+    color: #333;
+}
+
+button.btn.secondary:hover {
+    background: #ccc;
+}
+
+.service-delivery,
+.service-revisions,
+.service-category {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.service-features {
+    margin-bottom: 50px;
+}
+
+.service-features h2 {
+    font-size: 1.8rem;
+    color: #7d3cff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.service-features ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.service-features ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.service-reviews h2 {
+    font-size: 1.8rem;
+    color: #7d3cff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-card {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.review-card i.bxs-user-circle {
+    font-size: 40px;
+    color: #7d3cff;
+    margin-right: 10px;
+}
+
+.review-rating i {
+    color: #f5b50a;
+}
+
+@media (max-width:768px) {
+    .service-hero {
+        flex-direction: column;
+    }
+}

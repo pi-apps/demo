@@ -1,51 +1,47 @@
-import type { CSSProperties } from "react";
-import type { User } from "../types/pi.ts";
+import { NavLink } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
 
-interface HeaderProps {
-  onSignIn: () => void;
-  onSignOut: () => void;
-  onSendTestNotification: () => void;
-  user: User | null;
-  isLoading?: boolean;
-}
+const Header = () => {
+  const { user, isAuthenticated, signIn, signOut, isLoading } = useAuthContext();
 
-const headerStyle: CSSProperties = {
-  padding: 8,
-  backgroundColor: "gray",
-  color: "white",
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
-const userSectionStyle: CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  gap: 8,
-};
-
-const Header = ({ user, onSignIn, onSignOut, onSendTestNotification, isLoading }: HeaderProps) => {
   return (
-    <header style={headerStyle}>
-      <div style={{ fontWeight: "bold" }}>Pi Bakery</div>
-
-      <div style={userSectionStyle}>
-        {user ? (
-          <>
-            <span>@{user.username}</span>
-            <button type="button" onClick={onSignOut} disabled={isLoading}>
-              Sign out
+    <header className="smaj-header">
+      <div className="smaj-header-inner">
+        <NavLink to="/" className="smaj-logo-link" aria-label="SMAJ PI HUB Home">
+          <img src="/logo.png" alt="SMAJ PI HUB Logo" className="smaj-logo" />
+        </NavLink>
+        <nav className="smaj-nav" aria-label="Primary">
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/services">Services</NavLink>
+          <NavLink to="/white-paper">White Paper</NavLink>
+          <NavLink to="/how-it-works">How It Works</NavLink>
+          <NavLink to="/pricing">Pricing</NavLink>
+          <NavLink to="/faq">FAQ</NavLink>
+          <NavLink to="/contact">Contact</NavLink>
+        </nav>
+        <div className="smaj-auth-section">
+          {isAuthenticated && user ? (
+            <div className="smaj-user-info">
+              <span className="smaj-username">{user.username}</span>
+              <button 
+                onClick={signOut} 
+                className="smaj-signout-btn"
+                disabled={isLoading}
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={signIn} 
+              className="smaj-login-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? "Signing in..." : "Login with Pi"}
             </button>
-            {user.roles.includes("core_team") && (
-              <button onClick={onSendTestNotification}>Send Test Notification to yourself</button>
-            )}
-          </>
-        ) : (
-          <button onClick={onSignIn} disabled={isLoading}>
-            Sign in
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );

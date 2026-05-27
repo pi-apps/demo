@@ -1,0 +1,302 @@
+/* ===============================
+   GLOBAL RESPONSIVE FIXES
+================================ */
+
+@media (max-width: 1024px) {
+  .container {
+    width: 94%;
+  }
+
+  .hero-text h1 {
+    font-size: 36px;
+  }
+}
+
+/* ===============================
+   TABLET & MOBILE
+================================ */
+
+@media (max-width: 768px) {
+
+  /* ---------- HEADER ---------- */
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    width: 50vw;
+    max-width: 50dvw;
+    height: 100vh;
+    max-height: 100dvh;
+    background: #0b0f1a;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    z-index: 1100;
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    overflow-y: auto;
+    padding-top: 56px;
+  }
+
+  nav.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  nav a {
+    padding: 14px;
+    border-top: 1px solid #222;
+    font-size: 16px;
+    text-align: left;
+  }
+
+  .menu-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1090;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .menu-close {
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .menu-toggle {
+    display: block;
+    color: #fff;
+  }
+
+  .wallet-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .hero-text h1 {
+    font-size: 28px;
+  }
+
+  .hero-text p {
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-image img {
+    max-width: 90%;
+    margin: auto;
+  }
+
+  /* ---------- FEATURES / SERVICES ---------- */
+  .features {
+    padding: 30px 0;
+  }
+
+  .feature-card,
+  .service-card,
+  .step {
+    padding: 20px;
+  }
+
+  /* ---------- SECTION TITLES ---------- */
+  .section-title {
+    font-size: 24px;
+    margin-top: 40px;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta h2 {
+    font-size: 24px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+  }
+
+  .footer i {
+    margin: 5px;
+  }
+
+}
+
+@media (max-width: 576px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-grid>div {
+    margin-bottom: 25px;
+  }
+}
+
+/* ===============================
+   SMALL MOBILE (PHONES)
+================================ */
+
+@media (max-width: 480px) {
+
+  body {
+    font-size: 14px;
+  }
+
+  .logo span {
+    font-size: 14px;
+  }
+
+  .hero-text h1 {
+    font-size: 22px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  nav a {
+    font-size: 15px;
+  }
+
+  .footer {
+    padding: 30px 0 15px;
+  }
+
+}
+
+/* ===============================
+   DASHBOARD & WALLET
+================================ */
+
+@media (max-width: 900px) {
+
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .dashboard-sidebar ul {
+    display: flex;
+    gap: 10px;
+  }
+
+  .dashboard-sidebar li {
+    white-space: nowrap;
+  }
+
+  .dashboard-main {
+    padding: 20px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+}
+
+/* ===============================
+   AUTH PAGES
+================================ */
+
+@media (max-width: 480px) {
+
+  .auth-box {
+    padding: 20px;
+  }
+
+  .auth-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .nav-dropdown {
+    width: 100%;
+  }
+
+  .dropdown-menu {
+    position: static;
+    background: #0b0f1a;
+    display: none;
+  }
+
+  .nav-dropdown.active .dropdown-menu {
+    display: flex;
+  }
+}
+
+
+.menu-wallet-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #navMenu .menu-wallet-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 24px);
+    margin: 14px 12px 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #7d3cff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .header .nav > .wallet-btn:not(.menu-wallet-btn) {
+    display: none !important;
+  }
+}

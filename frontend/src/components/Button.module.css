@@ -1,0 +1,61 @@
+/* Button.module.css - Reusable button using design tokens */
+
+:local(.button) {
+  border: none;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+  font-family: inherit;
+}
+
+:local(.button--primary) {
+  background: linear-gradient(135deg, var(--color-primary), #5f2bd6);
+  color: white;
+}
+
+:local(.button--secondary) {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+:local(.button--gold) {
+  background: linear-gradient(135deg, var(--color-gold), var(--color-goldLight));
+  color: black;
+}
+
+:local(.button--sm) {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: 0.875rem;
+}
+
+:local(.button--md) {
+  padding: var(--space-md) var(--space-2xl);
+  font-size: 1rem;
+}
+
+:local(.button--lg) {
+  padding: var(--space-xl) var(--space-3xl);
+  font-size: 1.125rem;
+}
+
+:local(.button--fullWidth) {
+  width: 100%;
+}
+
+:local(.button:hover:not(:disabled)) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+:local(.button:disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

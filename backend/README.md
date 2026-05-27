@@ -1,4 +1,4 @@
-# Pi Demo App - Backend
+# smajpihub App - Backend
 
 An Express API server with MongoDB for storing user data and session details.
 

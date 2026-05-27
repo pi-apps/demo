@@ -5,7 +5,7 @@ It aims to show you how to use Pi Platform API on the backend side and Pi SDK on
 
 It is composed of two major parts:
 
-- **frontend**: a single-page frontend app (built with React and Vite)
+- **frontend**:  frontend app (built with React and Vite)
 - **backend**: a backend app (a very simple JSON API built with Express and Mongo)
 
 ## Initial Development

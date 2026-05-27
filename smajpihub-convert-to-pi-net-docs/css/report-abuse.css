@@ -1,0 +1,101 @@
+.report-hero {
+    text-align: center;
+    padding: 60px 0;
+    color: #7d3cff;
+}
+
+.report-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.report-hero p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.report-form {
+    background: #f9f9f9;
+    padding: 40px 25px;
+    border-radius: 12px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.report-form:hover {
+    transform: translateY(-5px);
+}
+
+.report-form h2 {
+    font-size: 1.8rem;
+    color: #7d3cff;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+button.btn.primary {
+    background: #7d3cff;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+button.btn.primary:hover {
+    background: #5a26b5;
+}
+
+.report-info h2 {
+    font-size: 1.8rem;
+    color: #7d3cff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.report-info ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.report-info ul li {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

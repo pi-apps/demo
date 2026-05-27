@@ -1,0 +1,140 @@
+.faq-hero-rebuild {
+  background: linear-gradient(140deg, #0b0f1a 0%, #17233d 55%, #253664 100%);
+  color: #fff;
+  text-align: center;
+  padding: 66px 0;
+}
+
+.faq-kicker {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(125, 60, 255, 0.45);
+  background: rgba(125, 60, 255, 0.2);
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.faq-hero-rebuild h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  margin-bottom: 10px;
+}
+
+.faq-hero-rebuild p {
+  color: #d4dbec;
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 18px;
+  padding: 40px 0 64px;
+}
+
+.faq-sidebar {
+  border: 1px solid #e4e9f6;
+  border-radius: 12px;
+  padding: 14px;
+  height: fit-content;
+  position: sticky;
+  top: 96px;
+}
+
+.faq-sidebar h3 {
+  margin-bottom: 10px;
+}
+
+.faq-sidebar a {
+  display: block;
+  border: 1px solid #e4e9f6;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  color: #1b233b;
+}
+
+.faq-sidebar a:hover {
+  border-color: #7d3cff;
+  color: #7d3cff;
+}
+
+.faq-block {
+  margin-bottom: 22px;
+}
+
+.faq-block h2 {
+  font-size: 28px;
+  color: #141c34;
+  margin-bottom: 10px;
+}
+
+.faq-item {
+  border: 1px solid #e4e9f6;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  border: none;
+  background: #fff;
+  text-align: left;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: #1c233b;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  border-top: 1px solid #eef2fb;
+}
+
+.faq-answer p {
+  padding: 12px 14px;
+  color: #4e5872;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 200px;
+}
+
+.faq-item.open .faq-question i {
+  transform: rotate(180deg);
+}
+
+.faq-question i {
+  transition: transform 0.2s ease;
+}
+
+.faq-cta-rebuild {
+  border: 1px solid #e4e9f6;
+  border-radius: 12px;
+  padding: 18px;
+  background: #f7f9ff;
+}
+
+.faq-cta-rebuild h3 {
+  margin-bottom: 6px;
+}
+
+.faq-cta-rebuild p {
+  margin-bottom: 12px;
+  color: #505a74;
+}
+
+@media (max-width: 900px) {
+  .faq-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-sidebar {
+    position: static;
+  }
+}

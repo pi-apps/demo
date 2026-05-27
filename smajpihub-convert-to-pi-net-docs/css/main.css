@@ -1,0 +1,322 @@
+/* About-Main-sectoin */
+.about-hero {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.about-section {
+  padding: 40px 0;
+}
+
+.ceo-card,
+.team-card {
+  background: #111;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  transition: transform .3s ease;
+}
+
+.ceo-card,
+.team-card {
+  color: white;
+}
+
+.ceo-card:hover,
+.team-card:hover {
+  transform: translateY(-6px);
+}
+
+.animated-avatar {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 20px;
+  padding: 4px;
+  border-radius: 50%;
+  background: linear-gradient(270deg, #7d3cff, #4da3ff, #7d3cff);
+  background-size: 400% 400%;
+  animation: borderSpin 6s linear infinite;
+}
+
+.animated-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@keyframes borderSpin {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.role {
+  color: #7d3cff;
+  font-size: 14px;
+}
+
+.socials a i {
+  font-size: 22px;
+  margin: 8px;
+  transition: transform .3s, color .3s;
+  z-index: 100;
+}
+
+.socials a i:hover {
+  transform: scale(1.2);
+  color: #7d3cff;
+  z-index: 100;
+}
+
+
+/* Sevices Main Section */
+
+.services {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.4rem;
+  margin-bottom: 50px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+.service-card {
+  background: #111;
+  border-radius: 16px;
+  padding: 30px 20px;
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.service-card i {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.service-card h3 {
+  margin-bottom: 15px;
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+.service-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+}
+
+/* CTA Button */
+.cta-btn {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(135deg, #f5c400, #ffdd55);
+  color: #000;
+  transition: all 0.4s ease;
+}
+
+.cta-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(255, 221, 85, 0.7);
+}
+
+/* Global CTA */
+.services-cta {
+  margin-top: 60px;
+}
+
+.main-cta-btn {
+  display: inline-block;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ffb703, #ffd166);
+  color: #000;
+  animation: pulse 2.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 rgba(255,209,102,0.6); }
+  70% { box-shadow: 0 0 40px rgba(255,209,102,0.9); }
+  100% { box-shadow: 0 0 0 rgba(255,209,102,0.6); }
+}
+
+/* How it work PAGE SPECIFIC STYLES */
+    .how-it-works-hero {
+      text-align:center; 
+      padding:60px 20px; 
+      background:#f5f5f5;
+    }
+    .how-it-works-hero h1 { font-size:36px; margin-bottom:10px; color:#0b0f1a; }
+    .how-it-works-hero p { font-size:18px; margin-bottom:20px; color:#333; }
+    .how-it-works-hero .btn { margin:10px; }
+
+    .steps-container {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+      gap:30px;
+      padding:50px 20px;
+    }
+    .step-card {
+      background:#fff; 
+      border-radius:12px; 
+      padding:30px 20px; 
+      box-shadow:0 8px 20px rgba(0,0,0,0.1);
+      text-align:center; 
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+    .step-card:hover { transform:translateY(-10px); box-shadow:0 15px 25px rgba(0,0,0,0.2); }
+    .step-card i { font-size:48px; color:#7d3cff; margin-bottom:15px; transition:transform 0.5s; }
+    .step-card:hover i { transform:rotateY(360deg); }
+    .step-card h4 { font-size:22px; margin-bottom:10px; color:#0b0f1a; }
+    .step-card p { font-size:16px; color:#555; }
+
+    .cta-section {
+      background:#7d3cff;
+      color:#fff;
+      text-align:center;
+      padding:60px 20px;
+    }
+    .cta-section h2 { font-size:32px; margin-bottom:15px; }
+    .cta-section p { font-size:18px; margin-bottom:25px; }
+    .cta-section .btn { background:#fff; color:#7d3cff; padding:12px 25px; font-size:18px; border-radius:8px; text-decoration:none; transition:0.3s; }
+    .cta-section .btn:hover { background:#e0e0e0; color:#7d3cff; }
+
+    @media(max-width:768px){
+      .how-it-works-hero h1 { font-size:28px; }
+      .how-it-works-hero p { font-size:16px; }
+      .step-card i { font-size:40px; }
+    }
+
+     /* Pricing Page Specific Styles */
+    .pricing-hero {
+      background: #0b0f1a url('../assets/images/hero.png') no-repeat center/cover;
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .pricing-hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      animation: fadeInDown 1s ease forwards;
+    }
+    .pricing-hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      animation: fadeIn 1.2s ease forwards;
+    }
+    .pricing-hero .btn {
+      margin: 0 10px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    .pricing-hero .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #7d3cff;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+      gap: 20px;
+      padding: 50px 20px;
+    }
+    .pricing-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-card:hover {
+      transform: scale(1.05);
+      border: 2px solid #7d3cff;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .pricing-card .ribbon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #7d3cff;
+      color: #fff;
+      padding: 5px 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      transform: rotate(45deg);
+    }
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #111;
+    }
+    .pricing-card p {
+      margin: 8px 0;
+      color: #555;
+    }
+    .pricing-card .price {
+      font-size: 1.3rem;
+      margin: 15px 0;
+      font-weight: bold;
+      color: #7d3cff;
+    }
+    .pricing-card .cta-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      background: #7d3cff;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+    .pricing-card .cta-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #7d3cff;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity:0; transform: translateY(-20px);}
+      to { opacity:1; transform: translateY(0);}
+    }
+    @keyframes fadeIn {
+      from { opacity:0;}
+      to { opacity:1;}
+    }
+
+    /* Responsive */
+    @media(max-width:768px){
+      .pricing-hero h1 { font-size:2rem; }
+      .pricing-hero p { font-size:1rem; }
+    }

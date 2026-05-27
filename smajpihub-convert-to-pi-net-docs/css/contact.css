@@ -1,0 +1,148 @@
+.contact-hero {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.contact-hero h1 {
+    font-size: 2.5rem;
+    color: #7d3cff;
+    margin-bottom: 10px;
+}
+
+.contact-hero p {
+    font-size: 1.2rem;
+    color: #111;
+}
+
+.contact-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.contact-form-container {
+    flex: 1 1 500px;
+}
+
+.contact-info {
+    flex: 1 1 300px;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 8px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #7d3cff;
+}
+
+.form-group label {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    color: #999;
+    font-size: 14px;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus+label,
+.form-group textarea:focus+label,
+.form-group select:focus+label,
+.form-group input:not(:placeholder-shown)+label,
+.form-group textarea:not(:placeholder-shown)+label,
+.form-group select:not(:placeholder-shown)+label {
+    top: -10px;
+    left: 5px;
+    font-size: 12px;
+    color: #7d3cff;
+    background: #fff;
+    padding: 0 5px;
+}
+
+.btn.primary {
+    background: #7d3cff;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn.primary:hover {
+    background: #5a2ccc;
+}
+
+.contact-info h2 {
+    color: #7d3cff;
+    margin-bottom: 15px;
+}
+
+.contact-info p,
+.contact-info a {
+    margin-bottom: 10px;
+    display: block;
+    color: #111;
+    text-decoration: none;
+}
+
+.contact-info .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.contact-info .socials a {
+    font-size: 24px;
+    color: #7d3cff;
+    transition: 0.3s;
+}
+
+.contact-info .socials a:hover {
+    color: #5a2ccc;
+}
+
+.contact-map {
+    margin-top: 40px;
+    text-align: center;
+    background: #f9f9f9;
+    padding: 40px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Responsive */
+@media(max-width:992px) {
+    .contact-section {
+        flex-direction: column;
+    }
+}

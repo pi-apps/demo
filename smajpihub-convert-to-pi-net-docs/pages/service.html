@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Services - SMAJ PI HUB Ecosystem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/service-hub.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="container nav">
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="SMAJ PI HUB Logo">
+      </div>
+
+      <div class="menu-toggle" id="menuToggle">
+        <i class='bx bx-menu'></i>
+      </div>
+
+      <div class="menu-overlay" id="menuOverlay"></div>
+
+      <nav id="navMenu">
+        <div class="menu-close" id="menuClose">
+          <i class='bx bx-x'></i>
+        </div>
+        <a href="../index.html">Home</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/service.html">Services</a>
+        <a href="../pages/white-paper.html">White Paper</a>
+        <a href="../pages/how-it-works.html">How It Works</a>
+        <a href="../pages/pricing.html">Pricing</a>
+
+        <a href="../pages/faq.html">FAQ</a>
+        <a href="../pages/contact.html">Contact</a>
+        <a href="https://officialsmaj.github.io/smaj-ecosystem-dashboard/">My Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hub-hero">
+      <div class="container hub-hero-grid">
+        <div>
+          <span class="hub-kicker">ALL-IN-ONE PI SERVICE HUB</span>
+          <h1>Access Every SMAJ Platform From One Place</h1>
+          <p>
+            SMAJ PI HUB connects your wallet once and unlocks all ecosystem projects including e-commerce,
+            digital services, delivery, and upcoming tools.
+          </p>
+          <div class="hub-hero-actions">
+            <a href="https://officialsmaj.github.io/smaj-ecosystem-dashboard/" class="btn-primary">Open Unified Dashboard</a>
+            <a href="#ecosystemDirectory" class="btn-secondary">Browse Platforms</a>
+          </div>
+        </div>
+
+        <aside class="hub-access-panel" id="hubAccessPanel">
+          <h3>Cross-Platform Access</h3>
+          <p class="hub-access-desc">Wallet connection status controls one-click access to partner platforms.</p>
+          <div class="hub-wallet-state" id="walletState">Checking wallet status...</div>
+          <p class="hub-wallet-hint" id="walletHint">Please connect your wallet to continue.</p>
+          <button class="hub-action" id="connectWalletAction" type="button">Connect Wallet</button>
+          <div class="hub-session-log" id="sessionLog">Ready</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="hub-section container">
+      <div class="hub-section-head">
+        <h2>How SMAJ PI HUB Connects All Projects</h2>
+      </div>
+      <div class="hub-flow-grid">
+        <article>
+          <i class='bx bx-wallet'></i>
+          <h3>1. Connect Wallet Once</h3>
+          <p>User signs in with Pi wallet inside SMAJ PI HUB.</p>
+        </article>
+        <article>
+          <i class='bx bx-id-card'></i>
+          <h3>2. Unified Identity</h3>
+          <p>Hub keeps one user identity across all connected services.</p>
+        </article>
+        <article>
+          <i class='bx bx-link-alt'></i>
+          <h3>3. Platform Handshake</h3>
+          <p>Each platform receives a secure hub access token placeholder.</p>
+        </article>
+        <article>
+          <i class='bx bx-check-shield'></i>
+          <h3>4. Seamless Usage</h3>
+          <p>Users open Store, Services, Delivery, and more without repeated wallet connections.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="hub-section ecosystem-section" id="ecosystemDirectory">
+      <div class="container">
+        <div class="hub-section-head">
+          <h2>Platform Directory</h2>
+          <p>Choose where to go. Each card shows what users can do and where they will land.</p>
+        </div>
+        <div class="ecosystem-grid">
+          <article class="eco-card"><i class='bx bx-store'></i>
+            <h3>SMAJ STORE</h3>
+            <p>Shop everyday products through the current Pi wallet flow while broader SMAJ Token utility expands across
+              the ecosystem.</p><span class="status-badge ready">Ready Now</span><a class="btn-soft"
+              href="../apps/smaj-store/index.html" target="_blank" rel="noopener">Shop Now</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-briefcase'></i>
+            <h3>SMAJ PI JOBS</h3>
+            <p>Find jobs or gigs that match your skills and goals.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-jobs/index.html">Find Jobs</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-heart-circle'></i>
+            <h3>SMAJ PI HEALTH</h3>
+            <p>Book care and talk to a doctor when you need help.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-health/">Book Care</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-book'></i>
+            <h3>SMAJ PI EDU</h3>
+            <p>Learn new skills with short courses and trusted mentors.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-edu/">Start Learning</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-bus'></i>
+            <h3>SMAJ PI TRANSPORT</h3>
+            <p>Get reliable rides and transport services near you.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-transport/">Book a Ride</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-leaf'></i>
+            <h3>SMAJ PI AGRO</h3>
+            <p>Buy farm supplies or sell produce with ease.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-agro/">Get Started</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-bolt'></i>
+            <h3>SMAJ PI ENERGY</h3>
+            <p>Pay utility bills and manage energy needs in one place.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-energy/">Pay Bills</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-donate-heart'></i>
+            <h3>SMAJ PI CHARITY</h3>
+            <p>Support real causes and see where your help goes.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-charity/">Donate</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-home-heart'></i>
+            <h3>SMAJ PI HOUSING</h3>
+            <p>Browse homes, rentals, and stays that fit your budget.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-housing/">Find Housing</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-calendar-event'></i>
+            <h3>SMAJ PI EVENTS</h3>
+            <p>Discover events and get tickets in seconds.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-events/">Get Tickets</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-transfer'></i>
+            <h3>SMAJ PI SWAP</h3>
+            <p>Exchange assets with trusted people in your community.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-pi-swap/">Swap Now</a>
+          </article>
+          <article class="eco-card coming-soon" data-coming-soon="true"><i class='bx bx-dish'></i>
+            <h3>SMAJ FOOD DELIVERY</h3>
+            <p>Order meals fast and get them delivered to your door.</p><span class="status-badge coming">Coming
+              Soon</span><a class="btn-soft" href="../apps/smaj-food-delivery/">Order Now</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="hub-section container">
+      <div class="hub-section-head">
+        <h2>Where Users Can Find Everything</h2>
+      </div>
+      <div class="hub-map-grid">
+        <div>
+          <h3>Everything in One Place</h3>
+          <p>SMAJ PI HUB brings all connected platforms and services together in a single, easy-to-navigate ecosystem.
+          </p>
+        </div>
+        <div>
+          <h3>Inside SMAJ PI HUB</h3>
+          <p>Use this Services page as the ecosystem directory. Each card launches a connected platform.</p>
+        </div>
+        <div>
+          <h3>Main Entry Points</h3>
+          <p>Use Home for an overview, Services to explore available platforms, and Dashboard to manage your activity in
+            one unified account.</p>
+        </div>
+        <div>
+          <h3>Cross-Platform Goal</h3>
+          <p>One wallet connection, one identity, one user journey across every SMAJ project.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+
+      <div>
+        <h4>SMAJ PI HUB</h4>
+        <p>Built for Pi wallet access, with SMAJ Token utility expanding across the ecosystem.</p>
+      </div>
+
+      <div>
+        <h4>Platform</h4>
+        <a href="../index.html">Home</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/service.html">Services</a>
+        <a href="../pages/white-paper.html">White Paper</a>
+        <a href="../pages/service-detail.html">Service Detail</a>
+
+        <a href="../pages/how-it-works.html">How It Works</a>
+        <a href="../pages/pricing.html">Pricing</a>
+        <a href="../pages/blog.html">Blog</a>
+        <a href="../pages/blog-post.html">Blog Post</a>
+
+        <a href="../pages/faq.html">FAQ</a>
+        <a href="../pages/portfolio.html">Portfolio</a>
+        <a href="../pages/contact.html">Contact</a>
+      </div>
+
+      <div>
+        <h4>Programs</h4>
+        <a href="../pages/affiliate.html">Affiliate Program</a>
+        <a href="../pages/collaborate.html">Collaborate With Us</a>
+        <a href="../pages/partners.html">Partners</a>
+        <a href="../pages/community.html">Community</a>
+        <a href="../pages/developers.html">Developers</a>
+        <a href="../pages/help-center.html">Help Center</a>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <a href="../pages/legal/privacy.html">Privacy Policy</a>
+        <a href="../pages/legal/terms.html">Terms & Conditions</a>
+        <a href="../pages/legal/cookie.html">Cookie Policy</a>
+        <a href="../pages/legal/report.html">Report Abuse</a>
+      </div>
+
+      <div>
+        <h4>Follow Us</h4>
+        <div class="socials">
+          <a href="https://x.com/smajpihub" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i
+              class='bx bxl-twitter'></i></a>
+          <a href="https://t.me/smajpihub" aria-label="Telegram" target="_blank" rel="noopener noreferrer"><i
+              class='bx bxl-telegram'></i></a>
+          <a href="https://facebook.com/smajpihub" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i
+              class='bx bxl-facebook'></i></a>
+          <a href="https://instagram.com/smajpihub" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i
+              class='bx bxl-instagram'></i></a>
+          <a href="https://youtube.com/smajpihub" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i
+              class='bx bxl-youtube'></i></a>
+          <a href="https://tiktok.com/@smajpihub" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><i
+              class='bx bxl-tiktok'></i></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="copyright">&copy; 2026 SMAJ PI HUB. All rights reserved.</p>
+  </footer>
+
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script src="../js/wallet.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/services.js"></script>
+  <script src="../js/transactions.js"></script>
+</body>
+
+</html>

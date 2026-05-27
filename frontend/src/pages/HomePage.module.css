@@ -1,0 +1,169 @@
+/* HomePage.module.css - Migrated from legacy homepage.css using design tokens */
+/* CSS module now uses global design-tokens.css vars */
+
+:local(.homeHero) {
+  background: linear-gradient(135deg, var(--color-dark-bg) 0%, #121a2f 60%, #1c2542 100%);
+  color: white;
+  padding: var(--space-hero) 0;
+  overflow: hidden;
+}
+
+:local(.homeHeroGrid) {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-4xl);
+  align-items: center;
+}
+
+:local(.homeKicker) {
+  display: inline-block;
+  background: rgba(125, 60, 255, 0.2);
+  border: 1px solid rgba(125, 60, 255, 0.45);
+  color: #d8c8ff;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-lg);
+}
+
+:local(.homeHeroCopy) h1 {
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.12;
+  margin-bottom: var(--space-lg);
+}
+
+:local(.homeHeroCopy) p {
+  color: var(--color-gray-light);
+  max-width: 600px;
+  margin-bottom: var(--space-2xl);
+  font-size: 17px;
+}
+
+:local(.homeHeroCta) {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3xl);
+}
+
+:local(.homeProof) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+:local(.homeProof) div {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: var(--space-lg);
+}
+
+:local(.homeProof) strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+:local(.homeProof) span {
+  font-size: 12px;
+  color: #c5cbda;
+}
+
+:local(.homeHeroCard) {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-dark);
+}
+
+:local(.homeHeroCard) img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+:local(.homeHeroCardContent) {
+  padding: var(--space-lg);
+}
+
+:local(.homeHeroCardContent) h3 {
+  font-size: 20px;
+  margin-bottom: var(--space-xs);
+}
+
+:local(.homeHeroCardContent) p {
+  color: var(--color-gray-light);
+}
+
+:local(.homeSection) {
+  padding: var(--space-hero) 0;
+}
+
+:local(.homeSectionHead) {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto var(--space-4xl);
+}
+
+:local(.homeSectionHead) h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.2;
+  margin-bottom: var(--space-md);
+  color: var(--color-gray-dark);
+}
+
+:local(.homeSectionHead) p {
+  color: #4a5265;
+}
+
+:local(.homeServiceGrid), :local(.homeHighlightGrid) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+:local(.homeServiceCard), :local(.homeHighlightCard) {
+  background: white;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+:local(.homeServiceCard:hover), :local(.homeHighlightCard:hover) {
+  transform: translateY(-4px);
+  border-color: #cfc2f6;
+  box-shadow: var(--shadow-hover);
+}
+
+:local(.homeServiceCard) h3, :local(.homeHighlightCard) h3 {
+  margin-bottom: var(--space-md);
+  font-size: 20px;
+  color: var(--color-gray-dark);
+}
+
+:local(.homeServiceCard) p, :local(.homeHighlightCard) p {
+  color: var(--color-gray-med);
+  font-size: 15px;
+  margin-bottom: var(--space-lg);
+}
+
+/* Responsive - abbreviated for module */
+@media (max-width: 992px) {
+  :local(.homeHeroGrid) {
+    grid-template-columns: 1fr;
+    gap: var(--space-hero);
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  :local(.homeHero) {
+    padding-top: var(--space-hero);
+    padding-bottom: var(--space-hero);
+  }
+  /* more... */
+}

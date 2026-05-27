@@ -42,11 +42,11 @@ chmod +x /usr/local/bin/docker-compose
 Obtain a domain name and set up 2 DNS records pointing to your server. One will be used for the frontend app, and one
 will be used for the backend app.
 
-Here is an example, assuming your domain name is mydemoapp.com and your server IP is 123.123.123.123.
+Here is an example, assuming your domain name is smajpihub.com and your server IP is 123.123.123.123.
 
 ```DNS
-A   mydemoapp.com           123.123.123.123
-A   backend.mydemoapp.com   123.123.123.123
+A   smajpihub.com           123.123.123.123
+A   backend.smajpihub.com   123.123.123.123
 ```
 
 ### 3. Register your app on the developer portal

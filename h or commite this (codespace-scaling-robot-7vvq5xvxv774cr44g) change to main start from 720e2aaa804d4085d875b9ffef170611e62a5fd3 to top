@@ -1,0 +1,10 @@
+[33md0cea7a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mcodespace-scaling-robot-7vvq5xvxv774cr44g[m[33m, [m[1;31morigin/smaj[m[33m, [m[1;31morigin/codespace-scaling-robot-7vvq5xvxv774cr44g[m[33m)[m feat: Implement AuthContext for centralized authentication management
+[33m6b5c6ee[m feat: Enhance Header component with user profile dropdown, loading states, and session management
+[33m474acb4[m feat: Enhance Header component with session management and user authentication
+[33m8665e5c[m feat: Implement Header component with responsive navigation and Pi login functionality
+[33m720e2aa[m[33m ([m[1;33mtag: [m[1;33mfi[m[33m)[m feat: Update FLOWS.md to reflect the correct app name 'smajpihub'
+[33m6877a5c[m feat: Update README files to reflect the correct app name 'smajpihub'
+[33m1aadf0c[m chore: Supprimer les fichiers CSS inutilisés pour le footer et le header
+[33m0d04e81[m feat: Migrate styles to CSS modules and implement design tokens across components
+[33md20413a[m feat: Add footer component and integrate into app layout
+[33m58a1cb9[m Refactor code structure for improved readability and maintainability

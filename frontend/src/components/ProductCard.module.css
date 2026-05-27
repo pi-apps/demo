@@ -1,0 +1,88 @@
+/* ProductCard.module.css - Migrated from inline styles using design tokens */
+
+:local(.container) {
+  margin: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-gray-med);
+  border-radius: var(--radius-md);
+  background: var(--color-light-bg);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease;
+}
+
+:local(.container:hover) {
+  box-shadow: var(--shadow-hover);
+}
+
+:local(.contentRow) {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: var(--space-md);
+  gap: var(--space-sm);
+}
+
+:local(.imageWrapper) {
+  width: 33%;
+  margin-right: var(--space-sm);
+}
+
+:local(.image) {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+:local(.info) {
+  width: 66%;
+  padding: var(--space-md) 0;
+}
+
+:local(.info) h3 {
+  margin: 0 0 var(--space-xs) 0;
+  color: var(--color-gray-dark);
+  font-size: 1.1rem;
+}
+
+:local(.info) p {
+  margin: 0;
+  color: var(--color-gray-med);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+:local(.priceSection) {
+  text-align: center;
+  margin-bottom: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-light);
+}
+
+:local(.price) {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--color-gold);
+}
+
+:local(.buyButton) {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primaryDark));
+  color: white;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: var(--space-md) var(--space-2xl);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: var(--space-sm);
+  min-width: 100px;
+}
+
+:local(.buyButton:hover:not(:disabled)) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+:local(.buyButton:disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

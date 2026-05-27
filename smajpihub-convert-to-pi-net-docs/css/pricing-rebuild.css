@@ -1,0 +1,239 @@
+.pricing-hero-rebuild {
+  background: linear-gradient(135deg, #0b0f1a 0%, #17233d 55%, #24345f 100%);
+  color: #fff;
+  padding: 72px 0;
+}
+
+.pricing-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.pricing-kicker {
+  display: inline-block;
+  background: rgba(125, 60, 255, 0.2);
+  border: 1px solid rgba(125, 60, 255, 0.45);
+  color: #decfff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.pricing-hero-rebuild h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.pricing-hero-rebuild p {
+  color: #d5dced;
+  margin-bottom: 20px;
+}
+
+.pricing-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pricing-note-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.pricing-note-card h3 {
+  margin-bottom: 10px;
+}
+
+.pricing-note-card ul {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  color: #d5dced;
+}
+
+.pricing-section {
+  padding: 64px 0;
+}
+
+.pricing-head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 28px;
+}
+
+.pricing-head h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  color: #111933;
+  margin-bottom: 8px;
+}
+
+.pricing-head p {
+  color: #4d5770;
+}
+
+.pricing-grid-rebuild {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pricing-plan-card {
+  background: #fff;
+  border: 1px solid #e4e9f6;
+  border-radius: 14px;
+  padding: 22px;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.pricing-plan-card:hover {
+  transform: translateY(-6px);
+  border-color: #d1c5f6;
+  box-shadow: 0 12px 24px rgba(14, 24, 44, 0.09);
+}
+
+.pricing-plan-card.featured {
+  border-color: #7d3cff;
+  box-shadow: 0 16px 28px rgba(125, 60, 255, 0.2);
+}
+
+.featured-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #7d3cff;
+  color: #fff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pricing-plan-card h3 {
+  font-size: 28px;
+  color: #161f37;
+  margin-bottom: 10px;
+}
+
+.plan-pi {
+  font-size: 28px;
+  font-weight: 700;
+  color: #7d3cff;
+  margin-bottom: 0;
+}
+
+.plan-usd {
+  color: #5c6682;
+  margin-bottom: 12px;
+}
+
+.pricing-plan-card ul {
+  list-style: none;
+  margin-bottom: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.pricing-plan-card li {
+  color: #49536e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pricing-plan-card li i {
+  color: #7d3cff;
+}
+
+.plan-btn {
+  display: block;
+  text-align: center;
+  background: #101425;
+  color: #fff;
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.plan-btn:hover {
+  background: #7d3cff;
+}
+
+.pricing-compare {
+  background: #f6f8ff;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.compare-grid div {
+  background: #fff;
+  border: 1px solid #e4e9f6;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.compare-grid h4 {
+  color: #171f37;
+  margin-bottom: 8px;
+  font-size: 22px;
+}
+
+.compare-grid p {
+  color: #4d5770;
+}
+
+.pricing-cta {
+  background: #0b0f1a;
+  color: #fff;
+  text-align: center;
+  padding: 58px 0;
+}
+
+.pricing-cta h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  margin-bottom: 10px;
+}
+
+.pricing-cta p {
+  color: #d2d9ea;
+  margin-bottom: 20px;
+}
+
+.pricing-cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .pricing-hero-grid,
+  .pricing-grid-rebuild,
+  .compare-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-hero-rebuild {
+    padding: 48px 0;
+  }
+
+  .pricing-hero-grid,
+  .pricing-grid-rebuild,
+  .compare-grid {
+    grid-template-columns: 1fr;
+  }
+}

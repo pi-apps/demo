@@ -1,0 +1,223 @@
+.token-hero {
+  padding: 72px 0 48px;
+  color: #fff;
+  background:
+    radial-gradient(circle at top right, rgba(255, 189, 46, 0.2), transparent 32%),
+    linear-gradient(135deg, #0a1020 0%, #162341 60%, #1d3564 100%);
+}
+
+.token-hero-grid,
+.token-utility-grid,
+.tokenomics-grid,
+.token-split-grid,
+.governance-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.token-hero-grid {
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.95fr);
+  align-items: start;
+}
+
+.token-kicker,
+.token-section-head span {
+  display: inline-block;
+  margin-bottom: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.token-kicker {
+  color: #ffcf66;
+}
+
+.token-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.05;
+  margin-bottom: 16px;
+  max-width: 12ch;
+}
+
+.token-subtitle,
+.token-hero p {
+  color: #d9e4fb;
+}
+
+.token-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.token-highlight-card,
+.token-utility-grid article,
+.tokenomics-table-card,
+.tokenomics-chart-card,
+.token-card,
+.governance-grid article,
+.token-note-card {
+  background: #fff;
+  border: 1px solid #dbe4f2;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(10, 18, 36, 0.08);
+}
+
+.token-highlight-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  box-shadow: none;
+  padding: 24px;
+}
+
+.token-highlight-card ul,
+.token-card ul {
+  padding-left: 18px;
+}
+
+.token-section {
+  padding: 64px 0;
+}
+
+.token-surface {
+  background: #f6f8fc;
+}
+
+.token-section-head h2 {
+  color: #0b0f1a;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.token-section-head span {
+  color: #d98a00;
+}
+
+.token-utility-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.token-utility-grid article,
+.governance-grid article,
+.token-card {
+  padding: 24px;
+}
+
+.token-utility-grid i {
+  font-size: 2rem;
+  color: #d98a00;
+  margin-bottom: 14px;
+}
+
+.token-utility-grid h3,
+.governance-grid h3,
+.token-card h2,
+.tokenomics-chart-card h3 {
+  color: #0b0f1a;
+  margin-bottom: 10px;
+}
+
+.tokenomics-grid,
+.token-split-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tokenomics-table-card,
+.tokenomics-chart-card {
+  padding: 24px;
+}
+
+.tokenomics-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tokenomics-table th,
+.tokenomics-table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e6ecf7;
+}
+
+.tokenomics-table th {
+  color: #0b0f1a;
+}
+
+.tokenomics-bars {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.tokenomics-bars div {
+  display: grid;
+  gap: 8px;
+}
+
+.tokenomics-bars span {
+  font-size: 0.95rem;
+  color: #33415f;
+}
+
+.tokenomics-bars strong {
+  display: block;
+  min-width: 70px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f0a51b, #ffd66d);
+  color: #0b0f1a;
+}
+
+.governance-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.token-note-card {
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.token-note-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 1024px) {
+  .token-utility-grid,
+  .governance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .token-hero-grid,
+  .token-utility-grid,
+  .tokenomics-grid,
+  .token-split-grid,
+  .governance-grid,
+  .token-note-card {
+    grid-template-columns: 1fr;
+  }
+
+  .token-section {
+    padding: 48px 0;
+  }
+
+  .token-hero {
+    padding-top: 56px;
+  }
+
+  .token-note-card {
+    display: grid;
+  }
+}

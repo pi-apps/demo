@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Affiliate Program - SMAJ PI HUB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/affiliate.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+    <header class="header">
+    <div class="container nav">
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="SMAJ PI HUB Logo">
+      </div>
+
+      <div class="menu-toggle" id="menuToggle">
+        <i class='bx bx-menu'></i>
+      </div>
+
+      <div class="menu-overlay" id="menuOverlay"></div>
+
+      <nav id="navMenu">
+        <div class="menu-close" id="menuClose">
+          <i class='bx bx-x'></i>
+        </div>
+        <a href="../index.html">Home</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/service.html">Services</a>
+        <a href="../pages/how-it-works.html">How It Works</a>
+        <a href="../pages/pricing.html">Pricing</a>
+        
+        <a href="../pages/affiliate.html">Affiliate Program</a>
+        <a href="../pages/faq.html">FAQ</a>
+        <a href="../pages/contact.html">Contact</a>
+        <a href="https://officialsmaj.github.io/smaj-ecosystem-dashboard/">My Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+
+  <section class="affiliate-hero">
+    <div class="container affiliate-hero-grid">
+      <div>
+        <span class="affiliate-kicker">AFFILIATE PROGRAM</span>
+        <h1>Share SMAJ PI HUB and Earn Rewards</h1>
+        <p>Invite users to the hub, help them get value, and earn commission on every approved sale.</p>
+        <div class="affiliate-hero-actions">
+          <a href="#affiliate-signup" class="btn-primary">Join as Affiliate</a>
+          <a href="#affiliate-commission" class="btn-secondary">View Commissions</a>
+        </div>
+      </div>
+      <div class="affiliate-hero-side">
+        <img class="affiliate-hero-image" src="../assets/images/affiliate.png" alt="SMAJ PI HUB Affiliate Program">
+        <div class="affiliate-hero-card">
+          <h3>Program Overview</h3>
+          <ul>
+            <li><i class='bx bx-check-circle'></i> Open to creators, communities, and businesses</li>
+            <li><i class='bx bx-check-circle'></i> Simple signup and fast approval</li>
+            <li><i class='bx bx-check-circle'></i> Easy tracking with a shared dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="affiliate-section container" id="affiliate-overview">
+    <div class="affiliate-section-head">
+      <h2>How the Program Works</h2>
+      <p>Join, share your link, and earn when people use SMAJ PI HUB.</p>
+    </div>
+    <div class="affiliate-card-grid">
+      <article class="affiliate-card">
+        <i class='bx bx-user-plus'></i>
+        <h3>1. Sign Up</h3>
+        <p>Create your affiliate profile and get approved.</p>
+      </article>
+      <article class="affiliate-card">
+        <i class='bx bx-link-alt'></i>
+        <h3>2. Share</h3>
+        <p>Share your referral link on social media or your website.</p>
+      </article>
+      <article class="affiliate-card">
+        <i class='bx bx-badge-check'></i>
+        <h3>3. Earn</h3>
+        <p>Get commission when your referrals complete a purchase.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="affiliate-section affiliate-muted" id="affiliate-commission">
+    <div class="container">
+      <div class="affiliate-section-head">
+        <h2>Commission Details</h2>
+        <p>Clear rates, predictable payouts, and tracked referrals.</p>
+      </div>
+      <div class="affiliate-card-grid">
+        <article class="affiliate-card">
+          <i class='bx bx-wallet'></i>
+          <h3>Commission Rate</h3>
+          <p>Earn 10% on every approved referral purchase.</p>
+        </article>
+        <article class="affiliate-card">
+          <i class='bx bx-calendar-check'></i>
+          <h3>Payment Frequency</h3>
+          <p>Payouts are sent every 30 days.</p>
+        </article>
+        <article class="affiliate-card">
+          <i class='bx bx-timer'></i>
+          <h3>Cookie Period</h3>
+          <p>Referrals are tracked for 30 days.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="affiliate-section container" id="affiliate-signup">
+    <div class="affiliate-section-head">
+      <h2>Sign Up as an Affiliate</h2>
+      <p>Complete the form and our team will respond within 24 hours.</p>
+    </div>
+    <div class="affiliate-signup-grid">
+      <form class="affiliate-form" id="affiliateForm">
+        <div class="form-group">
+          <label for="affiliateName">Full Name</label>
+          <input type="text" id="affiliateName" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="affiliateEmail">Email Address</label>
+          <input type="email" id="affiliateEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="affiliateChannel">Website or Social Link</label>
+          <input type="url" id="affiliateChannel" placeholder="Your website or social profile" required>
+        </div>
+        <button type="submit" class="btn-primary">Register Now</button>
+        <p class="form-response" id="affiliateResponse"></p>
+      </form>
+      <div class="affiliate-signup-info">
+        <h3>Affiliate Dashboard</h3>
+        <p>Track clicks, sales, and earnings in one clear view.</p>
+        <ul>
+          <li><i class='bx bx-line-chart'></i> Live clicks and conversions</li>
+          <li><i class='bx bx-receipt'></i> Sales history and payouts</li>
+          <li><i class='bx bx-bell'></i> Alerts for milestones</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="affiliate-section affiliate-muted">
+    <div class="container">
+      <div class="affiliate-section-head">
+        <h2>Rules & Requirements</h2>
+        <p>Keep promotions honest and helpful for everyone.</p>
+      </div>
+      <div class="affiliate-rule-grid">
+        <div class="affiliate-rule-card">
+          <h3><i class='bx bx-check-circle'></i> Allowed</h3>
+          <ul>
+            <li>Share official links on social platforms</li>
+            <li>Create honest reviews and tutorials</li>
+            <li>Use approved logos and screenshots</li>
+          </ul>
+        </div>
+        <div class="affiliate-rule-card">
+          <h3><i class='bx bx-x-circle'></i> Not Allowed</h3>
+          <ul>
+            <li>Misleading claims or fake discounts</li>
+            <li>Spam emails or fake accounts</li>
+            <li>Paid ads using SMAJ PI HUB brand terms</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="affiliate-section container">
+    <div class="affiliate-section-head">
+      <h2>Affiliate Link Example</h2>
+      <p>Use a unique link so we can track your referrals.</p>
+    </div>
+    <div class="affiliate-link-card">
+      <p>Your referral link will look like this:</p>
+      <code>https://smajpihub.com?ref=yourname</code>
+    </div>
+  </section>
+
+  <section class="affiliate-section affiliate-legal">
+    <div class="container">
+      <div class="affiliate-section-head">
+        <h2>Legal Info & Disclosures</h2>
+        <p>By joining, you agree to the affiliate terms and disclosure rules.</p>
+      </div>
+      <div class="affiliate-legal-card">
+        <p>Affiliates must clearly disclose that they may earn commissions.</p>
+        <p>All promotions must be truthful and follow local laws.</p>
+        <a class="btn-secondary" href="../pages/legal/terms.html">Read Terms & Conditions</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+    <footer class="footer">
+    <div class="container footer-grid">
+
+      <div>
+        <h4>SMAJ PI HUB</h4>
+        <p>Built for Pi wallet access, with SMAJ Token utility expanding across the ecosystem.</p>
+      </div>
+
+      <div>
+        <h4>Platform</h4>
+        <a href="../index.html">Home</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/service.html">Services</a>
+        <a href="../pages/service-detail.html">Service Detail</a>
+
+        <a href="../pages/how-it-works.html">How It Works</a>
+        <a href="../pages/pricing.html">Pricing</a>
+        <a href="../pages/blog.html">Blog</a>
+        <a href="../pages/blog-post.html">Blog Post</a>
+
+        <a href="../pages/faq.html">FAQ</a>
+        <a href="../pages/portfolio.html">Portfolio</a>
+        <a href="../pages/contact.html">Contact</a>
+      </div>
+
+      <div>
+        <h4>Programs</h4>
+        <a href="../pages/affiliate.html">Affiliate Program</a>
+        <a href="../pages/collaborate.html">Collaborate With Us</a>
+        <a href="../pages/partners.html">Partners</a>
+        <a href="../pages/community.html">Community</a>
+        <a href="../pages/developers.html">Developers</a>
+        <a href="../pages/help-center.html">Help Center</a>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <a href="../pages/legal/privacy.html">Privacy Policy</a>
+        <a href="../pages/legal/terms.html">Terms & Conditions</a>
+        <a href="../pages/legal/cookie.html">Cookie Policy</a>
+        <a href="../pages/legal/report.html">Report Abuse</a>
+      </div>
+
+      <div>
+        <h4>Follow Us</h4>
+        <div class="socials">
+          <a href="https://x.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class='bx bxl-twitter'></i></a>
+          <a href="https://t.me" aria-label="Telegram" target="_blank" rel="noopener noreferrer"><i class='bx bxl-telegram'></i></a>
+          <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class='bx bxl-facebook'></i></a>
+          <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class='bx bxl-instagram'></i></a>
+          <a href="https://youtube.com" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class='bx bxl-youtube'></i></a>
+          <a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><i class='bx bxl-tiktok'></i></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="copyright">&copy; 2026 SMAJ PI HUB. All rights reserved.</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script src="../js/wallet.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/affiliate.js"></script>
+</body>
+
+</html>
+
+
+

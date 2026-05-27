@@ -1,0 +1,122 @@
+/* ================= HERO ================= */
+.help-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px 0;
+}
+
+.help-hero .hero-text h1 {
+    font-size: 2.8rem;
+    color: #7d3cff;
+    margin-bottom: 15px;
+}
+
+.help-hero .hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ================= HELP SECTIONS ================= */
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.help-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.help-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(125, 60, 255, 0.3);
+}
+
+.help-card i {
+    font-size: 2.5rem;
+    color: #7d3cff;
+    margin-bottom: 15px;
+}
+
+.help-card h3 {
+    font-size: 1.3rem;
+    color: #0b0f1a;
+    margin-bottom: 10px;
+}
+
+.help-card .help-info {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.help-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    font-size: 0.95rem;
+    color: #333;
+    margin-top: 10px;
+}
+
+.help-card:hover .help-details {
+    max-height: 200px;
+}
+
+/* ================= CTA ================= */
+.help-cta {
+    text-align: center;
+    padding: 60px 0;
+    background: #f4f4f4;
+}
+
+.help-cta h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #0b0f1a;
+}
+
+.help-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.help-cta .btn {
+    padding: 12px 25px;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+}
+
+.help-cta .btn:hover {
+    transform: translateY(-3px);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px) {
+    .help-hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-image img {
+        max-width: 300px;
+        margin-top: 20px;
+    }
+
+    .help-grid {
+        grid-template-columns: 1fr;
+    }
+}

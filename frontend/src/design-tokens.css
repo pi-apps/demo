@@ -1,0 +1,39 @@
+:root {
+  /* Colors from design-tokens.ts */
+  --color-primary: #7d3cff;
+  --color-gold: #f5c400;
+  --color-dark-bg: #0b0f1a;
+  --color-light-bg: #ffffff;
+  --color-gray-dark: #131b31;
+  --color-gray-med: #4b5368;
+  --color-gray-light: #d4d8e4;
+  --color-border-light: #e6eaf5;
+  --color-pill-bg: #f0e9ff;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 30px;
+  --space-4xl: 32px;
+  --space-5xl: 40px;
+  --space-hero: 72px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-pill: 30px;
+  --radius-full: 50px;
+  --radius-circle: 999px;
+
+  /* Shadows */
+  --shadow-card: 0 12px 28px rgba(17, 22, 39, 0.07);
+  --shadow-hover: 0 12px 30px rgba(17, 22, 39, 0.09);
+  --shadow-dark: 0 20px 45px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 15px #7d3cff;
+}

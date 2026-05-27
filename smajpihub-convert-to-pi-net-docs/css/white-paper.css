@@ -1,0 +1,296 @@
+.wp-hero {
+  padding: 72px 0 44px;
+  background:
+    radial-gradient(circle at top left, rgba(125, 60, 255, 0.16), transparent 34%),
+    linear-gradient(135deg, #08101f 0%, #0f1c34 58%, #15284b 100%);
+  color: #fff;
+}
+
+.wp-hero-grid,
+.wp-two-col,
+.wp-tech-grid,
+.wp-three-col,
+.wp-summary-grid,
+.wp-hub-grid,
+.wp-platform-grid,
+.wp-roadmap {
+  display: grid;
+  gap: 24px;
+}
+
+.wp-hero-grid,
+.wp-two-col {
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.95fr);
+  align-items: start;
+}
+
+.wp-kicker,
+.wp-section-head span {
+  display: inline-block;
+  margin-bottom: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.wp-kicker {
+  color: #8db4ff;
+}
+
+.wp-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.08;
+  margin-bottom: 16px;
+  max-width: 14ch;
+}
+
+.wp-subtitle {
+  color: #b8c8ea;
+  font-weight: 600;
+}
+
+.wp-hero p {
+  color: #d7e1f7;
+  max-width: 62ch;
+}
+
+.wp-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.wp-hero-panel,
+.wp-list-card,
+.wp-feature-card,
+.wp-disclaimer-card,
+.wp-roadmap article,
+.wp-summary-grid article,
+.wp-hub-grid article,
+.wp-platform-grid article,
+.wp-tech-grid article {
+  border-radius: 18px;
+  border: 1px solid #dbe4f2;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(12, 20, 35, 0.08);
+}
+
+.wp-hero-panel {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+
+.wp-hero-panel ul,
+.wp-feature-card ul,
+.wp-list-card ol {
+  padding-left: 18px;
+}
+
+.wp-section {
+  padding: 64px 0;
+}
+
+.wp-tone,
+.wp-tech,
+.wp-disclaimer {
+  background: #f6f8fc;
+}
+
+.wp-platforms {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f7fc 100%);
+}
+
+.wp-section-head h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  color: #0b0f1a;
+  margin-bottom: 14px;
+}
+
+.wp-section-head span {
+  color: #7d3cff;
+}
+
+.wp-summary-grid,
+.wp-hub-grid,
+.wp-tech-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.wp-subsection-head {
+  margin-top: 42px;
+}
+
+.wp-ai-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.wp-ai-grid article {
+  border-radius: 18px;
+  border: 1px solid #dbe4f2;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(12, 20, 35, 0.08);
+  padding: 24px;
+}
+
+.wp-ai-grid h3 {
+  color: #0b0f1a;
+  margin-bottom: 10px;
+}
+
+.wp-three-col {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.wp-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.wp-trust-grid article,
+.wp-verify-flow article,
+.wp-trust-note {
+  border-radius: 18px;
+  border: 1px solid #dbe4f2;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(12, 20, 35, 0.08);
+}
+
+.wp-trust-grid article,
+.wp-verify-flow article {
+  padding: 24px;
+}
+
+.wp-verify-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.wp-verify-flow span {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #7d3cff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.wp-trust-grid h3,
+.wp-verify-flow h3 {
+  color: #0b0f1a;
+  margin-bottom: 10px;
+}
+
+.wp-trust-note {
+  padding: 24px;
+}
+
+.wp-platform-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.wp-roadmap {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.wp-summary-grid article,
+.wp-hub-grid article,
+.wp-tech-grid article,
+.wp-platform-grid article,
+.wp-roadmap article,
+.wp-feature-card,
+.wp-list-card {
+  padding: 24px;
+}
+
+.wp-summary-grid i {
+  font-size: 2rem;
+  color: #7d3cff;
+  margin-bottom: 14px;
+}
+
+.wp-summary-grid h3,
+.wp-hub-grid h3,
+.wp-tech-grid h3,
+.wp-roadmap h3,
+.wp-list-card h3,
+.wp-feature-card h2 {
+  color: #0b0f1a;
+  margin-bottom: 10px;
+}
+
+.wp-platform-grid strong {
+  display: block;
+  color: #0b0f1a;
+  margin-bottom: 8px;
+}
+
+.wp-roadmap article span {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #7d3cff;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.wp-disclaimer-card {
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .wp-summary-grid,
+  .wp-hub-grid,
+  .wp-tech-grid,
+  .wp-ai-grid,
+  .wp-three-col,
+  .wp-trust-grid,
+  .wp-verify-flow,
+  .wp-platform-grid,
+  .wp-roadmap {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .wp-hero-grid,
+  .wp-two-col,
+  .wp-summary-grid,
+  .wp-hub-grid,
+  .wp-tech-grid,
+  .wp-ai-grid,
+  .wp-three-col,
+  .wp-trust-grid,
+  .wp-verify-flow,
+  .wp-platform-grid,
+  .wp-roadmap,
+  .wp-disclaimer-card {
+    grid-template-columns: 1fr;
+  }
+
+  .wp-hero {
+    padding-top: 56px;
+  }
+
+  .wp-section {
+    padding: 48px 0;
+  }
+
+  .wp-disclaimer-card {
+    display: grid;
+  }
+}

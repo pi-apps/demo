@@ -1,0 +1,112 @@
+.about-modern-hero {
+  background: linear-gradient(140deg, #0b0f1a 0%, #17233d 58%, #263a69 100%);
+  color: #fff;
+  padding: 68px 0;
+}
+
+.about-modern-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.about-modern-kicker {
+  display: inline-block;
+  border: 1px solid rgba(125, 60, 255, 0.45);
+  background: rgba(125, 60, 255, 0.2);
+  color: #dfd2ff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.about-modern-hero h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.about-modern-hero p {
+  color: #d4dbed;
+}
+
+.about-modern-panel {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.about-modern-panel h3 {
+  margin-bottom: 10px;
+}
+
+.about-modern-panel ul {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.about-modern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 46px 0 24px;
+}
+
+.about-modern-grid article {
+  border: 1px solid #e4e9f6;
+  border-radius: 12px;
+  padding: 18px;
+  background: #fff;
+}
+
+.about-modern-grid i {
+  font-size: 28px;
+  color: #7d3cff;
+  margin-bottom: 8px;
+}
+
+.about-modern-grid h3 {
+  margin-bottom: 8px;
+  color: #15203a;
+}
+
+.about-modern-grid p {
+  color: #4f5973;
+}
+
+/* Keep Mission/Vision/Trust readable in dark mode */
+body.dark .about-modern-grid article {
+  background: #ffffff;
+  border-color: #e4e9f6;
+}
+
+body.dark .about-modern-grid article h3 {
+  color: #15203a;
+}
+
+body.dark .about-modern-grid article p {
+  color: #4f5973;
+}
+
+@media (max-width: 1024px) {
+  .about-modern-hero-grid,
+  .about-modern-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .about-modern-hero {
+    padding: 48px 0;
+  }
+
+  .about-modern-hero-grid,
+  .about-modern-grid {
+    grid-template-columns: 1fr;
+  }
+}

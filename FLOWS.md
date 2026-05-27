@@ -1,4 +1,4 @@
-# Pi Demo App Flows
+# smajpihub App Flows
 
 - [Authentication](#authentication)
   - [`Pi.authenticate()`](#1-obtain-user-data-with-piauthenticate-sdk-method)

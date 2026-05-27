@@ -1,6 +1,6 @@
-# Pi Demo App - Frontend
+# smajpihub - Frontend
 
-A React + TypeScript frontend for the Pi Demo App, built with Vite.
+A React + TypeScript frontend for the smajpihub, built with Vite.
 
 ## Getting Started
 

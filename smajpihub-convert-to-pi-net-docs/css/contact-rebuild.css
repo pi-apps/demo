@@ -1,0 +1,112 @@
+.contact-hero-rebuild {
+  background: linear-gradient(135deg, #0b0f1a 0%, #17233d 55%, #253a68 100%);
+  color: #fff;
+  text-align: center;
+  padding: 66px 0;
+}
+
+.contact-kicker {
+  display: inline-block;
+  border-radius: 999px;
+  border: 1px solid rgba(125, 60, 255, 0.45);
+  background: rgba(125, 60, 255, 0.2);
+  padding: 6px 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.contact-hero-rebuild h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  margin-bottom: 10px;
+}
+
+.contact-hero-rebuild p {
+  color: #d5dced;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 16px;
+  padding: 40px 0 64px;
+}
+
+.contact-card,
+.contact-info-rebuild {
+  border: 1px solid #e4e9f6;
+  border-radius: 12px;
+  padding: 18px;
+  background: #fff;
+}
+
+.contact-card h2,
+.contact-info-rebuild h3 {
+  margin-bottom: 10px;
+  color: #15203a;
+}
+
+.contact-instructions {
+  color: #4f5a76;
+  margin-bottom: 12px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.field {
+  margin-bottom: 10px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #38425f;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid #dce3f5;
+  border-radius: 8px;
+  padding: 10px;
+  outline: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #7d3cff;
+}
+
+#formResponse {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.contact-info-rebuild p {
+  color: #525c76;
+  margin-bottom: 8px;
+}
+
+.contact-info-rebuild i {
+  color: #7d3cff;
+  margin-right: 6px;
+}
+
+.contact-info-rebuild h4 {
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .contact-layout,
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}

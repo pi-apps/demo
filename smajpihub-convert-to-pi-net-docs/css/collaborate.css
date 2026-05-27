@@ -1,0 +1,122 @@
+.collab-hero {
+    text-align: center;
+    padding: 60px 0;
+    color: #7d3cff;
+}
+
+.collab-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.collab-hero p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.collab-hero .btn {
+    margin-top: 20px;
+}
+
+.collab-benefits {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.benefit-card {
+    background: #f9f9f9;
+    padding: 25px 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-card i {
+    font-size: 2rem;
+    color: #7d3cff;
+    margin-bottom: 10px;
+}
+
+.collab-form {
+    padding: 50px 0;
+}
+
+.collab-form form {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group label {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.form-group textarea {
+    min-height: 120px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #7d3cff;
+}
+
+.collab-form .btn {
+    align-self: flex-start;
+}
+
+.partners {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.partner-card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.partner-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.partner-card i {
+    font-size: 2rem;
+    color: #7d3cff;
+    margin-bottom: 10px;
+}
