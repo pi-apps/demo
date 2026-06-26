@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
         transformIndexHtml(html) {
           return html
             .replace(/\$\$BACKEND_URL\$\$/g, () => env.VITE_BACKEND_URL || "$$BACKEND_URL$$")
+            .replace(/\$\$FRONTEND_URL\$\$/g, () => env.VITE_FRONTEND_URL || "$$FRONTEND_URL$$")
             .replace(/\$\$SANDBOX_SDK\$\$/g, env.VITE_SANDBOX_SDK || "true");
         },
       },

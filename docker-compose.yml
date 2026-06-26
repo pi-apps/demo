@@ -22,6 +22,7 @@ services:
     build: ./frontend
     environment:
       BACKEND_URL: ${BACKEND_URL}
+      FRONTEND_URL: ${FRONTEND_URL}
       SANDBOX_SDK: ${SANDBOX_SDK}
 
   backend:

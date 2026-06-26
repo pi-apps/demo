@@ -4,6 +4,7 @@ declare global {
   interface Window {
     __ENV?: {
       backendURL?: string;
+      frontendURL?: string;
       sandbox?: string;
     };
     Pi: {
