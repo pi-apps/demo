@@ -12,7 +12,7 @@ const getFrontendURL = () => {
 };
 
 const SignInPage = () => {
-  const onSignInWithPi = () => {
+  const buildSigninURL = () => {
     const redirectURI = new URL("/sign-in/callback", getFrontendURL()).toString();
     const params = new URLSearchParams({
       response_type: "token",
@@ -21,7 +21,11 @@ const SignInPage = () => {
       redirect_uri: redirectURI,
     });
 
-    window.location.href = `${PI_OAUTH_AUTHORIZE_URL}?${params.toString()}`;
+    return `${PI_OAUTH_AUTHORIZE_URL}?${params.toString()}`;
+  }
+
+  const onSignInWithPi = () => {
+    window.location.href = buildSigninURL();
   };
 
   return (
@@ -43,6 +47,8 @@ const SignInPage = () => {
       <Button variant="contained" size="large" onClick={onSignInWithPi}>
         Sign In with Pi
       </Button>
+
+      <a href={buildSigninURL()}>Sign In with Pi (link version?)</a>
     </Box>
   );
 };
