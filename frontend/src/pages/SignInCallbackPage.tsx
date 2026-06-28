@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SIGN_IN_STATE_STORAGE_KEY } from "./SignInPage";
 
 const PI_ME_URL = "https://api.minepi.com/v2/me";
 
@@ -14,6 +15,8 @@ const SignInCallbackPage = () => {
   const [state, setState] = useState<CallbackState>("loading");
   const [username, setUsername] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [returnedState, setReturnedState] = useState<string | null>(null);
+  const [stateMatches, setStateMatches] = useState<boolean | null>(null);
 
   useEffect(() => {
     const hash = location.hash.startsWith("#") ? location.hash.slice(1) : location.hash;
@@ -26,6 +29,10 @@ const SignInCallbackPage = () => {
 
     const params = new URLSearchParams(hash);
     const token = params.get("access_token");
+    const incomingState = params.get("state");
+    const expectedState = localStorage.getItem(SIGN_IN_STATE_STORAGE_KEY);
+    setReturnedState(incomingState);
+    setStateMatches(incomingState !== null && incomingState === expectedState);
 
     window.history.replaceState(null, "", `${location.pathname}${location.search}`);
 
@@ -91,9 +98,14 @@ const SignInCallbackPage = () => {
       {state === "loading" ? <Typography>Signing you in...</Typography> : null}
 
       {state === "success" && username ? (
-        <Typography variant="h5" fontWeight={700}>
-          Success! Welcome, @{username}.
-        </Typography>
+        <>
+          <Typography variant="h5" fontWeight={700}>
+            Success! Welcome, @{username}.
+          </Typography>
+          <Typography>
+            state: {returnedState ?? "(none)"} {stateMatches ? "✅" : "❌"}
+          </Typography>
+        </>
       ) : null}
 
       {state === "error" ? <Typography color="error">{errorMessage || "Sign-in failed."}</Typography> : null}
