@@ -16,11 +16,10 @@ yarn install
 
 Set `.env.development` with the following variables:
 
-| Variable           | Description           | Example                 |
-| ------------------ | --------------------- | ----------------------- |
-| `PORT`             | Dev server port       | `3314`                  |
-| `VITE_BACKEND_URL` | Backend API URL       | `http://localhost:8000` |
-| `VITE_SANDBOX_SDK` | Enable Pi Sandbox SDK | `true`                  |
+| Variable           | Description     | Example                 |
+| ------------------ | --------------- | ----------------------- |
+| `PORT`             | Dev server port | `3314`                  |
+| `VITE_BACKEND_URL` | Backend API URL | `http://localhost:8000` |
 
 ### 3. Start the development server
 
