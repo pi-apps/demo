@@ -3,7 +3,6 @@ import type { CSSProperties } from "react";
 interface ProductCardProps {
   name: string;
   description: string;
-  price: number;
   pictureURL: string;
   onClickBuy: () => void;
   disabled?: boolean;
@@ -40,7 +39,7 @@ const priceSectionStyle: CSSProperties = {
   marginBottom: 8,
 };
 
-const ProductCard = ({ name, description, price, pictureURL, onClickBuy, disabled }: ProductCardProps) => {
+const ProductCard = ({ name, description, pictureURL, onClickBuy, disabled }: ProductCardProps) => {
   return (
     <div style={containerStyle}>
       <div style={contentRowStyle}>
@@ -55,9 +54,8 @@ const ProductCard = ({ name, description, price, pictureURL, onClickBuy, disable
       </div>
 
       <div style={priceSectionStyle}>
-        <strong>{price} Test-π</strong> <br />
         <button onClick={onClickBuy} disabled={disabled}>
-          Order
+          subscribe
         </button>
       </div>
     </div>
