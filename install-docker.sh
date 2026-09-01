@@ -1,3 +1,10 @@
+# Docker Engine installation script for Pi Node setup
+#
+# This script installs Docker Engine, which is required to run a Pi Node.
+# It is based on Docker's official installation script from:
+# https://github.com/docker/docker-install/
+#
+# Licensed under Apache License, Version 2.0
 #!/bin/sh
 set -e
 # Docker Engine for Linux installation script.
