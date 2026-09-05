@@ -1,4 +1,4 @@
-PiOS License
+PiOS License 1
 
 Copyright (C) 2022 Pi Core Team
 
