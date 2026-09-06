@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+  <rect width="900" height="600" rx="28" fill="#17233b"/>
+  <rect x="60" y="65" width="80" height="8" rx="4" fill="#5eead4"/>
+  <g font-family="Arial, sans-serif">
+    <text x="60" y="125" fill="#5eead4" font-size="26">
+      TIMOTHYTECHRADAR
+    </text>
+    <text x="60" y="235" fill="white" font-size="62" font-weight="bold">
+      AI Productivity
+    </text>
+    <text x="60" y="310" fill="white" font-size="62" font-weight="bold">
+      Starter Kit
+    </text>
+    <text x="60" y="385" fill="#cbd5e1" font-size="30">
+      Practical tools for office workers
+    </text>
+    <text x="60" y="505" fill="#5eead4" font-size="25">
+      20 PROMPTS + PLANNER + GUIDE
+    </text>
+  </g>
+</svg>

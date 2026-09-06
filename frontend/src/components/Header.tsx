@@ -28,7 +28,7 @@ const userSectionStyle: CSSProperties = {
 const Header = ({ user, onSignIn, onSignOut, onSendTestNotification, isLoading }: HeaderProps) => {
   return (
     <header style={headerStyle}>
-      <div style={{ fontWeight: "bold" }}>Pi Bakery</div>
+      <div style={{ fontWeight: "bold" }}>TimothyTechRadar</div>
 
       <div style={userSectionStyle}>
         {user ? (

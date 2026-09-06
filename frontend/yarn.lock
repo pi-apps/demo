@@ -165,22 +165,6 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.28.5"
 
-"@emotion/cache@^11.14.0":
-  version "11.14.0"
-  resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-11.14.0.tgz#ee44b26986eeb93c8be82bb92f1f7a9b21b2ed76"
-  integrity sha512-L/B1lc/TViYk4DcpGxtAVbx0ZyiKM5ktoIyafGkH6zg/tj+mA+NE//aPYKG0k8kCHSHVJrpLpcAlOBEXQ3SavA==
-  dependencies:
-    "@emotion/memoize" "^0.9.0"
-    "@emotion/sheet" "^1.4.0"
-    "@emotion/utils" "^1.4.2"
-    "@emotion/weak-memoize" "^0.4.0"
-    stylis "4.2.0"
-
-"@emotion/hash@^0.9.2":
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.9.2.tgz#ff9221b9f58b4dfe61e619a7788734bd63f6898b"
-  integrity sha512-MyqliTZGuOm3+5ZRSaaBGP3USLw6+EGykkwZns2EPC5g8jJ4z9OrdZY9apkl3+UP9+sdz76YYkwCKP5gh8iY3g==
-
 "@emotion/is-prop-valid@1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.4.0.tgz#e9ad47adff0b5c94c72db3669ce46de33edf28c0"
@@ -193,36 +177,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.9.0.tgz#745969d649977776b43fc7648c556aaa462b4102"
   integrity sha512-30FAj7/EoJ5mwVPOWhAyCX+FPfMDrVecJAM+Iw9NRoSl4BBAQeqj4cApHHUXOVvIPgLVDsCFoz/hGD+5QQD1GQ==
 
-"@emotion/serialize@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@emotion/serialize/-/serialize-1.3.3.tgz#d291531005f17d704d0463a032fe679f376509e8"
-  integrity sha512-EISGqt7sSNWHGI76hC7x1CksiXPahbxEOrC5RjmFRJTqLyEK9/9hZvBbiYn70dw4wuwMKiEMCUlR6ZXTSWQqxA==
-  dependencies:
-    "@emotion/hash" "^0.9.2"
-    "@emotion/memoize" "^0.9.0"
-    "@emotion/unitless" "^0.10.0"
-    "@emotion/utils" "^1.4.2"
-    csstype "^3.0.2"
-
-"@emotion/sheet@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@emotion/sheet/-/sheet-1.4.0.tgz#c9299c34d248bc26e82563735f78953d2efca83c"
-  integrity sha512-fTBW9/8r2w3dXWYM4HCB1Rdp8NLibOw2+XELH5m5+AkWiL/KqYX6dc0kKYlaYyKjrQ6ds33MCdMPEwgs2z1rqg==
-
-"@emotion/unitless@0.10.0", "@emotion/unitless@^0.10.0":
+"@emotion/unitless@0.10.0":
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.10.0.tgz#2af2f7c7e5150f497bdabd848ce7b218a27cf745"
   integrity sha512-dFoMUuQA20zvtVTuxZww6OHoJYgrzfKM1t52mVySDJnMSEa08ruEvdYQbhvyu6soU+NeLVd3yKfTfT0NeV6qGg==
-
-"@emotion/utils@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-1.4.2.tgz#6df6c45881fcb1c412d6688a311a98b7f59c1b52"
-  integrity sha512-3vLclRofFziIa3J2wDh9jjbkUz9qk5Vi3IZ/FSTKViB0k+ef0fPV7dYrUIugbgupYDx7v9ud/SjrtEP8Y4xLoA==
-
-"@emotion/weak-memoize@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.4.0.tgz#5e13fac887f08c44f76b0ccaf3370eb00fec9bb6"
-  integrity sha512-snKqtPW01tN0ui7yu9rGv69aJXr/a/Ywvl11sUjNtEcRc+ng/mQriFL0wLXMef74iHa/EkftbDzU9F8iFbH+zg==
 
 "@esbuild/aix-ppc64@0.27.4":
   version "0.27.4"
@@ -529,16 +487,15 @@
     hoist-non-react-statics "^3.3.2"
     prop-types "^15.8.1"
 
-"@mui/styled-engine@^7.3.9":
-  version "7.3.9"
-  resolved "https://registry.yarnpkg.com/@mui/styled-engine/-/styled-engine-7.3.9.tgz#e425ca7b5cb559bde01b8fa4a7a842e9b5916f53"
-  integrity sha512-JqujWt5bX4okjUPGpVof/7pvgClqh7HvIbsIBIOOlCh2u3wG/Bwp4+E1bc1dXSwkrkp9WUAoNdI5HEC+5HKvMw==
+"@mui/styled-engine@^7.3.9", "@mui/styled-engine@npm:@mui/styled-engine-sc@^7.3.9":
+  version "7.3.10"
+  resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-7.3.10.tgz#fb2aa91282bd73b479761195203adfa3752eb06f"
+  integrity sha512-h0MbZwKFff8Y6gSVnQfSnQOUd3j0d6wqHhpIL0OmE2LF48iM+CMEhhYBHEGsaDEPigv0USTE041To5qZsXKyKQ==
   dependencies:
     "@babel/runtime" "^7.28.6"
-    "@emotion/cache" "^11.14.0"
-    "@emotion/serialize" "^1.3.3"
-    "@emotion/sheet" "^1.4.0"
+    "@types/hoist-non-react-statics" "^3.3.7"
     csstype "^3.2.3"
+    hoist-non-react-statics "^3.3.2"
     prop-types "^15.8.1"
 
 "@mui/system@^7.3.9":
@@ -1935,11 +1892,6 @@ styled-components@^6.3.12:
     shallowequal "1.1.0"
     stylis "4.3.6"
     tslib "2.8.1"
-
-stylis@4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.2.0.tgz#79daee0208964c8fe695a42fcffcac633a211a51"
-  integrity sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==
 
 stylis@4.3.6:
   version "4.3.6"
