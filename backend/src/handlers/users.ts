@@ -15,9 +15,9 @@ export default function mountUserEndpoints(router: Router) {
     try {
       // Verify the user's access token with the /me endpoint:
       const me = await platformAPIClient.get(`/v2/me`, { headers: { Authorization: `Bearer ${auth.accessToken}` } });
-      console.log(me);
+      // Pi identity verification succeeded.
     } catch (err) {
-      console.error("Error verifying access token:", err);
+      console.error("Pi token verification failed");
       return res.status(401).json({ error: "invalid_token", message: "Invalid access token" });
     }
 
@@ -43,7 +43,7 @@ export default function mountUserEndpoints(router: Router) {
           accessToken: auth.accessToken,
         });
 
-        currentUser = await userCollection.findOne(insertResult.insertedId);
+        currentUser = await userCollection.findOne({ _id: insertResult.insertedId });
       }
 
       req.session.currentUser = currentUser;

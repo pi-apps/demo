@@ -18,6 +18,7 @@ export const useAuth = () => {
   const signInUser = useCallback(async (authResult: AuthResult) => {
     try {
       await axiosClient.post("/user/signin", { authResult });
+      axiosClient.defaults.headers.common.Authorization = "Bearer " + authResult.accessToken; // PI_BEARER_AUTH
       setUser(authResult.user);
       setShowSignIn(false);
     } catch (err) {
@@ -42,6 +43,7 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       await axiosClient.get("/user/signout");
+      delete axiosClient.defaults.headers.common.Authorization;
       setUser(null);
     } catch (err) {
       console.error("Error signing out:", err);

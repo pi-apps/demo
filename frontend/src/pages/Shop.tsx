@@ -11,23 +11,36 @@ const Shop = () => {
   const [hasPurchasedKit, setHasPurchasedKit] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState("");
+  // MOBILE_SAVE_FLOW
+  const [kitFile, setKitFile] = useState<File | null>(null);
+  const [kitURL, setKitURL] = useState("");
+  useEffect(() => {
+    if (!kitFile) { setKitURL(""); return; }
+    const url = URL.createObjectURL(kitFile);
+    setKitURL(url);
+    return () => URL.revokeObjectURL(url);
+  }, [kitFile]);
   const downloadKit = async () => {
     setIsDownloading(true);
     setDownloadError("");
+    setKitFile(null);
     try {
       const response = await axiosClient.get("/payments/kit-download", { responseType: "blob" });
-      const url = URL.createObjectURL(response.data);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "AI_Productivity_Starter_Kit.zip";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      setKitFile(new File([response.data], "AI_Productivity_Starter_Kit.zip", { type: "application/zip" }));
     } catch {
-      setDownloadError("Download unavailable. Please sign in and restore your purchase, then try again.");
+      setDownloadError("Could not retrieve your files. Please sign in again and retry. You do not need to pay again.");
     } finally {
       setIsDownloading(false);
+    }
+  };
+  const saveKit = async () => {
+    if (!kitFile) return;
+    setDownloadError("");
+    try {
+      await navigator.share({ files: [kitFile], title: "AI Productivity Starter Kit" });
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") return;
+      setDownloadError("This browser could not open the sharing menu. Try the Save ZIP link below.");
     }
   };
   const [accessError, setAccessError] = useState("");
@@ -54,6 +67,7 @@ const Shop = () => {
   }, [isAuthenticated]);
 
   useEffect(() => {
+    setKitFile(null);
     setHasPurchasedKit(false);
     setAccessError("");
     if (isAuthenticated) void checkPurchase();
@@ -119,6 +133,18 @@ const Shop = () => {
           <button type="button" disabled={isDownloading} onClick={() => { void downloadKit(); }}>
             {isDownloading ? "Preparing download…" : "Download AI Productivity Starter Kit"}
           </button>
+          {kitFile && kitURL && (
+            <div role="status">
+              <p>Your ZIP is ready. Use a save option below.</p>
+              {navigator.canShare?.({ files: [kitFile] }) && (
+                <>
+                  <button type="button" onClick={() => { void saveKit(); }}>Save or share files</button>
+                  <p>On iPhone, choose Save to Files from the sharing menu.</p>
+                </>
+              )}
+              <a href={kitURL} download="AI_Productivity_Starter_Kit.zip">Save ZIP</a>
+            </div>
+          )}
           {downloadError && <p role="alert">{downloadError}</p>}
         </div>
       )}

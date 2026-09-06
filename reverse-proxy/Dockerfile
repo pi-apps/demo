@@ -2,7 +2,7 @@
 ## REVERSE PROXY IMAGE
 ##
 
-FROM nginx:1.23.1
+FROM nginx:1.25-bookworm
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y certbot python3-certbot-nginx
 

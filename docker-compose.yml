@@ -24,6 +24,8 @@ services:
       BACKEND_URL: ${BACKEND_URL}
 
   backend:
+    volumes:
+      - ./backend/private:/usr/src/app/private:ro
     build: ./backend
     ports:
       - "8000:8000"
