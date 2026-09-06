@@ -9,12 +9,13 @@ type PaymentMetadata = {
 type UsePaymentsArgs = {
   isAuthenticated: boolean;
   onRequireAuth: () => void;
+  onPaymentComplete?: () => void;
 };
 
 export const IRRA_TOKEN_CANONICAL =
   "IRRA:GAAKMEW7GM5364YRRXFVVMF52R4YEEHB7LUNYTX3OONXUJKPKZXB6OK3";
 
-export const usePayments = ({ isAuthenticated, onRequireAuth }: UsePaymentsArgs) => {
+export const usePayments = ({ isAuthenticated, onRequireAuth, onPaymentComplete }: UsePaymentsArgs) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onReadyForServerApproval = useCallback(async (paymentId: string) => {
@@ -28,10 +29,11 @@ export const usePayments = ({ isAuthenticated, onRequireAuth }: UsePaymentsArgs)
   const onReadyForServerCompletion = useCallback(async (paymentId: string, txid: string) => {
     try {
       await axiosClient.post("/payments/complete", { paymentId, txid });
+      onPaymentComplete?.();
     } catch (err) {
       console.error("Error completing payment:", err);
     }
-  }, []);
+  }, [onPaymentComplete]);
 
   const onCancel = useCallback(async (paymentId: string) => {
     try {

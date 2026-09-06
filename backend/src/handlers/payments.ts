@@ -1,9 +1,37 @@
 import axios from "axios";
+import path from "path";
 import { Router } from "express";
 import platformAPIClient from "../services/platformAPIClient";
 import "../types/session";
 
 export default function mountPaymentsEndpoints(router: Router) {
+  router.get(["/kit-access", "/kit-download"], async (req, res) => {
+    res.setHeader("Cache-Control", "private, no-store");
+    if (!req.session.currentUser) return res.status(401).json({ error: "unauthorized" });
+    try {
+      const orders = await req.app.locals.orderCollection.find({
+        user: req.session.currentUser.uid,
+        product_id: "ai_productivity_starter_kit_1",
+        paid: true,
+      }).toArray();
+      for (const order of orders) {
+        const { data } = await platformAPIClient.get(`/v2/payments/${order.pi_payment_id}`);
+        if (data.user_uid === req.session.currentUser.uid &&
+            data.metadata?.productId === "ai_productivity_starter_kit_1" &&
+            data.status?.developer_completed && data.status?.transaction_verified &&
+            !data.status?.cancelled && !data.status?.user_cancelled) {
+          if (req.path === "/kit-download") {
+            return res.download(path.resolve(__dirname, "../../private/AI_Productivity_Starter_Kit.zip"), "AI_Productivity_Starter_Kit.zip");
+          }
+          return res.json({ hasAccess: true });
+        }
+      }
+      if (req.path === "/kit-download") return res.status(403).json({ error: "Purchase required" });
+      return res.json({ hasAccess: false });
+    } catch {
+      return res.status(502).json({ error: "Could not verify purchase. Please try again." });
+    }
+  });
   // handle the incomplete payment
   router.post("/incomplete", async (req, res) => {
     try {

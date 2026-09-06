@@ -5,8 +5,32 @@ import SignIn from "../components/SignIn";
 import { useAuth } from "../hooks/useAuth";
 import { IRRA_TOKEN_CANONICAL, usePayments } from "../hooks/usePayments";
 import { axiosClient } from "../lib/axiosClient.ts";
+import { useCallback, useEffect, useState } from "react";
 
 const Shop = () => {
+  const [hasPurchasedKit, setHasPurchasedKit] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState("");
+  const downloadKit = async () => {
+    setIsDownloading(true);
+    setDownloadError("");
+    try {
+      const response = await axiosClient.get("/payments/kit-download", { responseType: "blob" });
+      const url = URL.createObjectURL(response.data);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "AI_Productivity_Starter_Kit.zip";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    } catch {
+      setDownloadError("Download unavailable. Please sign in and restore your purchase, then try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+  const [accessError, setAccessError] = useState("");
   const {
     user,
     isAuthenticated,
@@ -18,9 +42,27 @@ const Shop = () => {
     isLoading: isAuthLoading,
   } = useAuth();
 
+  const checkPurchase = useCallback(async () => {
+    if (!isAuthenticated) return;
+    try {
+      const { data } = await axiosClient.get("/payments/kit-access");
+      setHasPurchasedKit(data.hasAccess === true);
+      setAccessError(data.hasAccess ? "" : "No completed kit purchase found for this account.");
+    } catch {
+      setAccessError("Purchase lookup is unavailable. Check that the updated backend is running, then try again.");
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    setHasPurchasedKit(false);
+    setAccessError("");
+    if (isAuthenticated) void checkPurchase();
+  }, [isAuthenticated, checkPurchase]);
+
   const { orderProduct, isLoading } = usePayments({
     isAuthenticated,
     onRequireAuth: requireAuth,
+    onPaymentComplete: () => { void checkPurchase(); },
   });
 
   const onSendTestNotification = () => {
@@ -44,30 +86,43 @@ const Shop = () => {
       />
 
       <ProductCard
-        name="Apple Pie"
-        description="You know what this is. Pie. Apples. Apple pie."
-        price={0.1}
-        pictureURL="https://upload.wikimedia.org/wikipedia/commons/4/4b/Apple_pie.jpg"
-        onClickBuyWithPi={() => orderProduct("Order Apple Pie", 0.1, { productId: "apple_pie_1" })}
-        onClickBuyWithIrra={() =>
-          orderProduct("Order Apple Pie", 0.1, { productId: "apple_pie_1" }, IRRA_TOKEN_CANONICAL)
-        }
-        disabled={isLoading}
+  name="AI Productivity Starter Kit"
+  description="A practical toolkit for office workers: a quick-start guide, 20 reusable AI prompts, an editable weekly planner, and three worked examples."
+  price={0.1}
+  pictureURL="/ai-productivity-kit.svg"
+  onClickBuyWithPi={() =>
+    orderProduct("Order AI Productivity Starter Kit", 0.1, {
+      productId: "ai_productivity_starter_kit_1",
+    })
+  }
+  onClickBuyWithIrra={() =>
+    orderProduct(
+      "Order AI Productivity Starter Kit",
+      0.1,
+      { productId: "ai_productivity_starter_kit_1" },
+      IRRA_TOKEN_CANONICAL
+    )
+  }
+  disabled={isLoading}
       />
 
-      <ProductCard
-        name="Lemon Meringue Pie"
-        description="Order at your own risk."
-        price={0.2}
-        pictureURL="https://live.staticflickr.com/1156/5134246283_f2686ff8a8_b.jpg"
-        onClickBuyWithPi={() =>
-          orderProduct("Order Lemon Meringue Pie", 0.2, { productId: "lemon_pie_1" })
-        }
-        onClickBuyWithIrra={() =>
-          orderProduct("Order Lemon Meringue Pie", 0.2, { productId: "lemon_pie_1" }, IRRA_TOKEN_CANONICAL)
-        }
-        disabled={isLoading}
-      />
+      {isAuthenticated && !hasPurchasedKit && (
+        <div style={{ margin: 16 }}>
+          <button type="button" onClick={() => { void checkPurchase(); }}>Restore my purchase</button>
+          {accessError && <p role="status">{accessError}</p>}
+        </div>
+      )}
+      {isAuthenticated && hasPurchasedKit && (
+        <div style={{ margin: 16, padding: 16, border: "1px solid #5eead4", borderRadius: 8 }}>
+          <strong>Your starter kit is ready.</strong>
+          <p>Download the files included with your verified Test-Pi purchase.</p>
+          <button type="button" disabled={isDownloading} onClick={() => { void downloadKit(); }}>
+            {isDownloading ? "Preparing download…" : "Download AI Productivity Starter Kit"}
+          </button>
+          {downloadError && <p role="alert">{downloadError}</p>}
+        </div>
+      )}
+
 
       {showSignIn && <SignIn onSignIn={signIn} onModalClose={closeSignIn} disabled={isAuthLoading} />}
     </>

@@ -1,3 +1,6 @@
 .env
 docker-data
 .DS_Store
+backend/private/
+**/node_modules/
+**/dist/
