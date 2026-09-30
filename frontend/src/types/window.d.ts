@@ -24,6 +24,17 @@ declare global {
           onError: (error: Error, payment?: PaymentDTO) => void;
         }
       ): Promise<unknown>;
+
+      Wallet: {
+        getUserWalletAddresses(): Promise<{ wallets: Array<{ publicKey: string }> }>;
+      };
+
+      SmartContract: {
+        Subscription: {
+          subscribe(subscriber: string, serviceId: string, autoRenew: boolean, periods: string): Promise<unknown>;
+          process(merchant: string, serviceId: string, offset: number, limit: number): Promise<unknown>;
+        };
+      };
     };
   }
 }
