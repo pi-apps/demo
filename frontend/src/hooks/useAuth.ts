@@ -28,7 +28,7 @@ export const useAuth = () => {
   const signIn = useCallback(async () => {
     setIsLoading(true);
     try {
-      const scopes = ["username", "payments", "roles", "in_app_notifications", "wallet_address"];
+      const scopes = ["username", "payments", "roles", "in_app_notifications"];
       const authResult = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
       await signInUser(authResult);
     } catch (err) {

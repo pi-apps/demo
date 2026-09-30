@@ -44,9 +44,9 @@ export const useSubscriptions = ({ isAuthenticated, onRequireAuth }: UseSubscrip
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<SubscriptionResult | null>(null);
 
-  // the user subscribes to a service from their own wallet
+  // the user subscribes to a service from their own wallet (the address typed in the form)
   const subscribe = useCallback(
-    async (serviceId: string, periods: string) => {
+    async (userWalletAddress: string, serviceId: string, periods: string) => {
       if (!isAuthenticated) {
         onRequireAuth();
         return;
@@ -55,9 +55,6 @@ export const useSubscriptions = ({ isAuthenticated, onRequireAuth }: UseSubscrip
       setIsLoading(true);
       setResult({ message: "Subscribing..." });
       try {
-        const { wallets } = await window.Pi.Wallet.getUserWalletAddresses();
-        const userWalletAddress = wallets[0].publicKey;
-
         const submitted = await window.Pi.SmartContract.Subscription.subscribe(
           userWalletAddress,
           serviceId,

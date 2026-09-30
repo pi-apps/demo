@@ -2,7 +2,7 @@ import { useState, type CSSProperties } from "react";
 import type { SubscriptionResult } from "../hooks/useSubscriptions";
 
 interface SubscriptionCardProps {
-  onClickSubscribe: (serviceId: string, periods: string) => void;
+  onClickSubscribe: (userWalletAddress: string, serviceId: string, periods: string) => void;
   onClickProcess: (serviceId: string, offset: number, limit: number) => void;
   result: SubscriptionResult | null;
   disabled?: boolean;
@@ -41,6 +41,7 @@ const resultStyle: CSSProperties = {
 const toJSON = (value: unknown) => JSON.stringify(value, (_key, v) => (typeof v === "bigint" ? v.toString() : v), 2);
 
 const SubscriptionCard = ({ onClickSubscribe, onClickProcess, result, disabled }: SubscriptionCardProps) => {
+  const [userWalletAddress, setUserWalletAddress] = useState("");
   const [serviceId, setServiceId] = useState("");
   const [periods, setPeriods] = useState("1");
 
@@ -55,6 +56,10 @@ const SubscriptionCard = ({ onClickSubscribe, onClickProcess, result, disabled }
 
       <div style={sectionStyle}>
         <label style={fieldStyle}>
+          User wallet address
+          <input value={userWalletAddress} onChange={e => setUserWalletAddress(e.target.value)} />
+        </label>
+        <label style={fieldStyle}>
           Service ID
           <input value={serviceId} onChange={e => setServiceId(e.target.value)} />
         </label>
@@ -62,7 +67,7 @@ const SubscriptionCard = ({ onClickSubscribe, onClickProcess, result, disabled }
           Number of pre-approved subscription cycles
           <input value={periods} onChange={e => setPeriods(e.target.value)} />
         </label>
-        <button onClick={() => onClickSubscribe(serviceId, periods)} disabled={disabled}>
+        <button onClick={() => onClickSubscribe(userWalletAddress, serviceId, periods)} disabled={disabled}>
           Subscribe
         </button>
       </div>

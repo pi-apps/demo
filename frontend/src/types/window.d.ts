@@ -32,10 +32,6 @@ declare global {
         }
       ): Promise<unknown>;
 
-      Wallet: {
-        getUserWalletAddresses(): Promise<{ wallets: Array<{ publicKey: string }> }>;
-      };
-
       SmartContract: {
         Subscription: {
           subscribe(
