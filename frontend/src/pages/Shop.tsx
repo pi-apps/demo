@@ -28,6 +28,7 @@ const Shop = () => {
   const {
     subscribe,
     processSubscriptions,
+    result: subscriptionResult,
     isLoading: isSubscriptionLoading,
   } = useSubscriptions({
     isAuthenticated,
@@ -84,6 +85,7 @@ const Shop = () => {
         <SubscriptionCard
           onClickSubscribe={subscribe}
           onClickProcess={processSubscriptions}
+          result={subscriptionResult}
           disabled={isSubscriptionLoading}
         />
       )}

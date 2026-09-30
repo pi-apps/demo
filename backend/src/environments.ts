@@ -18,7 +18,6 @@ interface Environment {
   port: number;
   session_secret: string;
   pi_api_key: string;
-  app_wallet_address: string;
   platform_api_url: string;
   mongo_host: string;
   mongo_db_name: string;
@@ -31,7 +30,6 @@ const env: Environment = {
   port: parseInt(process.env.PORT || "8000"),
   session_secret: process.env.SESSION_SECRET || "This is my session secret",
   pi_api_key: process.env.PI_API_KEY || "",
-  app_wallet_address: process.env.APP_WALLET_ADDRESS || "",
   platform_api_url: process.env.PLATFORM_API_URL || "",
   mongo_host: process.env.MONGO_HOST || "localhost:27017",
   mongo_db_name: process.env.MONGODB_DATABASE_NAME || "demo-app",

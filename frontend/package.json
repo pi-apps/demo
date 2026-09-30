@@ -15,6 +15,7 @@
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
     "@mui/styled-engine-sc": "^7.3.9",
+    "@stellar/stellar-base": "^14.0.4",
     "axios": "^1.13.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

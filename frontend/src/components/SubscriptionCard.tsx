@@ -1,8 +1,10 @@
 import { useState, type CSSProperties } from "react";
+import type { SubscriptionResult } from "../hooks/useSubscriptions";
 
 interface SubscriptionCardProps {
   onClickSubscribe: (serviceId: string, periods: string) => void;
   onClickProcess: (serviceId: string, offset: number, limit: number) => void;
+  result: SubscriptionResult | null;
   disabled?: boolean;
 }
 
@@ -26,7 +28,19 @@ const fieldStyle: CSSProperties = {
   width: "66%",
 };
 
-const SubscriptionCard = ({ onClickSubscribe, onClickProcess, disabled }: SubscriptionCardProps) => {
+const resultStyle: CSSProperties = {
+  padding: 8,
+  background: "#f4f4f4",
+  border: "1px solid gray",
+  whiteSpace: "pre-wrap",
+  wordBreak: "break-all",
+  fontSize: 12,
+};
+
+// contract values can be BigInt, which JSON.stringify can't handle on its own
+const toJSON = (value: unknown) => JSON.stringify(value, (_key, v) => (typeof v === "bigint" ? v.toString() : v), 2);
+
+const SubscriptionCard = ({ onClickSubscribe, onClickProcess, result, disabled }: SubscriptionCardProps) => {
   const [serviceId, setServiceId] = useState("");
   const [periods, setPeriods] = useState("1");
 
@@ -70,6 +84,25 @@ const SubscriptionCard = ({ onClickSubscribe, onClickProcess, disabled }: Subscr
           Process
         </button>
       </div>
+
+      {result && (
+        <div>
+          <strong>{result.message}</strong>
+          {result.error && <pre style={resultStyle}>{result.error}</pre>}
+          {result.transaction !== undefined && (
+            <>
+              <p>Transaction:</p>
+              <pre style={resultStyle}>{toJSON(result.transaction)}</pre>
+            </>
+          )}
+          {result.updatedData !== undefined && (
+            <>
+              <p>Updated data:</p>
+              <pre style={resultStyle}>{toJSON(result.updatedData)}</pre>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

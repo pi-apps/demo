@@ -16,7 +16,6 @@ import mountUserEndpoints from "./handlers/users";
 // https://stackoverflow.com/questions/65108033/property-user-does-not-exist-on-type-session-partialsessiondata#comment125163548_65381085
 import "./types/session";
 import mountNotificationEndpoints from "./handlers/notifications";
-import mountSubscriptionEndpoints from "./handlers/subscriptions";
 
 const dbName = env.mongo_db_name;
 const mongoUri = `mongodb://${env.mongo_host}/${dbName}`;
@@ -91,11 +90,6 @@ app.use("/user", userRouter);
 const notificationRouter = express.Router();
 mountNotificationEndpoints(notificationRouter);
 app.use("/notifications", notificationRouter);
-
-// Subscription endpoints under /subscriptions:
-const subscriptionRouter = express.Router();
-mountSubscriptionEndpoints(subscriptionRouter);
-app.use("/subscriptions", subscriptionRouter);
 
 // Hello World page to check everything works:
 app.get("/", async (_, res) => {
