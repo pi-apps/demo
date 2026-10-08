@@ -121,12 +121,23 @@ export const useSubscriptions = ({ isAuthenticated, onRequireAuth }: UseSubscrip
           return;
         }
 
-        // read the service's subscriptions again to show the charged ones
-        const updatedData = await window.Pi.SmartContract.Subscription.getMerchantSubscriptions(
-          APP_WALLET_ADDRESS,
-          serviceId
-        );
-        setResult({ message: "Subscriptions processed!", transaction, updatedData });
+        // read the service's subscriptions again to show the charged ones. The processing has
+        // already landed, so a failed read is shown next to it, not as a failed Process.
+        setResult({ message: "Subscriptions processed!", transaction });
+        try {
+          const updatedData = await window.Pi.SmartContract.Subscription.getMerchantSubscriptions(
+            APP_WALLET_ADDRESS,
+            serviceId
+          );
+          setResult({ message: "Subscriptions processed!", transaction, updatedData });
+        } catch (err) {
+          console.error("Error reading the service's subscriptions:", err);
+          setResult({
+            message: "Subscriptions processed!",
+            transaction,
+            error: `Couldn't read the service's subscriptions: ${String(err)}`,
+          });
+        }
       } catch (err) {
         console.error("Error processing subscriptions:", err);
         setResult({ message: "Processing failed", error: String(err) });
