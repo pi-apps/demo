@@ -1,9 +1,17 @@
+import type { xdr } from "@stellar/stellar-base";
 import { AuthResult, PaymentDTO } from "./pi";
+
+// submitting only sends the transaction to the network, it has not landed yet
+type SubmittedTransaction = {
+  hash: string;
+  status: string;
+};
 
 declare global {
   interface Window {
     __ENV?: {
       backendURL?: string;
+      appWalletAddress?: string;
     };
     Pi: {
       init(options: { version: string }): Promise<void>;
@@ -24,6 +32,24 @@ declare global {
           onError: (error: Error, payment?: PaymentDTO) => void;
         }
       ): Promise<unknown>;
+
+      SmartContract: {
+        Subscription: {
+          subscribe(
+            subscriber: string,
+            serviceId: string,
+            autoRenew: boolean,
+            periods: string
+          ): Promise<SubmittedTransaction>;
+          process(merchant: string, serviceId: string, offset: number, limit: number): Promise<SubmittedTransaction>;
+          getMerchantSubscriptions(merchant: string, serviceId: string): Promise<unknown>;
+        };
+
+        pollTransaction(
+          txHash: string,
+          attempts?: number
+        ): Promise<{ status: "SUCCESS" | "FAILED" | "NOT_FOUND"; ledger?: number; returnValue?: xdr.ScVal }>;
+      };
     };
   }
 }

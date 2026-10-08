@@ -1,9 +1,11 @@
 import Header from "../components/Header";
 import ProductCard from "../components/ProductCard";
 import SignIn from "../components/SignIn";
+import SubscriptionCard from "../components/SubscriptionCard";
 
 import { useAuth } from "../hooks/useAuth";
 import { IRRA_TOKEN_CANONICAL, usePayments } from "../hooks/usePayments";
+import { useSubscriptions } from "../hooks/useSubscriptions";
 import { axiosClient } from "../lib/axiosClient.ts";
 
 const Shop = () => {
@@ -19,6 +21,16 @@ const Shop = () => {
   } = useAuth();
 
   const { orderProduct, isLoading } = usePayments({
+    isAuthenticated,
+    onRequireAuth: requireAuth,
+  });
+
+  const {
+    subscribe,
+    processSubscriptions,
+    result: subscriptionResult,
+    isLoading: isSubscriptionLoading,
+  } = useSubscriptions({
     isAuthenticated,
     onRequireAuth: requireAuth,
   });
@@ -68,6 +80,15 @@ const Shop = () => {
         }
         disabled={isLoading}
       />
+
+      {user?.roles.includes("core_team") && (
+        <SubscriptionCard
+          onClickSubscribe={subscribe}
+          onClickProcess={processSubscriptions}
+          result={subscriptionResult}
+          disabled={isSubscriptionLoading}
+        />
+      )}
 
       {showSignIn && <SignIn onSignIn={signIn} onModalClose={closeSignIn} disabled={isAuthLoading} />}
     </>

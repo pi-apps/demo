@@ -22,6 +22,7 @@ services:
     build: ./frontend
     environment:
       BACKEND_URL: ${BACKEND_URL}
+      APP_WALLET_ADDRESS: ${APP_WALLET_ADDRESS}
 
   backend:
     build: ./backend
