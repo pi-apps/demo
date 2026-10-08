@@ -11,6 +11,7 @@ declare global {
   interface Window {
     __ENV?: {
       backendURL?: string;
+      appWalletAddress?: string;
     };
     Pi: {
       init(options: { version: string }): Promise<void>;
@@ -41,7 +42,6 @@ declare global {
             periods: string
           ): Promise<SubmittedTransaction>;
           process(merchant: string, serviceId: string, offset: number, limit: number): Promise<SubmittedTransaction>;
-          getSubscription(subscriber: string, subscriptionId: string): Promise<unknown>;
           getMerchantSubscriptions(merchant: string, serviceId: string): Promise<unknown>;
         };
 

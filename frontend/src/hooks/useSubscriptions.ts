@@ -13,8 +13,19 @@ export type SubscriptionResult = {
   error?: string;
 };
 
-// the app wallet is the merchant of the app's subscription services
-const APP_WALLET_ADDRESS = import.meta.env.VITE_APP_WALLET_ADDRESS;
+// the app wallet is the merchant of the app's subscription services.
+// Like the backend URL in axiosClient: set at runtime by the Docker entrypoint, or by Vite in development.
+const getAppWalletAddress = () => {
+  const runtimeAddress = window.__ENV?.appWalletAddress;
+
+  if (runtimeAddress && runtimeAddress !== "$$APP_WALLET_ADDRESS$$") {
+    return runtimeAddress;
+  }
+
+  return import.meta.env.VITE_APP_WALLET_ADDRESS;
+};
+
+const APP_WALLET_ADDRESS = getAppWalletAddress();
 
 // how long we wait for a submitted transaction to land on the chain
 const MAX_WAIT_SECONDS = 90;
@@ -71,13 +82,8 @@ export const useSubscriptions = ({ isAuthenticated, onRequireAuth }: UseSubscrip
           return;
         }
 
-        // subscribe returns the new subscription, read it back from the contract by its id
-        const subscriptionId = transaction.result.sub_id.toString();
-        const updatedData = await window.Pi.SmartContract.Subscription.getSubscription(
-          userWalletAddress,
-          subscriptionId
-        );
-        setResult({ message: "Subscribed!", transaction, updatedData });
+        // subscribe returns the new subscription, so the transaction's result already shows it
+        setResult({ message: "Subscribed!", transaction });
       } catch (err) {
         console.error("Error subscribing:", err);
         setResult({ message: "Subscription failed", error: String(err) });
