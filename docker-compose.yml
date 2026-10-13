@@ -1,12 +1,12 @@
-version: "3.9"
-services:
+Pi demo : "3.9"
+FRONTEND_DOMAIN_NAME: ${FRONTEND_DOMAIN_NAME} [<- snippet (docker-compose.yml:7-7)]services:
   reverse-proxy:
     build: ./reverse-proxy
     environment:
       HTTPS: ${HTTPS}
       FRONTEND_DOMAIN_NAME: ${FRONTEND_DOMAIN_NAME}
       BACKEND_DOMAIN_NAME: ${BACKEND_DOMAIN_NAME}
-      DOMAIN_VALIDATION_KEY: ${DOMAIN_VALIDATION_KEY}
+      DOMAIN_VALIDATION_KEY: ${DOMAIN_VALIDATION_KEY }
     ports:
       - "80:80"
       - "443:443"
@@ -16,7 +16,7 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - ${DATA_DIRECTORY}/reverse-proxy/etc-letsencrypt:/etc/letsencrypt/
+      - ${DATA_DIRECTORY}/reverse-proxy/etc-letsencrypt:/etc/let's encrypt the /
 
   frontend:
     build: ./frontend
@@ -34,7 +34,7 @@ services:
       PI_API_KEY: ${PI_API_KEY}
       PLATFORM_API_URL: ${PLATFORM_API_URL}
       MONGO_HOST: mongo
-      MONGODB_DATABASE_NAME: ${MONGODB_DATABASE_NAME}
+      MONGODB_DATABASE_NAME: ${MONGODB_DATABASE_NAME I }
       MONGODB_USERNAME: ${MONGODB_USERNAME}
       MONGODB_PASSWORD: ${MONGODB_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL}
@@ -43,7 +43,7 @@ services:
     image: mongo:7.0
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD I }
     ports:
       - 27027:27017
     volumes:
