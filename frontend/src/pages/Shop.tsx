@@ -2,13 +2,31 @@ import Header from "../components/Header";
 import ProductCard from "../components/ProductCard";
 import SignIn from "../components/SignIn";
 import SubscriptionCard from "../components/SubscriptionCard";
+import SubscriptionSection from "../components/subscription/SubscriptionSection";
 
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useClub } from "../hooks/useClubSubscription";
 import { IRRA_TOKEN_CANONICAL, usePayments } from "../hooks/usePayments";
 import { useSubscriptions } from "../hooks/useSubscriptions";
-import { axiosClient } from "../lib/axiosClient.ts";
+import { sendTestNotification } from "../utils/sendTestNotification";
 
 const Shop = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  // Subscribe on the club page comes here with the plan sheet open, on a given plan for Resubscribe
+  const request = location.state as { openPlans?: boolean; serviceId?: string } | null;
+  const openPlans = request?.openPlans === true;
+  const openPlansOn = request?.serviceId ?? null;
+
+  // the request lives in this history entry: drop it once read, so a reload or a back press does not reopen the sheet
+  useEffect(() => {
+    if (openPlans) {
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [openPlans, navigate, location.pathname]);
+
   const {
     user,
     isAuthenticated,
@@ -35,15 +53,7 @@ const Shop = () => {
     onRequireAuth: requireAuth,
   });
 
-  const onSendTestNotification = () => {
-    const notification = {
-      title: "Test Notification",
-      body: "This is a test notification",
-      user_uid: user?.uid,
-      subroute: "/shop",
-    };
-    axiosClient.post("/notifications/send", { notifications: [notification] });
-  };
+  const club = useClub();
 
   return (
     <>
@@ -51,7 +61,7 @@ const Shop = () => {
         user={user}
         onSignIn={signIn}
         onSignOut={signOut}
-        onSendTestNotification={onSendTestNotification}
+        onSendTestNotification={() => sendTestNotification(user)}
         isLoading={isAuthLoading}
       />
 
@@ -81,12 +91,20 @@ const Shop = () => {
         disabled={isLoading}
       />
 
-      {user?.roles.includes("core_team") && (
-        <SubscriptionCard
-          onClickSubscribe={subscribe}
-          onClickProcess={processSubscriptions}
-          result={subscriptionResult}
-          disabled={isSubscriptionLoading}
+      {user && club.enabled && (
+        <SubscriptionSection
+          onOpenClub={() => navigate("/club")}
+          openOnMount={openPlans ? { serviceId: openPlansOn } : null}
+          developerTools={
+            user.roles.includes("core_team") && (
+              <SubscriptionCard
+                onClickSubscribe={subscribe}
+                onClickProcess={processSubscriptions}
+                result={subscriptionResult}
+                disabled={isSubscriptionLoading}
+              />
+            )
+          }
         />
       )}
 

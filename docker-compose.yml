@@ -23,6 +23,7 @@ services:
     environment:
       BACKEND_URL: ${BACKEND_URL}
       APP_WALLET_ADDRESS: ${APP_WALLET_ADDRESS}
+      SUBSCRIPTION_AUDIENCE: ${SUBSCRIPTION_AUDIENCE:-core_team}
 
   backend:
     build: ./backend
