@@ -28,7 +28,7 @@ interface SubscriptionSectionProps {
 }
 
 const Progress = ({ children }: { children: ReactNode }) => (
-  <Alert severity="info" icon={<CircularProgress size={18} />} role="status">
+  <Alert severity="info" icon={<CircularProgress size={18} aria-hidden="true" />} role="status">
     {children}
   </Alert>
 );
@@ -132,8 +132,9 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
           </>
         )}
 
-        {(sheet || hasResult) && (busy || hasResult || plans.length > 0) && (
+        {(plans.length > 0 || flow.phase !== "idle") && (
           <PlanSheet
+            open={Boolean(sheet || hasResult)}
             plans={plans}
             initialServiceId={sheet?.serviceId ?? defaultPlan(plans)?.serviceId ?? ""}
             flow={flow}

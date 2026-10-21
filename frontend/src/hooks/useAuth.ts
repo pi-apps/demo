@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { axiosClient } from "../lib/axiosClient";
 import type { AuthResult, PaymentDTO, User } from "../types/pi";
+import { isSubscriptionEnabledFor } from "../utils/subscriptionAudience";
 
 export const SIGN_IN_SCOPES = ["username", "payments", "roles", "in_app_notifications"];
 export const WALLET_SCOPE = "wallet_address";
@@ -10,6 +11,15 @@ export const WALLET_SCOPE = "wallet_address";
 // Once the club has been granted the wallet scope on this device, sign-ins keep asking for it. Kept per device,
 // since the user is not known before signing in: on a shared device the next person is asked for it too.
 const WALLET_GRANTED_KEY = "club_wallet_scope_granted";
+
+// outside the club's audience nobody is asked for the wallet again on this device (this one sign-in already was)
+const forgetWalletGrant = () => {
+  try {
+    localStorage.removeItem(WALLET_GRANTED_KEY);
+  } catch {
+    // storage unavailable: nothing was remembered either
+  }
+};
 
 export const rememberWalletGrant = () => {
   try {
@@ -46,6 +56,9 @@ export const useAuthState = () => {
   const signInUser = useCallback(async (authResult: AuthResult) => {
     try {
       await axiosClient.post("/user/signin", { authResult });
+      if (!isSubscriptionEnabledFor(authResult.user)) {
+        forgetWalletGrant();
+      }
       setUser(authResult.user);
       setSessionId(id => id + 1);
       setShowSignIn(false);

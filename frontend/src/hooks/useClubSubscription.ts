@@ -15,7 +15,7 @@ import { useSubscribeAttempt } from "./club/useSubscribeAttempt";
 // walletWanted: whether the current page shows the club, so the wallet permission is only asked where it is used.
 export const useClubSubscription = (enabled: boolean, sessionId: number, walletWanted: boolean) => {
   const wallet = useKeyedRead(enabled && walletWanted ? String(sessionId) : null, loadWallet, walletFailure);
-  const plans = useKeyedRead(enabled ? "plans" : null, loadPlans, plansFailure);
+  const plans = useKeyedRead(enabled ? `plans:${sessionId}` : null, loadPlans, plansFailure);
 
   const walletAddress = wallet.state.status === "ready" ? wallet.state.value : null;
   const readyPlans = plans.state.status === "ready" ? plans.state.value : null;

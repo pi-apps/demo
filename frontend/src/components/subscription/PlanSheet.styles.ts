@@ -1,11 +1,14 @@
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
+import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 
-export const SheetPaper = styled(Paper)(({ theme }) => ({
-  borderRadius: "20px 20px 0 0",
-  padding: theme.spacing(2, 2, 4),
-  maxHeight: "92%",
+export const SheetDrawer = styled(Drawer)(({ theme }) => ({
+  "& .MuiDrawer-paper": {
+    borderRadius: "20px 20px 0 0",
+    padding: theme.spacing(2, 2, 4),
+    maxHeight: "92%",
+    fontFamily: theme.typography.fontFamily,
+  },
 }));
 
 export const Summary = styled(Box)(({ theme }) => ({

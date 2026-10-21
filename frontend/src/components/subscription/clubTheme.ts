@@ -11,6 +11,8 @@ export const clubTheme = createTheme({
   palette: {
     primary: { main: "#1f1f1f" },
     warning: { main: "#ba7517" },
+    // grey notes, as in the prototype, rather than MUI's blue
+    info: { main: "#5f5f5f" },
     background: { default: "#f4f4f4" },
   },
   shape: { borderRadius: 12 },
@@ -20,6 +22,27 @@ export const clubTheme = createTheme({
   },
   components: {
     MuiButton: { defaultProps: { disableElevation: true, fullWidth: true } },
+    // a grey track with the chosen plan raised in white, as in the prototype
+    MuiToggleButtonGroup: {
+      styleOverrides: {
+        root: { background: "rgba(0, 0, 0, 0.06)", padding: 3, gap: 3 },
+        grouped: { border: 0, borderRadius: "9px !important" },
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          fontWeight: 600,
+          "&.Mui-selected": {
+            background: "#fff",
+            color: "#000",
+            fontWeight: 700,
+            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.14)",
+          },
+        },
+      },
+    },
   },
 });
 

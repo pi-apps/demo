@@ -39,7 +39,7 @@ export const planCopy = (plan: Plan, keepAfterTrial: boolean) => {
   };
 };
 
-// one line about a subscription, from the contract's own dates: shared by the card and the club page
+// one line about a subscription on the card, from the contract's own dates
 export const subscriptionLine = (mine: MySubscription) => {
   const { subscription: s } = mine;
   const amount = `${formatPi(BigInt(s.price))} Test-Pi`;

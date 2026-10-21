@@ -28,7 +28,7 @@ const getAppWalletAddress = () => {
 export const APP_WALLET_ADDRESS = getAppWalletAddress();
 
 // how long we wait for a submitted transaction to land on the chain
-export const MAX_WAIT_SECONDS = 90;
+const MAX_WAIT_SECONDS = 90;
 
 // a submitted transaction is only "PENDING", poll until it lands (or fails) on the chain
 export const waitForTransaction = async (hash: string, onSecondPassed: (seconds: number) => void) => {

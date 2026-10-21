@@ -9,6 +9,7 @@ import type { PendingCheck, SubscribeFlow } from "../../hooks/club/useSubscribeA
 import { describePeriod } from "../../utils/subscription";
 import { BILLING_NOTE, fromNow, price, upTo } from "./copy";
 import { RawDetails, ResultIcon } from "./club.styles";
+import InfoRows, { type InfoRow } from "./InfoRows";
 
 type Outcome = Exclude<SubscribeFlow, { phase: "idle" | "signing" | "confirming" }>;
 
@@ -23,6 +24,23 @@ interface SubscribeResultProps {
   onCheckAgain: () => void;
   onCheckPending: () => Promise<PendingCheck>;
 }
+
+// the success screen's summary; the dates are estimates from the phone's clock (see fromNow)
+const summaryRows = (plan: Outcome["plan"], autoRenew: boolean): InfoRow[] =>
+  plan.trialSecs > 0
+    ? [
+        [
+          "Plan",
+          autoRenew ? `${plan.name}, then ${describePeriod(plan.periodSecs).every}` : `${plan.name}, trial only`,
+        ],
+        ["Free until", fromNow(plan.trialSecs)],
+        ["After that", autoRenew ? `${price(plan)}${describePeriod(plan.periodSecs).per}` : "Ends"],
+      ]
+    : [
+        ["Plan", plan.name],
+        ["Charged today", price(plan)],
+        ["Next charge due", fromNow(plan.periodSecs)],
+      ];
 
 const NOT_YET = "Not there yet. It can take a little longer, so check again in a minute.";
 
@@ -40,7 +58,10 @@ const Heading = ({ tone, title, body }: { tone: "ok" | "warn"; title: string; bo
 
 const SubscribeResult = (props: SubscribeResultProps) => {
   const { flow, status, onTryAgain, onDone, onOpenClub, onCheckAgain, onCheckPending } = props;
+  // what "Check again" found while the outcome is still unknown (a pending check reports it; a re-read is shown
+  // from its own state, so a failed re-read shows its error rather than "not there yet")
   const [note, setNote] = useState<string | null>(null);
+  const [reread, setReread] = useState(false);
   const [checking, setChecking] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const { plan, autoRenew } = flow;
@@ -66,7 +87,8 @@ const SubscribeResult = (props: SubscribeResultProps) => {
     return (
       <div role="status">
         <Heading tone="ok" title={title} body={body} />
-        <Stack gap={1}>
+        {flow.phase !== "already" && <InfoRows rows={summaryRows(flow.plan, autoRenew)} />}
+        <Stack gap={1} mt={2}>
           <Button variant="contained" size="large" onClick={onOpenClub}>
             Open Pi Bakery Club
           </Button>
@@ -86,12 +108,19 @@ const SubscribeResult = (props: SubscribeResultProps) => {
         found === "notYet" ? NOT_YET : found === "unknown" ? "Couldn't check right now. Try again in a minute." : null
       );
     } else {
+      setReread(true);
       onCheckAgain();
-      setNote(NOT_YET);
+      setNote(null);
     }
     setChecking(false);
   };
-  const shownNote = note && flow.phase === "error" && status.status === "loading" ? "Checking…" : note;
+  const shownNote = !reread
+    ? note
+    : status.status === "loading"
+      ? "Checking…"
+      : status.status === "error"
+        ? status.error
+        : NOT_YET;
 
   if (flow.phase === "unconfirmed") {
     return (

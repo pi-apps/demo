@@ -73,7 +73,7 @@ const ClubPage = () => {
     content = locked("Pi Bakery Club isn't available for your account yet.");
   } else if (status.status === "loading") {
     content = (
-      <Alert severity="info" icon={<CircularProgress size={18} />} role="status">
+      <Alert severity="info" icon={<CircularProgress size={18} aria-hidden="true" />} role="status">
         Checking your subscription…
       </Alert>
     );

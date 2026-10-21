@@ -2,33 +2,14 @@ import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import type { MySubscription } from "../../hooks/club/plans";
 import { APP_WALLET_ADDRESS } from "../../hooks/useSubscriptions";
 import { describePeriod, formatDate, formatPi, fromChainTime, shortAddress } from "../../utils/subscription";
 import { PlanRow } from "./club.styles";
-import { DetailRows, SectionLabel } from "./ClubDetails.styles";
-
-type Row = [label: string, value: string, small?: string];
-
-const Rows = ({ label, rows }: { label: string; rows: Row[] }) => (
-  <>
-    <SectionLabel>{label}</SectionLabel>
-    <DetailRows>
-      {rows.map(([key, value, small]) => (
-        <div key={key}>
-          <span>{key}</span>
-          <b>
-            {value}
-            {small && <small>{small}</small>}
-          </b>
-        </div>
-      ))}
-    </DetailRows>
-  </>
-);
+import { SectionLabel, StepIcon } from "./ClubDetails.styles";
+import InfoRows, { type InfoRow as Row } from "./InfoRows";
 
 const STEPS = [
   "Picked a plan in the app",
@@ -77,16 +58,18 @@ const ClubDetails = ({ mine }: { mine: MySubscription }) => {
         </Box>
         <Chip size="small" color="primary" label="Active" />
       </PlanRow>
-      <Rows label="Billing" rows={billing} />
-      <Rows label="Wallets" rows={wallets} />
+      <SectionLabel>Billing</SectionLabel>
+      <InfoRows rows={billing} />
+      <SectionLabel>Wallets</SectionLabel>
+      <InfoRows rows={wallets} />
 
       <SectionLabel>What you tested</SectionLabel>
       <List dense disablePadding>
         {STEPS.map(step => (
           <ListItem key={step} disableGutters>
-            <ListItemIcon sx={{ minWidth: 34 }}>
+            <StepIcon>
               <CheckCircleIcon color="primary" />
-            </ListItemIcon>
+            </StepIcon>
             {step}
           </ListItem>
         ))}
