@@ -1,39 +1,28 @@
-import styled from "styled-components";
-import type { Failure } from "../../hooks/useClubSubscription";
-import { club, LinkButton, WarnNote } from "./styles";
-
-const RawDetails = styled.details`
-  margin-top: 6px;
-  font-size: 12px;
-  color: ${club.ink2};
-
-  summary {
-    cursor: pointer;
-  }
-
-  pre {
-    margin: 6px 0 0;
-    white-space: pre-wrap;
-    word-break: break-all;
-    font:
-      12px/1.5 "DM Mono",
-      ui-monospace,
-      Menlo,
-      monospace;
-  }
-`;
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import type { Failure } from "../../hooks/club/plans";
+import { RawDetails } from "./club.styles";
 
 // a failure in plain words; "Try again" only where trying again can help, the raw error behind Details
 const FailureNote = ({ failure, onRetry }: { failure: Failure; onRetry: () => void }) => (
-  <WarnNote>
-    <span role="alert">{failure.error}</span> {failure.retry && <LinkButton onClick={onRetry}>Try again</LinkButton>}
+  <Alert
+    severity="warning"
+    action={
+      failure.retry && (
+        <Button color="inherit" size="small" fullWidth={false} onClick={onRetry}>
+          Try again
+        </Button>
+      )
+    }
+  >
+    {failure.error}
     {failure.details && (
-      <RawDetails>
+      <details>
         <summary>Details</summary>
-        <pre>{failure.details}</pre>
-      </RawDetails>
+        <RawDetails>{failure.details}</RawDetails>
+      </details>
     )}
-  </WarnNote>
+  </Alert>
 );
 
 export default FailureNote;
