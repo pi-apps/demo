@@ -4,14 +4,12 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CheckIcon from "@mui/icons-material/Check";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import { periodsFor, type Loadable, type MySubscription } from "../../hooks/club/plans";
-import type { PendingCheck, SubscribeFlow } from "../../hooks/club/useSubscribeAttempt";
-import { describePeriod } from "../../utils/subscription";
-import { BILLING_NOTE, fromNow, price, upTo } from "./copy";
-import { RawDetails, ResultIcon } from "./club.styles";
-import InfoRows, { type InfoRow } from "./InfoRows";
-
-type Outcome = Exclude<SubscribeFlow, { phase: "idle" | "signing" | "confirming" }>;
+import { hasActivePlan, type Loadable, type MySubscription } from "../../hooks/club/plans";
+import type { PendingCheck } from "../../hooks/club/useSubscribeAttempt";
+import { ResultIcon } from "./club.styles";
+import InfoRows from "./InfoRows";
+import { outcomeKind, outcomeText, pendingNote, rereadNote, summaryRows, type Outcome } from "./outcomeCopy";
+import RawError from "./RawError";
 
 interface SubscribeResultProps {
   flow: Outcome;
@@ -25,155 +23,76 @@ interface SubscribeResultProps {
   onCheckPending: () => Promise<PendingCheck>;
 }
 
-// the success screen's summary; the dates are estimates from the phone's clock (see fromNow)
-const summaryRows = (plan: Outcome["plan"], autoRenew: boolean): InfoRow[] =>
-  plan.trialSecs > 0
-    ? [
-        [
-          "Plan",
-          autoRenew ? `${plan.name}, then ${describePeriod(plan.periodSecs).every}` : `${plan.name}, trial only`,
-        ],
-        ["Free until", fromNow(plan.trialSecs)],
-        ["After that", autoRenew ? `${price(plan)}${describePeriod(plan.periodSecs).per}` : "Ends"],
-      ]
-    : [
-        ["Plan", plan.name],
-        ["Charged today", price(plan)],
-        ["Next charge due", fromNow(plan.periodSecs)],
-      ];
-
-const NOT_YET = "Not there yet. It can take a little longer, so check again in a minute.";
-
-const Heading = ({ tone, title, body }: { tone: "ok" | "warn"; title: string; body: string }) => (
-  <>
-    <ResultIcon tone={tone}>{tone === "ok" ? <CheckIcon /> : <WarningAmberRoundedIcon />}</ResultIcon>
-    <Typography variant="h6" align="center" fontWeight={700}>
-      {title}
-    </Typography>
-    <Typography align="center" color="text.secondary" mb={2}>
-      {body}
-    </Typography>
-  </>
-);
-
 const SubscribeResult = (props: SubscribeResultProps) => {
   const { flow, status, onTryAgain, onDone, onOpenClub, onCheckAgain, onCheckPending } = props;
-  // what "Check again" found while the outcome is still unknown (a pending check reports it; a re-read is shown
-  // from its own state, so a failed re-read shows its error rather than "not there yet")
-  const [note, setNote] = useState<string | null>(null);
+  // what "Check again" found while the outcome is still unknown
+  const [pendingFound, setPendingFound] = useState<string | null>(null);
   const [reread, setReread] = useState(false);
   const [checking, setChecking] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
-  const { plan, autoRenew } = flow;
-  const period = describePeriod(plan.periodSecs);
-  const landedAfterAll = status.status === "ready" && !!status.value?.activeServiceIds.includes(plan.serviceId);
 
-  if (flow.phase === "already" || flow.phase === "success" || (flow.phase !== "failed" && landedAfterAll)) {
-    const isTrial = plan.trialSecs > 0;
-    const body =
-      flow.phase === "already"
-        ? `Your wallet is already subscribed to ${plan.name}, so this attempt didn't change anything.`
-        : isTrial
-          ? autoRenew
-            ? `It becomes ${price(plan)}${period.per} from ${fromNow(plan.trialSecs)}. ${BILLING_NOTE}`
-            : "Enjoy. It doesn't renew."
-          : `It renews ${period.every}, ${upTo(periodsFor(plan, true))} after today. ${BILLING_NOTE}`;
-    const title =
-      flow.phase === "already"
-        ? "You already have this plan"
-        : isTrial
-          ? "Your free trial has started"
-          : "You're subscribed";
-    return (
-      <div role="status">
-        <Heading tone="ok" title={title} body={body} />
-        {flow.phase !== "already" && <InfoRows rows={summaryRows(flow.plan, autoRenew)} />}
-        <Stack gap={1} mt={2}>
+  const kind = outcomeKind(flow, hasActivePlan(status, flow.plan.serviceId));
+  const { title, body } = outcomeText(kind, flow);
+  const succeeded = kind === "success" || kind === "already";
+
+  const checkPending = async () => {
+    setChecking(true);
+    setPendingFound("Checking…");
+    setPendingFound(pendingNote(await onCheckPending()));
+    setChecking(false);
+  };
+  const recheck = () => {
+    setReread(true);
+    onCheckAgain();
+  };
+
+  let note: string | null = null;
+  if (kind === "pending") note = pendingFound;
+  if (kind === "uncertain" && reread) note = rereadNote(status);
+
+  return (
+    <div>
+      <ResultIcon tone={succeeded ? "ok" : "warn"}>
+        {succeeded ? <CheckIcon /> : <WarningAmberRoundedIcon />}
+      </ResultIcon>
+      <div role={kind === "failed" || kind === "uncertain" ? "alert" : "status"}>
+        <Typography variant="h6" component="h3" align="center" fontWeight={700}>
+          {title}
+        </Typography>
+        <Typography align="center" color="text.secondary" mb={2}>
+          {body}
+        </Typography>
+      </div>
+      {kind === "success" && <InfoRows rows={summaryRows(flow.plan, flow.autoRenew)} />}
+      {note && (
+        <Typography variant="body2" align="center" mb={1}>
+          {note}
+        </Typography>
+      )}
+      {"details" in flow && !succeeded && <RawError details={flow.details} />}
+
+      <Stack gap={1} mt={2}>
+        {succeeded && (
           <Button variant="contained" size="large" onClick={onOpenClub}>
             Open Pi Bakery Club
           </Button>
-          <Button onClick={onDone}>Done</Button>
-        </Stack>
-      </div>
-    );
-  }
-
-  // a check whose answer is still unknown says what it found; landed or failed switch this screen instead
-  const check = async () => {
-    setChecking(true);
-    setNote("Checking…");
-    if (flow.phase === "unconfirmed") {
-      const found = await onCheckPending();
-      setNote(
-        found === "notYet" ? NOT_YET : found === "unknown" ? "Couldn't check right now. Try again in a minute." : null
-      );
-    } else {
-      setReread(true);
-      onCheckAgain();
-      setNote(null);
-    }
-    setChecking(false);
-  };
-  const shownNote = !reread
-    ? note
-    : status.status === "loading"
-      ? "Checking…"
-      : status.status === "error"
-        ? status.error
-        : NOT_YET;
-
-  if (flow.phase === "unconfirmed") {
-    return (
-      <div role="status">
-        <Heading
-          tone="warn"
-          title="Still waiting for Pi Testnet"
-          body="Your subscription hasn't landed yet. It may still go through: check again in a minute. After about three minutes the check can tell for sure."
-        />
-        {shownNote && (
-          <Typography variant="body2" align="center" mb={1}>
-            {shownNote}
-          </Typography>
         )}
-        <Stack gap={1}>
-          <Button variant="contained" size="large" onClick={check} disabled={checking}>
-            Check again
-          </Button>
-          <Button onClick={onDone}>Done</Button>
-        </Stack>
-      </div>
-    );
-  }
-
-  const failed = flow.phase === "failed";
-  const body = !failed
-    ? "Something went wrong and the subscription wasn't confirmed. It may still have gone through, so check before trying again."
-    : flow.expired
-      ? "The transaction expired before it reached Pi Testnet, so nothing was charged. Your plan choice is kept."
-      : "Pi Testnet rejected the transaction. Your plan choice is kept.";
-  return (
-    <div role="alert">
-      <Heading
-        tone="warn"
-        title={failed ? "Subscription didn't go through" : "Couldn't start the subscription"}
-        body={body}
-      />
-      {shownNote && (
-        <Typography variant="body2" align="center" mb={1}>
-          {shownNote}
-        </Typography>
-      )}
-      {showDetails && <RawDetails>{flow.details}</RawDetails>}
-      <Stack gap={1}>
-        {!failed && (
-          <Button variant="contained" size="large" onClick={check} disabled={checking || status.status === "loading"}>
+        {kind === "pending" && (
+          <Button variant="contained" size="large" onClick={checkPending} disabled={checking}>
             Check again
           </Button>
         )}
-        <Button variant={failed ? "contained" : "text"} size={failed ? "large" : "medium"} onClick={onTryAgain}>
-          Try again
-        </Button>
-        <Button onClick={() => setShowDetails(shown => !shown)}>{showDetails ? "Hide" : "Show"} details</Button>
+        {kind === "uncertain" && (
+          <Button variant="contained" size="large" onClick={recheck} disabled={status.status === "loading"}>
+            Check again
+          </Button>
+        )}
+        {kind === "failed" && (
+          <Button variant="contained" size="large" onClick={onTryAgain}>
+            Try again
+          </Button>
+        )}
+        {kind === "uncertain" && <Button onClick={onTryAgain}>Try again</Button>}
+        {(succeeded || kind === "pending") && <Button onClick={onDone}>Done</Button>}
       </Stack>
     </div>
   );

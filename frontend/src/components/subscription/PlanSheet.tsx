@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CloseIcon from "@mui/icons-material/Close";
 import type { Loadable, MySubscription, Plan } from "../../hooks/club/plans";
-import type { PendingCheck, SubscribeFlow } from "../../hooks/club/useSubscribeAttempt";
+import { type PendingCheck, type SubscribeFlow, isBusy } from "../../hooks/club/useSubscribeAttempt";
 import { Row } from "../lib";
 import PlanChoice from "./PlanChoice";
 import { SheetDrawer } from "./PlanSheet.styles";
@@ -13,6 +13,7 @@ interface PlanSheetProps {
   open: boolean;
   plans: Plan[];
   initialServiceId: string;
+  initialKeepAfterTrial: boolean;
   flow: SubscribeFlow;
   status: Loadable<MySubscription | null>;
   walletAddress: string | null;
@@ -28,7 +29,7 @@ interface PlanSheetProps {
 // focus restore, backdrop and slide; its content mounts afresh on every open.
 const PlanSheet = ({ open, flow, onResetFlow, onClose, ...props }: PlanSheetProps) => {
   const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const busy = flow.phase === "signing" || flow.phase === "confirming";
+  const busy = isBusy(flow);
   const showingResult = flow.phase !== "idle" && !busy;
 
   // a pending subscription is kept on close, so the card can say so and nothing new is started over it
@@ -69,6 +70,7 @@ const PlanSheet = ({ open, flow, onResetFlow, onClose, ...props }: PlanSheetProp
         <PlanChoice
           plans={props.plans}
           initialServiceId={props.initialServiceId}
+          initialKeepAfterTrial={props.initialKeepAfterTrial}
           flow={flow}
           status={props.status}
           walletAddress={props.walletAddress}

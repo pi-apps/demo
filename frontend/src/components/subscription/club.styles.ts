@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import { styled, type Theme } from "@mui/material/styles";
 import { monoFont } from "./clubTheme";
 
 // the few looks MUI's components don't give the club out of the box
@@ -35,7 +35,17 @@ export const PlanRow = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(1.5),
 }));
 
-export const ResultIcon = styled(Box, { shouldForwardProp: prop => prop !== "tone" })<{ tone: "ok" | "warn" | "lock" }>(
+type Tone = "ok" | "warn" | "lock";
+
+// the result icon's colours per tone
+const toneColours = (theme: Theme, tone: Tone) =>
+  ({
+    ok: { background: theme.palette.primary.main, color: theme.palette.primary.contrastText },
+    warn: { background: theme.palette.warning.light, color: theme.palette.text.primary },
+    lock: { background: theme.palette.grey[200], color: theme.palette.text.primary },
+  })[tone];
+
+export const ResultIcon = styled(Box, { shouldForwardProp: prop => prop !== "tone" })<{ tone: Tone }>(
   ({ theme, tone }) => ({
     width: 52,
     height: 52,
@@ -44,13 +54,7 @@ export const ResultIcon = styled(Box, { shouldForwardProp: prop => prop !== "ton
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background:
-      tone === "ok"
-        ? theme.palette.primary.main
-        : tone === "warn"
-          ? theme.palette.warning.light
-          : theme.palette.grey[200],
-    color: tone === "ok" ? theme.palette.primary.contrastText : theme.palette.text.primary,
+    ...toneColours(theme, tone),
   })
 );
 
@@ -76,4 +80,10 @@ export const DetailRows = styled(Box)(({ theme }) => ({
   span: { color: theme.palette.text.secondary },
   b: { fontWeight: 600, textAlign: "right" },
   "b small": { display: "block", fontSize: 12, fontWeight: 400, color: theme.palette.text.secondary },
+}));
+
+// the club page's main area; the card and the sheet set the club's font the same way
+export const ClubMain = styled("main")(({ theme }) => ({
+  padding: theme.spacing(3.5, 2, 5),
+  fontFamily: theme.typography.fontFamily,
 }));

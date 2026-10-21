@@ -16,4 +16,4 @@ const getSubscriptionAudience = () => {
 const SUBSCRIPTION_AUDIENCE = getSubscriptionAudience()?.trim().toLowerCase() === "everyone" ? "everyone" : "core_team";
 
 export const isSubscriptionEnabledFor = (user: User | null) =>
-  Boolean(user) && (SUBSCRIPTION_AUDIENCE === "everyone" || user!.roles.includes("core_team"));
+  user !== null && (SUBSCRIPTION_AUDIENCE === "everyone" || user.roles.includes("core_team"));

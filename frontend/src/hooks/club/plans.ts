@@ -29,6 +29,10 @@ export type MySubscription = {
 export type Failure = { status: "error"; error: string; retry: boolean; details?: string };
 export type Loadable<T> = { status: "loading" } | Failure | { status: "ready"; value: T };
 
+// whether the subscription read lists this plan as one the wallet actively has
+export const hasActivePlan = (status: Loadable<MySubscription | null>, serviceId: string) =>
+  status.status === "ready" && !!status.value?.activeServiceIds.includes(serviceId);
+
 export const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
 export const failure = (error: string, retry: boolean, err?: unknown): Failure => ({
   status: "error",

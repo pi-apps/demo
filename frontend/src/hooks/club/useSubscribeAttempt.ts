@@ -22,6 +22,9 @@ export type SubscribeFlow =
   // its transaction, until a check finds it landed, failed or expired, so nothing new is started over it.
   | ({ phase: "unconfirmed"; hash: string; expiresAt: number } & Choice);
 
+// waiting on the wallet or the network, so the choice cannot change
+export const isBusy = (flow: SubscribeFlow) => flow.phase === "signing" || flow.phase === "confirming";
+
 export type PendingCheck = "landed" | "failed" | "notYet" | "unknown";
 
 // The SDK builds every transaction to expire 180 seconds after it is built (contractContext.ts,
@@ -36,7 +39,8 @@ export const useSubscribeAttempt = (walletAddress: string | null, key: string | 
     key: null,
     flow: { phase: "idle" },
   });
-  // the latest run: one overtaken by a newer run (or a new session) must stop writing
+  // the latest run: one overtaken by a newer run or a reset stops writing (an attempt from another session or
+  // wallet is hidden by its key instead, see `flow` below)
   const run = useRef(0);
 
   const subscribe = useCallback(
@@ -109,22 +113,16 @@ export const useSubscribeAttempt = (walletAddress: string | null, key: string | 
         return "notYet";
       }
       const { plan, autoRenew, hash } = pending;
-      const expired = status === "NOT_FOUND";
-      setAttempt({
-        key,
-        flow:
-          status === "SUCCESS"
-            ? { phase: "success", plan, autoRenew }
-            : {
-                phase: "failed",
-                plan,
-                autoRenew,
-                expired,
-                details: `Transaction ${hash}: ${expired ? "expired" : status}`,
-              },
-      });
       onSettled();
-      return status === "SUCCESS" ? "landed" : "failed";
+      if (status === "SUCCESS") {
+        setAttempt({ key, flow: { phase: "success", plan, autoRenew } });
+        return "landed";
+      }
+      // FAILED, or still not found after its lifetime: it can no longer land
+      const expired = status === "NOT_FOUND";
+      const details = `Transaction ${hash}: ${expired ? "expired" : status}`;
+      setAttempt({ key, flow: { phase: "failed", plan, autoRenew, expired, details } });
+      return "failed";
     } catch (err) {
       console.error("Error checking the pending subscription:", err);
       return "unknown";

@@ -3,9 +3,16 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import type { MySubscription } from "../../hooks/club/plans";
-import { formatDate, fromChainTime, shortAddress } from "../../utils/subscription";
+import { chainDate, shortAddress } from "../../utils/subscription";
 import { PlanRow } from "./club.styles";
 import { subscriptionLine } from "./copy";
+
+// the chip and the line under the plan name
+const describe = (mine: MySubscription) => {
+  if (mine.active) return { chip: "Active", line: subscriptionLine(mine) };
+  if (!mine.hasEnded) return { chip: "Not active", line: null };
+  return { chip: "Expired", line: `Ended ${chainDate(mine.subscription.service_end_ts)}` };
+};
 
 // the user's plan on the card: active (with a way into the club), or ended (with a way back in)
 const PlanStatus = ({
@@ -18,6 +25,7 @@ const PlanStatus = ({
   onResubscribe: () => void;
 }) => {
   const ended = !mine.active;
+  const { chip, line } = describe(mine);
   return (
     <>
       <PlanRow>
@@ -26,16 +34,10 @@ const PlanStatus = ({
             {mine.plan.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {!ended
-              ? subscriptionLine(mine)
-              : mine.hasEnded && `Ended ${formatDate(fromChainTime(mine.subscription.service_end_ts))}`}
+            {line}
           </Typography>
         </Box>
-        <Chip
-          size="small"
-          label={!ended ? "Active" : mine.hasEnded ? "Expired" : "Not active"}
-          color={ended ? "default" : "primary"}
-        />
+        <Chip size="small" label={chip} color={ended ? "default" : "primary"} />
       </PlanRow>
       {ended ? (
         <Button variant="contained" size="large" onClick={onResubscribe}>

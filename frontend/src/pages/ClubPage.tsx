@@ -1,24 +1,22 @@
 import type { ReactNode } from "react";
-import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import CheckIcon from "@mui/icons-material/Check";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import SignIn from "../components/SignIn";
 import ClubDetails from "../components/subscription/ClubDetails";
-import { ResultIcon } from "../components/subscription/club.styles";
+import { ClubScreen, LockedScreen } from "../components/subscription/ClubScreen";
+import { ClubMain, ResultIcon } from "../components/subscription/club.styles";
 import { clubTheme } from "../components/subscription/clubTheme";
 import FailureNote from "../components/subscription/FailureNote";
+import Progress from "../components/subscription/Progress";
 import { planToResubscribe } from "../hooks/club/plans";
 import { useAuth } from "../hooks/useAuth";
 import { useClub } from "../hooks/useClubSubscription";
-import { formatDate, fromChainTime } from "../utils/subscription";
+import { chainDate } from "../utils/subscription";
 import { sendTestNotification } from "../utils/sendTestNotification";
 
 // Pi Bakery Club: a page only users with an active subscription can open. The wallet checked is the signed-in
@@ -28,87 +26,67 @@ const ClubPage = () => {
   const navigate = useNavigate();
   const { user, showSignIn, signIn, signOut, closeSignIn, isLoading: isAuthLoading } = useAuth();
   const { enabled, plans, status, retry } = useClub();
-  const backToShop = <Button onClick={() => navigate("/")}>Back to shop</Button>;
+  const backToShop = () => navigate("/");
   // the plan sheet lives on the shop page
   const subscribe = (serviceId?: string) => navigate("/", { state: { openPlans: true, serviceId } });
 
-  // an icon, a heading and a line, then whatever the screen offers below them
-  const screen = (icon: ReactNode, title: string, body: string, below: ReactNode) => (
-    <>
-      {icon}
-      <Typography variant="h5" component="h1" align="center" fontWeight={700}>
-        {title}
-      </Typography>
-      <Typography align="center" color="text.secondary" mb={2}>
-        {body}
-      </Typography>
-      {below}
-    </>
-  );
-  const lock = (
-    <ResultIcon tone="lock">
-      <LockOutlinedIcon />
-    </ResultIcon>
-  );
-  const locked = (body: string, label?: string, onClick?: () => void) =>
-    screen(
-      lock,
-      "This page is for subscribers",
-      body,
-      <Stack gap={1}>
-        {label && (
-          <Button variant="contained" size="large" onClick={onClick}>
-            {label}
-          </Button>
-        )}
-        {backToShop}
-      </Stack>
-    );
-
   let content: ReactNode;
   if (!user) {
-    content = locked("Sign in, then subscribe to Pi Bakery Club to open it.", "Sign in", signIn);
+    content = (
+      <LockedScreen
+        body="Sign in, then subscribe to Pi Bakery Club to open it."
+        action={{ label: "Sign in", onClick: signIn }}
+        onBack={backToShop}
+      />
+    );
   } else if (!enabled) {
     // the club is switched on for core_team only (SUBSCRIPTION_AUDIENCE), and this user is not in it
-    content = locked("Pi Bakery Club isn't available for your account yet.");
+    content = <LockedScreen body="Pi Bakery Club isn't available for your account yet." onBack={backToShop} />;
   } else if (status.status === "loading") {
-    content = (
-      <Alert severity="info" icon={<CircularProgress size={18} aria-hidden="true" />} role="status">
-        Checking your subscription…
-      </Alert>
-    );
+    content = <Progress>Checking your subscription…</Progress>;
   } else if (status.status === "error") {
     content = (
       <Stack gap={1}>
         <FailureNote failure={status} onRetry={retry} />
-        {backToShop}
+        <Button onClick={backToShop}>Back to shop</Button>
       </Stack>
     );
   } else if (status.value?.active) {
     content = (
-      <>
-        {screen(
+      <ClubScreen
+        icon={
           <ResultIcon tone="ok">
             <CheckIcon />
-          </ResultIcon>,
-          "You've unlocked Pi Bakery Club",
-          "You successfully tested the subscription feature on the demo app. Only pioneers with an active plan can open this page.",
-          <>
-            <ClubDetails mine={status.value} />
-            <Box mt={2}>{backToShop}</Box>
-          </>
-        )}
-      </>
+          </ResultIcon>
+        }
+        title="You've unlocked Pi Bakery Club"
+        body="You successfully tested the subscription feature on the demo app. Only pioneers with an active plan can open this page."
+      >
+        <ClubDetails mine={status.value} />
+        <Box mt={2}>
+          <Button onClick={backToShop}>Back to shop</Button>
+        </Box>
+      </ClubScreen>
     );
   } else if (status.value) {
     const { hasEnded, plan, subscription } = status.value;
-    const ended = hasEnded ? `ended ${formatDate(fromChainTime(subscription.service_end_ts))}` : "is no longer active";
+    const ended = hasEnded ? `ended ${chainDate(subscription.service_end_ts)}` : "is no longer active";
     const again = planToResubscribe(plans, status.value);
-    content = locked(`Your ${plan.name} plan ${ended}. Resubscribe to open Pi Bakery Club again.`, "Resubscribe", () =>
-      subscribe(again?.serviceId)
+    content = (
+      <LockedScreen
+        body={`Your ${plan.name} plan ${ended}. Resubscribe to open Pi Bakery Club again.`}
+        action={{ label: "Resubscribe", onClick: () => subscribe(again?.serviceId) }}
+        onBack={backToShop}
+      />
     );
   } else {
-    content = locked("Subscribe to Pi Bakery Club to open it.", "Subscribe", () => subscribe());
+    content = (
+      <LockedScreen
+        body="Subscribe to Pi Bakery Club to open it."
+        action={{ label: "Subscribe", onClick: () => subscribe() }}
+        onBack={backToShop}
+      />
+    );
   }
 
   return (
@@ -121,16 +99,7 @@ const ClubPage = () => {
         isLoading={isAuthLoading}
       />
       <ThemeProvider theme={clubTheme}>
-        <Box
-          component="main"
-          aria-label="Pi Bakery Club"
-          px={2}
-          pt={3.5}
-          pb={5}
-          fontFamily={clubTheme.typography.fontFamily}
-        >
-          {content}
-        </Box>
+        <ClubMain aria-label="Pi Bakery Club">{content}</ClubMain>
       </ThemeProvider>
       {showSignIn && <SignIn onSignIn={signIn} onModalClose={closeSignIn} disabled={isAuthLoading} />}
     </>

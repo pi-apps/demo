@@ -24,7 +24,7 @@ const PERIOD_UNITS: [seconds: number, singular: string, plural: string][] = [
   [1, "second", "seconds"],
 ];
 
-export type PeriodWords = {
+type PeriodWords = {
   // "every week", "every 30 days"
   every: string;
   // "/week", "/30 days"
@@ -53,5 +53,11 @@ export const formatDate = (date: Date) =>
 
 // contract timestamps are unix seconds
 export const fromChainTime = (timestamp: string) => new Date(Number(timestamp) * 1000);
+
+// a date the contract recorded, as the screens show it
+export const chainDate = (timestamp: string) => formatDate(fromChainTime(timestamp));
+
+// an amount in Test-Pi's smallest unit, with its unit
+export const formatTestPi = (units: bigint) => `${formatPi(units)} Test-Pi`;
 
 export const shortAddress = (address: string) => `${address.slice(0, 4)}…${address.slice(-4)}`;

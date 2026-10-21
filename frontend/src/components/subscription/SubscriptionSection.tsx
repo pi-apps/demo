@@ -1,14 +1,14 @@
 import { useState, type ReactNode } from "react";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import Collapse from "@mui/material/Collapse";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import BakeryDiningOutlinedIcon from "@mui/icons-material/BakeryDiningOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { defaultPlan, planToResubscribe, type Plan } from "../../hooks/club/plans";
+import { defaultPlan, hasActivePlan, planToResubscribe, type Plan } from "../../hooks/club/plans";
+import { isBusy } from "../../hooks/club/useSubscribeAttempt";
 import { useClub } from "../../hooks/useClubSubscription";
 import { describePeriod } from "../../utils/subscription";
 import { Column, Row } from "../lib";
@@ -17,6 +17,7 @@ import { clubTheme } from "./clubTheme";
 import FailureNote from "./FailureNote";
 import PlanSheet from "./PlanSheet";
 import PlanStatus from "./PlanStatus";
+import Progress from "./Progress";
 import { DevToggle, Legacy } from "./SubscriptionSection.styles";
 
 interface SubscriptionSectionProps {
@@ -27,28 +28,22 @@ interface SubscriptionSectionProps {
   developerTools?: ReactNode;
 }
 
-const Progress = ({ children }: { children: ReactNode }) => (
-  <Alert severity="info" icon={<CircularProgress size={18} aria-hidden="true" />} role="status">
-    {children}
-  </Alert>
-);
+// the open sheet: the plan it starts on (null for the default) and, after "Try again", the trial switch as it was
+type SheetState = { serviceId: string | null; keepAfterTrial?: boolean } | null;
 
 const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: SubscriptionSectionProps) => {
   const club = useClub();
   const { plans, status, flow } = club;
-  const [sheet, setSheet] = useState<{ serviceId: string | null } | null>(openOnMount ?? null);
+  const [sheet, setSheet] = useState<SheetState>(openOnMount ?? null);
   const [devOpen, setDevOpen] = useState(false);
   const openSheet = (plan?: Plan) => setSheet({ serviceId: plan?.serviceId ?? null });
 
-  const busy = flow.phase === "signing" || flow.phase === "confirming";
+  const busy = isBusy(flow);
   // an attempt that finishes while the sheet is closed reopens it, so its outcome is never lost (a pending one
   // stays on the card instead, until it is checked)
   const hasResult = flow.phase !== "idle" && flow.phase !== "unconfirmed" && !busy;
   // a pending attempt whose plan the contract now lists as active has landed: the active plan wins
-  const pendingLanded =
-    flow.phase === "unconfirmed" &&
-    status.status === "ready" &&
-    !!status.value?.activeServiceIds.includes(flow.plan.serviceId);
+  const pendingLanded = flow.phase === "unconfirmed" && hasActivePlan(status, flow.plan.serviceId);
   const trialPlan = plans.find(plan => plan.trialSecs > 0);
 
   let body: ReactNode;
@@ -107,7 +102,7 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
             <BakeryDiningOutlinedIcon />
           </ClubMark>
           <div>
-            <Typography variant="h6" fontWeight={700}>
+            <Typography variant="h6" component="h2" fontWeight={700}>
               Pi Bakery Club
             </Typography>
             <Typography color="text.secondary">Test the subscription feature on Pi Testnet.</Typography>
@@ -137,13 +132,17 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
             open={Boolean(sheet || hasResult)}
             plans={plans}
             initialServiceId={sheet?.serviceId ?? defaultPlan(plans)?.serviceId ?? ""}
+            initialKeepAfterTrial={sheet?.keepAfterTrial ?? true}
             flow={flow}
             status={status}
             walletAddress={club.walletAddress}
             onSubscribe={club.subscribe}
-            // a sheet that reopened on its own for a result stays open when the user goes back to the plans
+            // back to the plans after a result, on the plan and trial choice that was tried; a sheet that reopened
+            // on its own for the result stays open
             onResetFlow={() => {
-              setSheet(open => open ?? { serviceId: null });
+              if (flow.phase !== "idle") {
+                setSheet({ serviceId: flow.plan.serviceId, keepAfterTrial: flow.autoRenew });
+              }
               club.reset();
             }}
             onClose={() => setSheet(null)}

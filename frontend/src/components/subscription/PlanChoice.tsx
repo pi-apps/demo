@@ -6,8 +6,8 @@ import Switch from "@mui/material/Switch";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
-import type { Loadable, MySubscription, Plan } from "../../hooks/club/plans";
-import type { SubscribeFlow } from "../../hooks/club/useSubscribeAttempt";
+import { type Loadable, type MySubscription, type Plan, hasActivePlan } from "../../hooks/club/plans";
+import { type SubscribeFlow, isBusy } from "../../hooks/club/useSubscribeAttempt";
 import { describePeriod, shortAddress } from "../../utils/subscription";
 import { Column, Row } from "../lib";
 import { planCopy, price } from "./copy";
@@ -16,6 +16,8 @@ import { FeeRow, Summary } from "./PlanSheet.styles";
 interface PlanChoiceProps {
   plans: Plan[];
   initialServiceId: string;
+  // the trial switch to start from: on, unless "Try again" brings back an attempt that had it off
+  initialKeepAfterTrial: boolean;
   // idle, or an attempt in progress (signing or confirming)
   flow: SubscribeFlow;
   // the wallet's subscriptions as last read; subscribing waits until they are known
@@ -24,13 +26,44 @@ interface PlanChoiceProps {
   onSubscribe: (plan: Plan, autoRenew: boolean) => void;
 }
 
+// the line under the button: progress while subscribing, else why subscribing is blocked, else what is signed
+const footerText = (props: {
+  flow: SubscribeFlow;
+  fine: string;
+  status: Loadable<MySubscription | null>;
+  alreadySubscribed: boolean;
+  walletAddress: string | null;
+}) => {
+  const { flow, fine, status, alreadySubscribed, walletAddress } = props;
+  if (flow.phase === "confirming") return "Usually a few seconds.";
+  if (flow.phase === "signing") return fine;
+  if (status.status === "loading") return "Checking your wallet's subscriptions…";
+  if (status.status === "error") return status.error;
+  if (alreadySubscribed) return "You already have this plan. Pick another one, or close this to see it.";
+  // the subscriptions are read from the wallet, so this is only a guard
+  if (walletAddress === null) return fine;
+  return `${fine} From your wallet ${shortAddress(walletAddress)}, confirmed in your Pi Wallet.`;
+};
+
+const buttonLabel = (flow: SubscribeFlow, cta: string) => {
+  switch (flow.phase) {
+    case "signing":
+      return "Confirm in your Pi Wallet…";
+    case "confirming":
+      return `Confirming on Pi Testnet… ${flow.seconds}s`;
+    default:
+      return cta;
+  }
+};
+
 // picking a plan in the sheet; mounted afresh each time the sheet opens
-const PlanChoice = ({ plans, initialServiceId, flow, status, walletAddress, onSubscribe }: PlanChoiceProps) => {
+const PlanChoice = (props: PlanChoiceProps) => {
+  const { plans, initialServiceId, initialKeepAfterTrial, flow, status, walletAddress, onSubscribe } = props;
   // reopened during an attempt, the sheet starts from that attempt's choices, not the defaults
   const [serviceId, setServiceId] = useState(flow.phase === "idle" ? initialServiceId : flow.plan.serviceId);
-  const [keepAfterTrial, setKeepAfterTrial] = useState(flow.phase === "idle" ? true : flow.autoRenew);
+  const [keepAfterTrial, setKeepAfterTrial] = useState(flow.phase === "idle" ? initialKeepAfterTrial : flow.autoRenew);
 
-  const busy = flow.phase === "signing" || flow.phase === "confirming";
+  const busy = isBusy(flow);
   // while subscribing, the sheet shows what is being signed
   const plan = busy ? flow.plan : (plans.find(p => p.serviceId === serviceId) ?? plans[0]);
   const keepAfter = busy ? flow.autoRenew : keepAfterTrial;
@@ -38,21 +71,8 @@ const PlanChoice = ({ plans, initialServiceId, flow, status, walletAddress, onSu
   const copy = planCopy(plan, keepAfter);
   // Only a plan the wallet already has is blocked (the contract has an AlreadySubscribed error for it); other
   // plans stay open, as in the prototype's "Change plan".
-  const alreadySubscribed = status.status === "ready" && !!status.value?.activeServiceIds.includes(plan.serviceId);
+  const alreadySubscribed = hasActivePlan(status, plan.serviceId);
   const canSubscribe = walletAddress !== null && status.status === "ready" && !alreadySubscribed;
-
-  const footer =
-    flow.phase === "confirming"
-      ? "Usually a few seconds."
-      : busy
-        ? copy.fine
-        : status.status === "loading"
-          ? "Checking your wallet's subscriptions…"
-          : status.status === "error"
-            ? status.error
-            : alreadySubscribed
-              ? "You already have this plan. Pick another one, or close this to see it."
-              : `${copy.fine} From your wallet ${walletAddress ? shortAddress(walletAddress) : ""}, confirmed in your Pi Wallet.`;
 
   return (
     <Column gap={2}>
@@ -120,14 +140,10 @@ const PlanChoice = ({ plans, initialServiceId, flow, status, walletAddress, onSu
         startIcon={busy && <CircularProgress size={16} color="inherit" aria-hidden="true" />}
         onClick={() => onSubscribe(plan, keepAfter || !isTrial)}
       >
-        {flow.phase === "signing"
-          ? "Confirm in your Pi Wallet…"
-          : flow.phase === "confirming"
-            ? `Confirming on Pi Testnet… ${flow.seconds}s`
-            : copy.cta}
+        {buttonLabel(flow, copy.cta)}
       </Button>
       <Typography role="status" variant="body2" color="text.secondary" align="center">
-        {footer}
+        {footerText({ flow, fine: copy.fine, status, alreadySubscribed, walletAddress })}
       </Typography>
     </Column>
   );
