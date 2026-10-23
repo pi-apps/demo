@@ -45,6 +45,9 @@ const footerText = (props: {
   return `${fine} From your wallet ${shortAddress(walletAddress)}, confirmed in your Pi Wallet.`;
 };
 
+// the prototype's segmented control holds four plans; a wallet with more lists them one under another
+const MAX_SIDE_BY_SIDE = 4;
+
 const buttonLabel = (flow: SubscribeFlow, cta: string) => {
   switch (flow.phase) {
     case "signing":
@@ -79,6 +82,7 @@ const PlanChoice = (props: PlanChoiceProps) => {
       <ToggleButtonGroup
         exclusive
         fullWidth
+        orientation={plans.length > MAX_SIDE_BY_SIDE ? "vertical" : "horizontal"}
         size="small"
         aria-label="Plan"
         disabled={busy}

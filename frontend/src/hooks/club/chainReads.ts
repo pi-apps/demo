@@ -63,14 +63,17 @@ export const loadMySubscription = async (walletAddress: string, plans: Plan[]): 
     return null;
   }
 
-  const serviceIds = [...new Set(ours.map(subscription => String(subscription.service_id)))];
+  // Each status check is its own contract read, so plans whose every subscription has plainly ended are not asked
+  // about: without auto renew there is nothing after service_end_ts. The contract decides the rest.
+  const now = Date.now() / 1000;
+  const mayBeActive = ours.filter(subscription => subscription.auto_renew || Number(subscription.service_end_ts) > now);
+  const serviceIds = [...new Set(mayBeActive.map(subscription => String(subscription.service_id)))];
   const active = await Promise.all(
     serviceIds.map(id => read(Subscription.isSubscriptionActive(walletAddress, id), "your subscription's status"))
   );
   const activeServiceIds = serviceIds.filter((_id, index) => active[index]);
 
   const pick = ours.find(subscription => activeServiceIds.includes(String(subscription.service_id))) ?? ours[0];
-  const now = Date.now() / 1000;
   return {
     plan: plansById.get(String(pick.service_id))!,
     subscription: pick,
