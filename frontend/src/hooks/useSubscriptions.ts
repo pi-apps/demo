@@ -25,13 +25,13 @@ const getAppWalletAddress = () => {
   return import.meta.env.VITE_APP_WALLET_ADDRESS;
 };
 
-const APP_WALLET_ADDRESS = getAppWalletAddress();
+export const APP_WALLET_ADDRESS = getAppWalletAddress();
 
 // how long we wait for a submitted transaction to land on the chain
 const MAX_WAIT_SECONDS = 90;
 
 // a submitted transaction is only "PENDING", poll until it lands (or fails) on the chain
-const waitForTransaction = async (hash: string, onSecondPassed: (seconds: number) => void) => {
+export const waitForTransaction = async (hash: string, onSecondPassed: (seconds: number) => void) => {
   for (let seconds = 1; seconds <= MAX_WAIT_SECONDS; seconds++) {
     // with 2 attempts, pollTransaction checks the transaction once and waits a second if it hasn't landed yet
     const { status, ledger, returnValue } = await window.Pi.SmartContract.pollTransaction(hash, 2);
