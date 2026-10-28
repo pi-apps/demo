@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import BakeryDiningOutlinedIcon from "@mui/icons-material/BakeryDiningOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { defaultPlan, hasActivePlan, planToResubscribe, type Plan } from "../../hooks/club/plans";
+import { defaultPlan, hasActivePlan, planFor, planToResubscribe, type Plan } from "../../hooks/club/plans";
 import { isBusy } from "../../hooks/club/useSubscribeAttempt";
 import { useClub } from "../../hooks/useClubSubscription";
 import { describePeriod } from "../../utils/subscription";
@@ -44,7 +44,8 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
   const hasResult = flow.phase !== "idle" && flow.phase !== "unconfirmed" && !busy;
   // a pending attempt whose plan the contract now lists as active has landed: the active plan wins
   const pendingLanded = flow.phase === "unconfirmed" && hasActivePlan(status, flow.plan.serviceId);
-  const trialPlan = plans.find(plan => plan.trialSecs > 0);
+  // offered only while this wallet has not had the trial
+  const trialPlan = plans.find(plan => planFor(status, plan).trialSecs > 0);
 
   let body: ReactNode;
   if (flow.phase === "unconfirmed" && !pendingLanded && !sheet) {
@@ -77,7 +78,13 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
   } else if (status.value && (status.value.active || plans.length > 0)) {
     const mine = status.value;
     body = (
-      <PlanStatus mine={mine} onOpenClub={onOpenClub} onResubscribe={() => openSheet(planToResubscribe(plans, mine))} />
+      <PlanStatus
+        mine={mine}
+        onOpenClub={onOpenClub}
+        onResubscribe={() => openSheet(planToResubscribe(plans, mine))}
+        onChooseAnother={() => openSheet(plans.find(plan => plan.serviceId !== mine.plan.serviceId))}
+        onCheckAgain={club.refresh}
+      />
     );
   } else if (plans.length === 0) {
     body = <Alert severity="info">No plans are set up for this app yet.</Alert>;

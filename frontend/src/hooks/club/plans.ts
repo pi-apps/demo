@@ -19,6 +19,13 @@ export type MySubscription = {
   active: boolean;
   // every one of the app's plans this wallet is actively subscribed to, not only the one shown
   activeServiceIds: string[];
+  // Plans whose subscription ran out with auto renew on. The contract still counts the wallet as subscribed to them
+  // (AlreadySubscribed), so they cannot be started again; they come back when the merchant charges the renewal.
+  renewalDueServiceIds: string[];
+  // plans this wallet has had a free trial of: the contract does not give a second one
+  trialUsedServiceIds: string[];
+  // when the first active subscription runs out (ms), so the status can be read again then; null if none is active
+  activeUntil: number | null;
   // against the phone's clock when the subscription was read
   inTrial: boolean;
   hasEnded: boolean;
@@ -32,6 +39,20 @@ export type Loadable<T> = { status: "loading" } | Failure | { status: "ready"; v
 // whether the subscription read lists this plan as one the wallet actively has
 export const hasActivePlan = (status: Loadable<MySubscription | null>, serviceId: string) =>
   status.status === "ready" && !!status.value?.activeServiceIds.includes(serviceId);
+
+// whether the subscription read lists this plan as waiting for its renewal charge
+export const isRenewalDue = (status: Loadable<MySubscription | null>, serviceId: string) =>
+  status.status === "ready" && !!status.value?.renewalDueServiceIds.includes(serviceId);
+
+// the shown subscription ran out with auto renew on and waits for its renewal charge
+export const awaitsRenewal = (mine: MySubscription) =>
+  mine.renewalDueServiceIds.includes(String(mine.subscription.service_id));
+
+// the plan as this wallet would get it: without the free trial once the wallet has had it
+export const planFor = (status: Loadable<MySubscription | null>, plan: Plan): Plan => {
+  const trialUsed = status.status === "ready" && !!status.value?.trialUsedServiceIds.includes(plan.serviceId);
+  return trialUsed ? { ...plan, trialSecs: 0 } : plan;
+};
 
 export const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
 export const failure = (error: string, retry: boolean, err?: unknown): Failure => ({
@@ -54,7 +75,7 @@ export const toPlan = (service: SubscriptionService): Plan => ({
 export const byTrialThenPeriod = (a: Plan, b: Plan) =>
   Number(b.trialSecs > 0) - Number(a.trialSecs > 0) || a.periodSecs - b.periodSecs;
 
-// How many billing periods a subscription pre-approves. Taken from the prototype (v2.3, 19 Oct 2026): as many as
+// How many billing periods a subscription pre-approves. From the design: as many as
 // fit in 180 days, the network's max_entry_ttl on Pi Testnet at the time, and at least one; 1 without auto renew.
 // The services' own approve_periods value is not used; whether it should be is an open question for the contract's
 // owners, and so is refreshing the 180 days if the network's limit changes.

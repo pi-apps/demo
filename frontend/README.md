@@ -21,7 +21,6 @@ Set `.env.development` with the following variables:
 | `PORT`             | Dev server port | `3314`                  |
 | `VITE_BACKEND_URL` | Backend API URL | `http://localhost:8000` |
 | `VITE_APP_WALLET_ADDRESS` | App wallet address, used to process subscriptions | `GABC...` |
-| `VITE_SUBSCRIPTION_AUDIENCE` | Who sees the Pi Bakery Club subscription flow: `core_team` (default) or `everyone` | `core_team` |
 
 ### 3. Start the development server
 

@@ -4,11 +4,23 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CheckIcon from "@mui/icons-material/Check";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import { hasActivePlan, type Loadable, type MySubscription } from "../../hooks/club/plans";
+import type { Loadable, MySubscription } from "../../hooks/club/plans";
 import type { PendingCheck } from "../../hooks/club/useSubscribeAttempt";
 import { ResultIcon } from "./club.styles";
 import InfoRows from "./InfoRows";
-import { outcomeKind, outcomeText, pendingNote, rereadNote, summaryRows, type Outcome } from "./outcomeCopy";
+import {
+  NOT_RENEWED,
+  NOT_YET,
+  outcomeKind,
+  outcomeText,
+  pendingNote,
+  planAsCreated,
+  planState,
+  rereadNote,
+  summaryRows,
+  type Outcome,
+} from "./outcomeCopy";
+import Progress from "./Progress";
 import RawError from "./RawError";
 
 interface SubscribeResultProps {
@@ -30,8 +42,9 @@ const SubscribeResult = (props: SubscribeResultProps) => {
   const [reread, setReread] = useState(false);
   const [checking, setChecking] = useState(false);
 
-  const kind = outcomeKind(flow, hasActivePlan(status, flow.plan.serviceId));
-  const { title, body } = outcomeText(kind, flow);
+  const kind = outcomeKind(flow, planState(status, flow.plan.serviceId));
+  const shown = { ...flow, plan: planAsCreated(status, flow.plan) };
+  const { title, body } = outcomeText(kind, shown);
   const succeeded = kind === "success" || kind === "already";
 
   const checkPending = async () => {
@@ -47,7 +60,13 @@ const SubscribeResult = (props: SubscribeResultProps) => {
 
   let note: string | null = null;
   if (kind === "pending") note = pendingFound;
-  if (kind === "uncertain" && reread) note = rereadNote(status);
+  const rereads = kind === "uncertain" || kind === "renewalDue";
+  if (rereads && reread) note = rereadNote(status, kind === "renewalDue" ? NOT_RENEWED : NOT_YET);
+
+  // "already subscribed" means success or a renewal still due, and only the read that follows it can tell which
+  if (flow.phase === "already" && status.status === "loading") {
+    return <Progress>Checking your subscription…</Progress>;
+  }
 
   return (
     <div>
@@ -62,7 +81,7 @@ const SubscribeResult = (props: SubscribeResultProps) => {
           {body}
         </Typography>
       </div>
-      {kind === "success" && <InfoRows rows={summaryRows(flow.plan, flow.autoRenew)} />}
+      {kind === "success" && <InfoRows rows={summaryRows(shown.plan, shown.autoRenew)} />}
       {note && (
         <Typography variant="body2" align="center" mb={1}>
           {note}
@@ -81,7 +100,7 @@ const SubscribeResult = (props: SubscribeResultProps) => {
             Check again
           </Button>
         )}
-        {kind === "uncertain" && (
+        {rereads && (
           <Button variant="contained" size="large" onClick={recheck} disabled={status.status === "loading"}>
             Check again
           </Button>
@@ -92,7 +111,7 @@ const SubscribeResult = (props: SubscribeResultProps) => {
           </Button>
         )}
         {kind === "uncertain" && <Button onClick={onTryAgain}>Try again</Button>}
-        {(succeeded || kind === "pending") && <Button onClick={onDone}>Done</Button>}
+        {(succeeded || kind === "pending" || kind === "renewalDue") && <Button onClick={onDone}>Done</Button>}
       </Stack>
     </div>
   );

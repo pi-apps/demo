@@ -12,7 +12,6 @@ declare global {
     __ENV?: {
       backendURL?: string;
       appWalletAddress?: string;
-      subscriptionAudience?: string;
     };
     Pi: {
       init(options: { version: string }): Promise<void>;

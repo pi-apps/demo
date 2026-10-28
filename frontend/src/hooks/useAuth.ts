@@ -1,18 +1,16 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { axiosClient } from "../lib/axiosClient";
 import type { AuthResult, PaymentDTO, User } from "../types/pi";
-import { isSubscriptionEnabledFor } from "../utils/subscriptionAudience";
+import { canUseClub } from "../utils/clubAccess";
 
 export const SIGN_IN_SCOPES = ["username", "payments", "roles", "in_app_notifications"];
 export const WALLET_SCOPE = "wallet_address";
 
-// The platform compares the requested scopes with the granted ones as an exact set, so a sign-in that asks for
-// less than the club was granted shows the consent screen again (pi back, apps_controller#check_previous_scopes).
-// Once the club has been granted the wallet scope on this device, sign-ins keep asking for it. Kept per device,
-// since the user is not known before signing in: on a shared device the next person is asked for it too.
+// Signing in with fewer scopes than were granted shows the consent screen again, so once the wallet scope has been
+// granted, later sign-ins keep asking for it.
 const WALLET_GRANTED_KEY = "club_wallet_scope_granted";
 
-// outside the club's audience nobody is asked for the wallet again on this device (this one sign-in already was)
+// a user without the club is not asked for the wallet again (this one sign-in already was)
 const forgetWalletGrant = () => {
   try {
     localStorage.removeItem(WALLET_GRANTED_KEY);
@@ -56,7 +54,7 @@ export const useAuthState = () => {
   const signInUser = useCallback(async (authResult: AuthResult) => {
     try {
       await axiosClient.post("/user/signin", { authResult });
-      if (!isSubscriptionEnabledFor(authResult.user)) {
+      if (!canUseClub(authResult.user)) {
         forgetWalletGrant();
       }
       setUser(authResult.user);

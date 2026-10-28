@@ -5,13 +5,13 @@ import "@fontsource/dm-sans/600.css";
 import "@fontsource/dm-sans/700.css";
 import "@fontsource/dm-mono/400.css";
 
-// Pi Bakery Club look, from the subscribe-sheet prototype (v2.3, "neutral" direction): plain black on the app's
+// Pi Bakery Club look, from the design: plain black on the app's
 // own greys, so it sits with the rest of the app. Everything else is MUI's defaults.
 export const clubTheme = createTheme({
   palette: {
     primary: { main: "#1f1f1f" },
     warning: { main: "#ba7517" },
-    // grey notes, as in the prototype, rather than MUI's blue
+    // grey notes, as in the design, rather than MUI's blue
     info: { main: "#5f5f5f" },
     background: { default: "#f4f4f4" },
   },
@@ -22,7 +22,7 @@ export const clubTheme = createTheme({
   },
   components: {
     MuiButton: { defaultProps: { disableElevation: true, fullWidth: true } },
-    // a grey track with the chosen plan raised in white, as in the prototype
+    // a grey track with the chosen plan raised in white, as in the design
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: { background: "rgba(0, 0, 0, 0.06)", padding: 3, gap: 3 },

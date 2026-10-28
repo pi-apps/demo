@@ -1,4 +1,5 @@
 import { StrKey } from "@stellar/stellar-base";
+import type { ContractSubscription } from "../../types/pi";
 import { withTimeout } from "../../utils/withTimeout";
 import { onIncompletePaymentFound, rememberWalletGrant, SIGN_IN_SCOPES, WALLET_SCOPE } from "../useAuth";
 import { APP_WALLET_ADDRESS } from "../useSubscriptions";
@@ -12,8 +13,8 @@ export const read = <T>(promise: Promise<T>, what: string) => withTimeout(promis
 const CONSENT_TIMEOUT_MS = 120_000;
 
 // The signed-in user's wallet. The wallet_address scope is asked for only here, for users who get the club, rather
-// than at every sign-in: authenticating again with it shows the consent screen for just that scope. The platform
-// lists the active wallet first (pi back, users_controller#user_wallets orders by is_active, then updated_at).
+// than at every sign-in: authenticating again with it shows the consent screen for just that scope. The user's
+// active wallet comes first.
 export const loadWallet = async () => {
   await withTimeout(
     window.Pi.authenticate([...SIGN_IN_SCOPES, WALLET_SCOPE], onIncompletePaymentFound),
@@ -52,6 +53,14 @@ export const loadPlans = async () => {
 
 export const plansFailure = (err: unknown) => failure("Couldn't load the plans.", true, err);
 
+const serviceIdsOf = (subscriptions: ContractSubscription[]) => [
+  ...new Set(subscriptions.map(subscription => String(subscription.service_id))),
+];
+
+// ran out with auto renew on: not active, yet the contract will not start the plan again until it is renewed
+const ranOutWithAutoRenew = (subscription: ContractSubscription, now: number) =>
+  subscription.auto_renew && Number(subscription.service_end_ts) <= now;
+
 // the user's most relevant subscription to one of the app's plans: the newest active one, else the newest
 export const loadMySubscription = async (walletAddress: string, plans: Plan[]): Promise<MySubscription | null> => {
   const { Subscription } = window.Pi.SmartContract;
@@ -67,18 +76,29 @@ export const loadMySubscription = async (walletAddress: string, plans: Plan[]): 
   // about: without auto renew there is nothing after service_end_ts. The contract decides the rest.
   const now = Date.now() / 1000;
   const mayBeActive = ours.filter(subscription => subscription.auto_renew || Number(subscription.service_end_ts) > now);
-  const serviceIds = [...new Set(mayBeActive.map(subscription => String(subscription.service_id)))];
+  const serviceIds = serviceIdsOf(mayBeActive);
   const active = await Promise.all(
     serviceIds.map(id => read(Subscription.isSubscriptionActive(walletAddress, id), "your subscription's status"))
   );
   const activeServiceIds = serviceIds.filter((_id, index) => active[index]);
+  const isActive = (subscription: ContractSubscription) => activeServiceIds.includes(String(subscription.service_id));
+  // an older subscription to the same plan may have ended already; only end times still ahead are worth a re-read
+  const activeEnds = mayBeActive
+    .filter(isActive)
+    .map(subscription => Number(subscription.service_end_ts) * 1000)
+    .filter(end => end > Date.now());
 
-  const pick = ours.find(subscription => activeServiceIds.includes(String(subscription.service_id))) ?? ours[0];
+  const pick = ours.find(isActive) ?? ours[0];
   return {
     plan: plansById.get(String(pick.service_id))!,
     subscription: pick,
-    active: activeServiceIds.includes(String(pick.service_id)),
+    active: isActive(pick),
     activeServiceIds,
+    renewalDueServiceIds: serviceIdsOf(
+      ours.filter(subscription => ranOutWithAutoRenew(subscription, now) && !isActive(subscription))
+    ),
+    trialUsedServiceIds: serviceIdsOf(ours.filter(subscription => Number(subscription.trial_end_ts) > 0)),
+    activeUntil: activeEnds.length > 0 ? Math.min(...activeEnds) : null,
     inTrial: Number(pick.trial_end_ts) > now,
     hasEnded: Number(pick.service_end_ts) <= now,
   };

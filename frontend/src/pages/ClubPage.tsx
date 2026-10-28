@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useLayoutEffect, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -13,7 +13,7 @@ import { ClubMain, ResultIcon } from "../components/subscription/club.styles";
 import { clubTheme } from "../components/subscription/clubTheme";
 import FailureNote from "../components/subscription/FailureNote";
 import Progress from "../components/subscription/Progress";
-import { planToResubscribe } from "../hooks/club/plans";
+import { awaitsRenewal, planToResubscribe } from "../hooks/club/plans";
 import { useAuth } from "../hooks/useAuth";
 import { useClub } from "../hooks/useClubSubscription";
 import { chainDate } from "../utils/subscription";
@@ -25,7 +25,10 @@ import { sendTestNotification } from "../utils/sendTestNotification";
 const ClubPage = () => {
   const navigate = useNavigate();
   const { user, showSignIn, signIn, signOut, closeSignIn, isLoading: isAuthLoading } = useAuth();
-  const { enabled, plans, status, retry } = useClub();
+  const { enabled, plans, status, retry, refresh } = useClub();
+  // The status may have been read a while ago (on the shop, or before going back and forth), so the page reads it
+  // again on every visit. Before paint, so a stale "active" is never shown.
+  useLayoutEffect(refresh, [refresh]);
   const backToShop = () => navigate("/");
   // the plan sheet lives on the shop page
   const subscribe = (serviceId?: string) => navigate("/", { state: { openPlans: true, serviceId } });
@@ -40,7 +43,7 @@ const ClubPage = () => {
       />
     );
   } else if (!enabled) {
-    // the club is switched on for core_team only (SUBSCRIPTION_AUDIENCE), and this user is not in it
+    // the club is open to core_team only for now (see canUseClub)
     content = <LockedScreen body="Pi Bakery Club isn't available for your account yet." onBack={backToShop} />;
   } else if (status.status === "loading") {
     content = <Progress>Checking your subscription…</Progress>;
@@ -67,6 +70,15 @@ const ClubPage = () => {
           <Button onClick={backToShop}>Back to shop</Button>
         </Box>
       </ClubScreen>
+    );
+  } else if (status.value && awaitsRenewal(status.value)) {
+    const { plan, subscription } = status.value;
+    content = (
+      <LockedScreen
+        body={`Your ${plan.name} plan ran out ${chainDate(subscription.service_end_ts)} with auto-renew on. Pi Bakery Club opens again once Pi Bakery charges the renewal when it runs billing.`}
+        action={{ label: "Check again", onClick: refresh }}
+        onBack={backToShop}
+      />
     );
   } else if (status.value) {
     const { hasEnded, plan, subscription } = status.value;

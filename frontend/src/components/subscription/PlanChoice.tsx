@@ -6,7 +6,14 @@ import Switch from "@mui/material/Switch";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
-import { type Loadable, type MySubscription, type Plan, hasActivePlan } from "../../hooks/club/plans";
+import {
+  hasActivePlan,
+  isRenewalDue,
+  planFor,
+  type Loadable,
+  type MySubscription,
+  type Plan,
+} from "../../hooks/club/plans";
 import { type SubscribeFlow, isBusy } from "../../hooks/club/useSubscribeAttempt";
 import { describePeriod, shortAddress } from "../../utils/subscription";
 import { Column, Row } from "../lib";
@@ -26,26 +33,36 @@ interface PlanChoiceProps {
   onSubscribe: (plan: Plan, autoRenew: boolean) => void;
 }
 
+// Why the wallet cannot start this plan: the contract refuses a plan the wallet still has (AlreadySubscribed).
+// Other plans stay open, so the user can change plan.
+const blockedReason = (status: Loadable<MySubscription | null>, serviceId: string) => {
+  if (hasActivePlan(status, serviceId)) return "You already have this plan. Pick another one, or close this to see it.";
+  if (isRenewalDue(status, serviceId)) {
+    return "This plan ran out with auto-renew on, so it can't be started again until Pi Bakery charges the renewal.";
+  }
+  return null;
+};
+
 // the line under the button: progress while subscribing, else why subscribing is blocked, else what is signed
 const footerText = (props: {
   flow: SubscribeFlow;
   fine: string;
   status: Loadable<MySubscription | null>;
-  alreadySubscribed: boolean;
+  blocked: string | null;
   walletAddress: string | null;
 }) => {
-  const { flow, fine, status, alreadySubscribed, walletAddress } = props;
+  const { flow, fine, status, blocked, walletAddress } = props;
   if (flow.phase === "confirming") return "Usually a few seconds.";
   if (flow.phase === "signing") return fine;
   if (status.status === "loading") return "Checking your wallet's subscriptions…";
   if (status.status === "error") return status.error;
-  if (alreadySubscribed) return "You already have this plan. Pick another one, or close this to see it.";
+  if (blocked) return blocked;
   // the subscriptions are read from the wallet, so this is only a guard
   if (walletAddress === null) return fine;
   return `${fine} From your wallet ${shortAddress(walletAddress)}, confirmed in your Pi Wallet.`;
 };
 
-// the prototype's segmented control holds four plans; a wallet with more lists them one under another
+// the segmented control fits four plans; a wallet with more lists them one under another
 const MAX_SIDE_BY_SIDE = 4;
 
 const buttonLabel = (flow: SubscribeFlow, cta: string) => {
@@ -67,15 +84,13 @@ const PlanChoice = (props: PlanChoiceProps) => {
   const [keepAfterTrial, setKeepAfterTrial] = useState(flow.phase === "idle" ? initialKeepAfterTrial : flow.autoRenew);
 
   const busy = isBusy(flow);
-  // while subscribing, the sheet shows what is being signed
-  const plan = busy ? flow.plan : (plans.find(p => p.serviceId === serviceId) ?? plans[0]);
+  // while subscribing, the sheet shows what is being signed; otherwise the plan as this wallet would get it
+  const plan = busy ? flow.plan : planFor(status, plans.find(p => p.serviceId === serviceId) ?? plans[0]);
   const keepAfter = busy ? flow.autoRenew : keepAfterTrial;
   const isTrial = plan.trialSecs > 0;
   const copy = planCopy(plan, keepAfter);
-  // Only a plan the wallet already has is blocked (the contract has an AlreadySubscribed error for it); other
-  // plans stay open, as in the prototype's "Change plan".
-  const alreadySubscribed = hasActivePlan(status, plan.serviceId);
-  const canSubscribe = walletAddress !== null && status.status === "ready" && !alreadySubscribed;
+  const blocked = blockedReason(status, plan.serviceId);
+  const canSubscribe = walletAddress !== null && status.status === "ready" && !blocked;
 
   return (
     <Column gap={2}>
@@ -147,7 +162,7 @@ const PlanChoice = (props: PlanChoiceProps) => {
         {buttonLabel(flow, copy.cta)}
       </Button>
       <Typography role="status" variant="body2" color="text.secondary" align="center">
-        {footerText({ flow, fine: copy.fine, status, alreadySubscribed, walletAddress })}
+        {footerText({ flow, fine: copy.fine, status, blocked, walletAddress })}
       </Typography>
     </Column>
   );

@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import {
   loadMySubscription,
   loadPlans,
@@ -11,7 +11,11 @@ import type { Loadable, MySubscription } from "./club/plans";
 import { useKeyedRead } from "./club/useKeyedRead";
 import { useSubscribeAttempt } from "./club/useSubscribeAttempt";
 
-// enabled: whether this user gets the club at all (see isSubscriptionEnabledFor); nothing is read otherwise.
+// a few seconds after the end time, so the contract sees it as ended too
+const EXPIRY_MARGIN_MS = 5_000;
+const MAX_TIMER_MS = 2 ** 31 - 1;
+
+// enabled: whether this user gets the club at all (see canUseClub); nothing is read otherwise.
 // walletWanted: whether the current page shows the club, so the wallet permission is only asked where it is used.
 export const useClubSubscription = (enabled: boolean, sessionId: number, walletWanted: boolean) => {
   const wallet = useKeyedRead(enabled && walletWanted ? String(sessionId) : null, loadWallet, walletFailure);
@@ -28,6 +32,19 @@ export const useClubSubscription = (enabled: boolean, sessionId: number, walletW
     subscriptionFailure
   );
   const attempt = useSubscribeAttempt(walletAddress, key, mine.retry);
+
+  // An active subscription runs out at its end time, so it is read again then: a page left open does not stay
+  // unlocked. Past the longest timer the browser allows, the next visit's read covers it.
+  const activeUntil = mine.state.status === "ready" ? (mine.state.value?.activeUntil ?? null) : null;
+  const { retry: rereadMine } = mine;
+  useEffect(() => {
+    const wait = activeUntil === null ? 0 : activeUntil - Date.now() + EXPIRY_MARGIN_MS;
+    if (wait <= 0 || wait > MAX_TIMER_MS) {
+      return;
+    }
+    const timer = setTimeout(rereadMine, wait);
+    return () => clearTimeout(timer);
+  }, [activeUntil, rereadMine]);
 
   // one status for the screens: the first thing that failed or is not ready yet is what they show
   const failed = [wallet, plans, mine].find(read => read.state.status === "error");
