@@ -82,11 +82,12 @@ export const loadMySubscription = async (walletAddress: string, plans: Plan[]): 
   );
   const activeServiceIds = serviceIds.filter((_id, index) => active[index]);
   const isActive = (subscription: ContractSubscription) => activeServiceIds.includes(String(subscription.service_id));
-  // an older subscription to the same plan may have ended already; only end times still ahead are worth a re-read
-  const activeEnds = mayBeActive
-    .filter(isActive)
-    .map(subscription => Number(subscription.service_end_ts) * 1000)
-    .filter(end => end > Date.now());
+  // The contract keeps one current subscription per wallet and plan, the newest; older ones to the same plan have
+  // ended and say nothing about renewal or when access ends.
+  const newestPerPlan = serviceIdsOf(ours).map(
+    id => ours.find(subscription => String(subscription.service_id) === id)!
+  );
+  const activeEnds = newestPerPlan.filter(isActive).map(subscription => Number(subscription.service_end_ts) * 1000);
 
   const pick = ours.find(isActive) ?? ours[0];
   return {
@@ -95,7 +96,7 @@ export const loadMySubscription = async (walletAddress: string, plans: Plan[]): 
     active: isActive(pick),
     activeServiceIds,
     renewalDueServiceIds: serviceIdsOf(
-      ours.filter(subscription => ranOutWithAutoRenew(subscription, now) && !isActive(subscription))
+      newestPerPlan.filter(subscription => ranOutWithAutoRenew(subscription, now) && !isActive(subscription))
     ),
     trialUsedServiceIds: serviceIdsOf(ours.filter(subscription => Number(subscription.trial_end_ts) > 0)),
     activeUntil: activeEnds.length > 0 ? Math.min(...activeEnds) : null,

@@ -1,5 +1,6 @@
 import { scValToNative } from "@stellar/stellar-base";
 import { useCallback, useState } from "react";
+import { withTimeout } from "../utils/withTimeout";
 
 type UseSubscriptionsArgs = {
   isAuthenticated: boolean;
@@ -30,11 +31,18 @@ export const APP_WALLET_ADDRESS = getAppWalletAddress();
 // how long we wait for a submitted transaction to land on the chain
 const MAX_WAIT_SECONDS = 90;
 
+const POLL_TIMEOUT_MS = 15_000;
+
 // a submitted transaction is only "PENDING", poll until it lands (or fails) on the chain
 export const waitForTransaction = async (hash: string, onSecondPassed: (seconds: number) => void) => {
   for (let seconds = 1; seconds <= MAX_WAIT_SECONDS; seconds++) {
     // with 2 attempts, pollTransaction checks the transaction once and waits a second if it hasn't landed yet
-    const { status, ledger, returnValue } = await window.Pi.SmartContract.pollTransaction(hash, 2);
+    // each check has its own time limit, so one that never answers ends the wait instead of stalling it
+    const { status, ledger, returnValue } = await withTimeout(
+      window.Pi.SmartContract.pollTransaction(hash, 2),
+      POLL_TIMEOUT_MS,
+      "checking the transaction"
+    );
 
     if (status !== "NOT_FOUND") {
       // returnValue is what the contract call returned, encoded as XDR - decode it into a plain object

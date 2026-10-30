@@ -14,6 +14,9 @@ import { useSubscribeAttempt } from "./club/useSubscribeAttempt";
 // a few seconds after the end time, so the contract sees it as ended too
 const EXPIRY_MARGIN_MS = 5_000;
 const MAX_TIMER_MS = 2 ** 31 - 1;
+// read as active although its end time has passed (an answer that arrived late, or the phone's clock running ahead):
+// read again shortly, until the contract agrees it has ended
+const PAST_END_RECHECK_MS = 30_000;
 
 // enabled: whether this user gets the club at all (see canUseClub); nothing is read otherwise.
 // walletWanted: whether the current page shows the club, so the wallet permission is only asked where it is used.
@@ -38,11 +41,14 @@ export const useClubSubscription = (enabled: boolean, sessionId: number, walletW
   const activeUntil = mine.state.status === "ready" ? (mine.state.value?.activeUntil ?? null) : null;
   const { retry: rereadMine } = mine;
   useEffect(() => {
-    const wait = activeUntil === null ? 0 : activeUntil - Date.now() + EXPIRY_MARGIN_MS;
-    if (wait <= 0 || wait > MAX_TIMER_MS) {
+    if (activeUntil === null) {
       return;
     }
-    const timer = setTimeout(rereadMine, wait);
+    const untilEnd = activeUntil - Date.now() + EXPIRY_MARGIN_MS;
+    if (untilEnd > MAX_TIMER_MS) {
+      return;
+    }
+    const timer = setTimeout(rereadMine, untilEnd > 0 ? untilEnd : PAST_END_RECHECK_MS);
     return () => clearTimeout(timer);
   }, [activeUntil, rereadMine]);
 
