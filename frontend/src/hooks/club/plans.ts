@@ -9,7 +9,8 @@ export type Plan = {
   price: bigint;
   periodSecs: number;
   trialSecs: number;
-  isActive: boolean;
+  // the merchant still offers it (set_service_active); only offered plans are shown
+  offered: boolean;
 };
 
 export type MySubscription = {
@@ -55,11 +56,12 @@ export const planFor = (status: Loadable<MySubscription | null>, plan: Plan): Pl
 };
 
 export const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
-export const failure = (error: string, retry: boolean, err?: unknown): Failure => ({
+// error: the sentence shown; retry: whether trying again can help; err: the raw error, shown under Details
+export const failure = ({ error, retry, err }: { error: string; retry: boolean; err: unknown }): Failure => ({
   status: "error",
   error,
   retry,
-  details: err === undefined ? undefined : errorText(err),
+  details: errorText(err),
 });
 
 export const toPlan = (service: SubscriptionService): Plan => ({
@@ -68,17 +70,16 @@ export const toPlan = (service: SubscriptionService): Plan => ({
   price: BigInt(service.price),
   periodSecs: Number(service.period_secs),
   trialSecs: Number(service.trial_period_secs),
-  isActive: service.is_active,
+  offered: service.is_active,
 });
 
 // trial plans first, then shortest period first
 export const byTrialThenPeriod = (a: Plan, b: Plan) =>
   Number(b.trialSecs > 0) - Number(a.trialSecs > 0) || a.periodSecs - b.periodSecs;
 
-// How many billing periods a subscription pre-approves. From the design: as many as
-// fit in 180 days, the network's max_entry_ttl on Pi Testnet at the time, and at least one; 1 without auto renew.
-// The services' own approve_periods value is not used; whether it should be is an open question for the contract's
-// owners, and so is refreshing the 180 days if the network's limit changes.
+// How many billing periods a subscription pre-approves: as many as fit in 180 days, the longest an approval lasts on
+// Pi Testnet (its max_entry_ttl), and at least one; 1 without auto renew. The service's own approve_periods value is
+// not used. If the network's limit changes, so must the 180 days.
 const APPROVAL_WINDOW_SECS = 180 * 86400;
 export const periodsFor = (plan: Plan, autoRenew: boolean) =>
   autoRenew ? Math.max(1, Math.floor((APPROVAL_WINDOW_SECS - plan.trialSecs) / plan.periodSecs)) : 1;

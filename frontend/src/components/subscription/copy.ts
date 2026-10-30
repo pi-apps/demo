@@ -7,6 +7,8 @@ export const fromNow = (seconds: number) => formatDate(new Date(Date.now() + sec
 
 // Nothing charges on a timer: each renewal is charged when the app runs billing (Process, in Developer tools)
 export const BILLING_NOTE = "Pi Bakery charges each renewal when it runs billing.";
+// a plan that ran out with auto renew on, which the contract will not start again until it is renewed
+export const RENEWAL_DUE_NOTE = "It becomes active again once Pi Bakery charges the renewal when it runs billing.";
 
 // auto renew pre-approves a limited number of charges (see periodsFor), so the copy says how many
 export const upTo = (count: number) => `up to ${count} ${count === 1 ? "charge" : "charges"}`;

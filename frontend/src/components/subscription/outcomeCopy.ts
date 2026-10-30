@@ -9,7 +9,7 @@ import {
 import type { PendingCheck, SubscribeFlow } from "../../hooks/club/useSubscribeAttempt";
 import { describePeriod } from "../../utils/subscription";
 import type { InfoRow } from "./InfoRows";
-import { BILLING_NOTE, fromNow, price, upTo } from "./copy";
+import { BILLING_NOTE, fromNow, price, RENEWAL_DUE_NOTE, upTo } from "./copy";
 
 // the words on the sheet's outcome screens
 
@@ -88,7 +88,7 @@ export const outcomeText = (kind: OutcomeKind, flow: Outcome) => {
     case "renewalDue":
       return {
         title: "Waiting for the renewal charge",
-        body: `Your ${plan.name} plan ran out with auto-renew on, so it can't be started again. It becomes active once Pi Bakery charges the renewal when it runs billing.`,
+        body: `Your ${plan.name} plan ran out with auto-renew on, so it can't be started again. ${RENEWAL_DUE_NOTE}`,
       };
     case "pending":
       return {

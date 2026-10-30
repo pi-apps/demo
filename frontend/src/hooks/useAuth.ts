@@ -44,6 +44,23 @@ export const onIncompletePaymentFound = async (payment: PaymentDTO) => {
   }
 };
 
+// Signs in with the scopes this device remembers. If asking for the wallet as well fails (the user turned it down,
+// or the grant was withdrawn), the device forgets it and signs in once more without it, so a declined wallet
+// permission never blocks signing in.
+const authenticate = async () => {
+  const scopes = signInScopes();
+  try {
+    return await window.Pi.authenticate(scopes, onIncompletePaymentFound);
+  } catch (err) {
+    if (!scopes.includes(WALLET_SCOPE)) {
+      throw err;
+    }
+    console.error("Signing in with the wallet scope failed, trying without it:", err);
+    forgetWalletGrant();
+    return window.Pi.authenticate(SIGN_IN_SCOPES, onIncompletePaymentFound);
+  }
+};
+
 export const useAuthState = () => {
   const [user, setUser] = useState<User | null>(null);
   // changes on every sign-in and sign-out, so per-user state can tell one session from the next
@@ -68,8 +85,7 @@ export const useAuthState = () => {
   const signIn = useCallback(async () => {
     setIsLoading(true);
     try {
-      const authResult = await window.Pi.authenticate(signInScopes(), onIncompletePaymentFound);
-      await signInUser(authResult);
+      await signInUser(await authenticate());
     } catch (err) {
       console.error("Error authenticating:", err);
     } finally {

@@ -7,7 +7,14 @@ import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import BakeryDiningOutlinedIcon from "@mui/icons-material/BakeryDiningOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { defaultPlan, hasActivePlan, planFor, planToResubscribe, type Plan } from "../../hooks/club/plans";
+import {
+  defaultPlan,
+  hasActivePlan,
+  isRenewalDue,
+  planFor,
+  planToResubscribe,
+  type Plan,
+} from "../../hooks/club/plans";
 import { isBusy } from "../../hooks/club/useSubscribeAttempt";
 import { useClub } from "../../hooks/useClubSubscription";
 import { describePeriod } from "../../utils/subscription";
@@ -46,9 +53,14 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
   const pendingLanded = flow.phase === "unconfirmed" && hasActivePlan(status, flow.plan.serviceId);
   // offered only while this wallet has not had the trial
   const trialPlan = plans.find(plan => planFor(status, plan).trialSecs > 0);
+  // a plan this wallet can start now: neither active nor waiting for its renewal
+  const isOpen = (plan: Plan) => !hasActivePlan(status, plan.serviceId) && !isRenewalDue(status, plan.serviceId);
+  // a pending attempt shows on the card while the sheet is closed, as does one in progress
+  const showPending = flow.phase === "unconfirmed" && !pendingLanded && !sheet;
+  const showInProgress = busy && !sheet;
 
   let body: ReactNode;
-  if (flow.phase === "unconfirmed" && !pendingLanded && !sheet) {
+  if (showPending) {
     body = (
       <Alert
         severity="info"
@@ -62,7 +74,7 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
         Your subscription is still pending on Pi Testnet.
       </Alert>
     );
-  } else if (busy && !sheet) {
+  } else if (showInProgress) {
     body = (
       <Progress>
         Subscribing…{" "}
@@ -77,12 +89,13 @@ const SubscriptionSection = ({ onOpenClub, openOnMount, developerTools }: Subscr
     body = <FailureNote failure={status} onRetry={club.retry} />;
   } else if (status.value && (status.value.active || plans.length > 0)) {
     const mine = status.value;
+    const another = plans.find(plan => plan.serviceId !== mine.plan.serviceId && isOpen(plan));
     body = (
       <PlanStatus
         mine={mine}
         onOpenClub={onOpenClub}
         onResubscribe={() => openSheet(planToResubscribe(plans, mine))}
-        onChooseAnother={() => openSheet(plans.find(plan => plan.serviceId !== mine.plan.serviceId))}
+        onChooseAnother={another && (() => openSheet(another))}
         onCheckAgain={club.refresh}
       />
     );

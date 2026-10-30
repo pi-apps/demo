@@ -5,14 +5,15 @@ import Typography from "@mui/material/Typography";
 import { awaitsRenewal, type MySubscription } from "../../hooks/club/plans";
 import { chainDate, shortAddress } from "../../utils/subscription";
 import { PlanRow } from "./club.styles";
-import { subscriptionLine } from "./copy";
+import { RENEWAL_DUE_NOTE, subscriptionLine } from "./copy";
 
 interface PlanStatusProps {
   mine: MySubscription;
   onOpenClub: () => void;
   onResubscribe: () => void;
   onCheckAgain: () => void;
-  onChooseAnother: () => void;
+  // only when another plan can be started now
+  onChooseAnother?: () => void;
 }
 
 // the chip and the line under the plan name
@@ -43,12 +44,12 @@ const PlanAction = ({ mine, onOpenClub, onResubscribe, onCheckAgain, onChooseAno
     return (
       <>
         <Typography variant="body2" color="text.secondary" mb={1.5}>
-          It renews automatically, so it opens again once Pi Bakery charges the renewal when it runs billing.
+          {RENEWAL_DUE_NOTE}
         </Typography>
         <Button variant="contained" size="large" onClick={onCheckAgain}>
           Check again
         </Button>
-        <Button onClick={onChooseAnother}>Choose another plan</Button>
+        {onChooseAnother && <Button onClick={onChooseAnother}>Choose another plan</Button>}
       </>
     );
   }

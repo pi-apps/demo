@@ -17,7 +17,7 @@ import {
 import { type SubscribeFlow, isBusy } from "../../hooks/club/useSubscribeAttempt";
 import { describePeriod, shortAddress } from "../../utils/subscription";
 import { Column, Row } from "../lib";
-import { planCopy, price } from "./copy";
+import { planCopy, price, RENEWAL_DUE_NOTE } from "./copy";
 import { FeeRow, Summary } from "./PlanSheet.styles";
 
 interface PlanChoiceProps {
@@ -38,7 +38,7 @@ interface PlanChoiceProps {
 const blockedReason = (status: Loadable<MySubscription | null>, serviceId: string) => {
   if (hasActivePlan(status, serviceId)) return "You already have this plan. Pick another one, or close this to see it.";
   if (isRenewalDue(status, serviceId)) {
-    return "This plan ran out with auto-renew on, so it can't be started again until Pi Bakery charges the renewal.";
+    return `This plan ran out with auto-renew on, so it can't be started again. ${RENEWAL_DUE_NOTE}`;
   }
   return null;
 };
@@ -57,7 +57,7 @@ const footerText = (props: {
   if (status.status === "loading") return "Checking your wallet's subscriptions…";
   if (status.status === "error") return status.error;
   if (blocked) return blocked;
-  // the subscriptions are read from the wallet, so this is only a guard
+  // the subscriptions are read from the wallet, so it is known here; this only narrows the type
   if (walletAddress === null) return fine;
   return `${fine} From your wallet ${shortAddress(walletAddress)}, confirmed in your Pi Wallet.`;
 };
@@ -88,6 +88,8 @@ const PlanChoice = (props: PlanChoiceProps) => {
   const plan = busy ? flow.plan : planFor(status, plans.find(p => p.serviceId === serviceId) ?? plans[0]);
   const keepAfter = busy ? flow.autoRenew : keepAfterTrial;
   const isTrial = plan.trialSecs > 0;
+  // a paid plan always renews; a trial renews only if the user keeps it on
+  const autoRenew = keepAfter || !isTrial;
   const copy = planCopy(plan, keepAfter);
   const blocked = blockedReason(status, plan.serviceId);
   const canSubscribe = walletAddress !== null && status.status === "ready" && !blocked;
@@ -157,7 +159,7 @@ const PlanChoice = (props: PlanChoiceProps) => {
         disabled={busy || !canSubscribe}
         aria-busy={busy}
         startIcon={busy && <CircularProgress size={16} color="inherit" aria-hidden="true" />}
-        onClick={() => onSubscribe(plan, keepAfter || !isTrial)}
+        onClick={() => onSubscribe(plan, autoRenew)}
       >
         {buttonLabel(flow, copy.cta)}
       </Button>

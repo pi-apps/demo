@@ -11,6 +11,7 @@ import ClubDetails from "../components/subscription/ClubDetails";
 import { ClubScreen, LockedScreen } from "../components/subscription/ClubScreen";
 import { ClubMain, ResultIcon } from "../components/subscription/club.styles";
 import { clubTheme } from "../components/subscription/clubTheme";
+import { RENEWAL_DUE_NOTE } from "../components/subscription/copy";
 import FailureNote from "../components/subscription/FailureNote";
 import Progress from "../components/subscription/Progress";
 import { awaitsRenewal, planToResubscribe } from "../hooks/club/plans";
@@ -75,7 +76,7 @@ const ClubPage = () => {
     const { plan, subscription } = status.value;
     content = (
       <LockedScreen
-        body={`Your ${plan.name} plan ran out ${chainDate(subscription.service_end_ts)} with auto-renew on. Pi Bakery Club opens again once Pi Bakery charges the renewal when it runs billing.`}
+        body={`Your ${plan.name} plan ran out ${chainDate(subscription.service_end_ts)} with auto-renew on. ${RENEWAL_DUE_NOTE}`}
         action={{ label: "Check again", onClick: refresh }}
         onBack={backToShop}
       />

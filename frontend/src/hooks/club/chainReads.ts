@@ -34,16 +34,16 @@ export const loadWallet = async () => {
 export const walletFailure = (err: unknown) => {
   const message = errorText(err);
   if (message.startsWith("Unauthorized app.")) {
-    return failure("This app isn't allowed to read wallet addresses yet.", false, err);
+    return failure({ error: "This app isn't allowed to read wallet addresses yet.", retry: false, err });
   }
   if (message.startsWith("Missing wallet_address scope.") || message.startsWith("User consent cancelled")) {
-    return failure("Pi Bakery Club needs permission to read your wallet address.", true, err);
+    return failure({ error: "Pi Bakery Club needs permission to read your wallet address.", retry: true, err });
   }
   if (message === "No wallet found for this user") {
     // the platform lists only wallets with Pi Testnet enabled
-    return failure("No Pi wallet with Pi Testnet enabled was found for your account.", false, err);
+    return failure({ error: "No Pi wallet with Pi Testnet enabled was found for your account.", retry: false, err });
   }
-  return failure("Couldn't read your wallet address.", true, err);
+  return failure({ error: "Couldn't read your wallet address.", retry: true, err });
 };
 
 export const loadPlans = async () => {
@@ -51,7 +51,7 @@ export const loadPlans = async () => {
   return services.map(toPlan).sort(byTrialThenPeriod);
 };
 
-export const plansFailure = (err: unknown) => failure("Couldn't load the plans.", true, err);
+export const plansFailure = (err: unknown) => failure({ error: "Couldn't load the plans.", retry: true, err });
 
 const serviceIdsOf = (subscriptions: ContractSubscription[]) => [
   ...new Set(subscriptions.map(subscription => String(subscription.service_id))),
@@ -108,9 +108,9 @@ export const loadMySubscription = async (walletAddress: string, plans: Plan[]): 
 export const subscriptionFailure = (err: unknown) =>
   // the SDK loads the subscriber's account before every read, and a wallet never used on Pi Testnet has none
   /Account not found/i.test(errorText(err))
-    ? failure(
-        "Your wallet isn't on Pi Testnet yet. Open it once in the Pi Wallet to activate it, then try again.",
-        true,
-        err
-      )
-    : failure("Couldn't check your subscription.", true, err);
+    ? failure({
+        error: "Your wallet isn't on Pi Testnet yet. Open it once in the Pi Wallet to activate it, then try again.",
+        retry: true,
+        err,
+      })
+    : failure({ error: "Couldn't check your subscription.", retry: true, err });

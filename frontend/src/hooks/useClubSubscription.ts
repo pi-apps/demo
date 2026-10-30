@@ -59,7 +59,7 @@ export const useClubSubscription = (enabled: boolean, sessionId: number, walletW
   return {
     enabled,
     walletAddress,
-    plans: readyPlans?.filter(plan => plan.isActive) ?? [],
+    plans: readyPlans?.filter(plan => plan.offered) ?? [],
     status,
     // tries again whatever failed; offered only when status.retry says it can help
     retry: failed?.retry ?? mine.retry,
