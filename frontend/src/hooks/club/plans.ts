@@ -1,0 +1,92 @@
+import type { ContractSubscription, SubscriptionService } from "../../types/pi";
+
+// Pi Bakery Club: the app's subscription services, read from the subscription contract. Price, period and trial
+// live on-chain in each service; the app picks which service to subscribe to and how many periods to approve.
+
+export type Plan = {
+  serviceId: string;
+  name: string;
+  price: bigint;
+  periodSecs: number;
+  trialSecs: number;
+  // the merchant still offers it (set_service_active); only offered plans are shown
+  offered: boolean;
+};
+
+export type MySubscription = {
+  plan: Plan;
+  subscription: ContractSubscription;
+  // from the contract's is_subscription_active, not worked out from the timestamps here
+  active: boolean;
+  // every one of the app's plans this wallet is actively subscribed to, not only the one shown
+  activeServiceIds: string[];
+  // Plans whose subscription ran out with auto renew on. The contract still counts the wallet as subscribed to them
+  // (AlreadySubscribed), so they cannot be started again; they come back when the merchant charges the renewal.
+  renewalDueServiceIds: string[];
+  // plans this wallet has had a free trial of: the contract does not give a second one
+  trialUsedServiceIds: string[];
+  // when the first active subscription runs out (ms), so the status can be read again then; null if none is active
+  activeUntil: number | null;
+  // against the phone's clock when the subscription was read
+  inTrial: boolean;
+  hasEnded: boolean;
+};
+
+// A failure the screens can show as it is: a plain sentence, whether trying again can help, and the raw error
+// behind Details.
+export type Failure = { status: "error"; error: string; retry: boolean; details?: string };
+export type Loadable<T> = { status: "loading" } | Failure | { status: "ready"; value: T };
+
+// whether the subscription read lists this plan as one the wallet actively has
+export const hasActivePlan = (status: Loadable<MySubscription | null>, serviceId: string) =>
+  status.status === "ready" && !!status.value?.activeServiceIds.includes(serviceId);
+
+// whether the subscription read lists this plan as waiting for its renewal charge
+export const isRenewalDue = (status: Loadable<MySubscription | null>, serviceId: string) =>
+  status.status === "ready" && !!status.value?.renewalDueServiceIds.includes(serviceId);
+
+// the shown subscription ran out with auto renew on and waits for its renewal charge
+export const awaitsRenewal = (mine: MySubscription) =>
+  mine.renewalDueServiceIds.includes(String(mine.subscription.service_id));
+
+// the plan as this wallet would get it: without the free trial once the wallet has had it
+export const planFor = (status: Loadable<MySubscription | null>, plan: Plan): Plan => {
+  const trialUsed = status.status === "ready" && !!status.value?.trialUsedServiceIds.includes(plan.serviceId);
+  return trialUsed ? { ...plan, trialSecs: 0 } : plan;
+};
+
+export const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
+// error: the sentence shown; retry: whether trying again can help; err: the raw error, shown under Details
+export const failure = ({ error, retry, err }: { error: string; retry: boolean; err: unknown }): Failure => ({
+  status: "error",
+  error,
+  retry,
+  details: errorText(err),
+});
+
+export const toPlan = (service: SubscriptionService): Plan => ({
+  serviceId: String(service.service_id),
+  name: service.name,
+  price: BigInt(service.price),
+  periodSecs: Number(service.period_secs),
+  trialSecs: Number(service.trial_period_secs),
+  offered: service.is_active,
+});
+
+// trial plans first, then shortest period first
+export const byTrialThenPeriod = (a: Plan, b: Plan) =>
+  Number(b.trialSecs > 0) - Number(a.trialSecs > 0) || a.periodSecs - b.periodSecs;
+
+// How many billing periods a subscription pre-approves: as many as fit in 180 days, the longest an approval lasts on
+// Pi Testnet (its max_entry_ttl), and at least one; 1 without auto renew. The service's own approve_periods value is
+// not used. If the network's limit changes, so must the 180 days.
+const APPROVAL_WINDOW_SECS = 180 * 86400;
+export const periodsFor = (plan: Plan, autoRenew: boolean) =>
+  autoRenew ? Math.max(1, Math.floor((APPROVAL_WINDOW_SECS - plan.trialSecs) / plan.periodSecs)) : 1;
+
+// the plan a new subscription starts on: the first paid plan, else the first one
+export const defaultPlan = (plans: Plan[]): Plan | undefined => plans.find(plan => plan.trialSecs === 0) ?? plans[0];
+
+// after a plan ends, resubscribing starts on the same plan, or on the first paid plan after a trial
+export const planToResubscribe = (plans: Plan[], ended: MySubscription): Plan | undefined =>
+  plans.find(plan => plan.serviceId === ended.plan.serviceId && plan.trialSecs === 0) ?? defaultPlan(plans);

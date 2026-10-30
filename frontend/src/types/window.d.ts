@@ -1,5 +1,5 @@
 import type { xdr } from "@stellar/stellar-base";
-import { AuthResult, PaymentDTO } from "./pi";
+import { AuthResult, ContractSubscription, PaymentDTO, SubscriptionService } from "./pi";
 
 // submitting only sends the transaction to the network, it has not landed yet
 type SubmittedTransaction = {
@@ -33,6 +33,11 @@ declare global {
         }
       ): Promise<unknown>;
 
+      Wallet: {
+        // needs the wallet_address scope, and answers only for apps on the platform's allowlist
+        getUserWalletAddresses(): Promise<{ wallets: { publicKey: string }[] }>;
+      };
+
       SmartContract: {
         Subscription: {
           subscribe(
@@ -43,6 +48,10 @@ declare global {
           ): Promise<SubmittedTransaction>;
           process(merchant: string, serviceId: string, offset: number, limit: number): Promise<SubmittedTransaction>;
           getMerchantSubscriptions(merchant: string, serviceId: string): Promise<unknown>;
+          // read-only calls: the SDK simulates them, nothing is signed
+          getMerchantServices(merchant: string): Promise<SubscriptionService[]>;
+          getSubscriberSubscriptions(subscriber: string): Promise<ContractSubscription[]>;
+          isSubscriptionActive(subscriber: string, serviceId: string): Promise<boolean>;
         };
 
         pollTransaction(
