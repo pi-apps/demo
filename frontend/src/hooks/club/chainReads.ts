@@ -98,7 +98,10 @@ export const loadMySubscription = async (walletAddress: string, plans: Plan[]): 
     renewalDueServiceIds: serviceIdsOf(
       newestPerPlan.filter(subscription => ranOutWithAutoRenew(subscription, now) && !isActive(subscription))
     ),
-    trialUsedServiceIds: serviceIdsOf(ours.filter(subscription => Number(subscription.trial_end_ts) > 0)),
+    // Any subscription to a plan means its trial was used: the first one to a plan with a trial always gets it, and
+    // the contract can drop that record after a later paid one, so trial_end_ts alone is not enough.
+    // TODO: read the contract's has_used_trial(wallet, service_id) once it is deployed.
+    trialUsedServiceIds: serviceIdsOf(ours),
     activeUntil: activeEnds.length > 0 ? Math.min(...activeEnds) : null,
     inTrial: Number(pick.trial_end_ts) > now,
     hasEnded: Number(pick.service_end_ts) <= now,

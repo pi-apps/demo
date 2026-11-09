@@ -23,7 +23,7 @@ export type MySubscription = {
   // Plans whose subscription ran out with auto renew on. The contract still counts the wallet as subscribed to them
   // (AlreadySubscribed), so they cannot be started again; they come back when the merchant charges the renewal.
   renewalDueServiceIds: string[];
-  // plans this wallet has had a free trial of: the contract does not give a second one
+  // plans this wallet has subscribed to before, so has had any free trial of: the contract does not give a second one
   trialUsedServiceIds: string[];
   // when the first active subscription runs out (ms), so the status can be read again then; null if none is active
   activeUntil: number | null;
