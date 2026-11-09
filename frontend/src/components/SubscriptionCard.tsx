@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from "react";
 import type { SubscriptionResult } from "../hooks/useSubscriptions";
+import { toJSON } from "../utils/toJSON";
 
 interface SubscriptionCardProps {
   onClickSubscribe: (userWalletAddress: string, serviceId: string, periods: string) => void;
@@ -36,9 +37,6 @@ const resultStyle: CSSProperties = {
   wordBreak: "break-all",
   fontSize: 12,
 };
-
-// contract values can be BigInt, which JSON.stringify can't handle on its own
-const toJSON = (value: unknown) => JSON.stringify(value, (_key, v) => (typeof v === "bigint" ? v.toString() : v), 2);
 
 const SubscriptionCard = ({ onClickSubscribe, onClickProcess, result, disabled }: SubscriptionCardProps) => {
   const [userWalletAddress, setUserWalletAddress] = useState("");
