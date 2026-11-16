@@ -23,6 +23,8 @@ import { sendTestNotification } from "../utils/sendTestNotification";
 // Pi Bakery Club: a page only users with an active subscription can open. The wallet checked is the signed-in
 // user's own, read from the SDK, and whether its subscription is active comes from the subscription contract
 // (is_subscription_active), never from what this app remembers.
+// This check runs only in the browser, which is enough for a demo page. A real app must also check the subscription
+// on its server before it serves members-only content.
 const ClubPage = () => {
   const navigate = useNavigate();
   const { user, showSignIn, signIn, signOut, closeSignIn, isLoading: isAuthLoading } = useAuth();

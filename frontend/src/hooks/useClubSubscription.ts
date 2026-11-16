@@ -19,10 +19,10 @@ const MAX_TIMER_MS = 2 ** 31 - 1;
 const PAST_END_RECHECK_MS = 30_000;
 
 // enabled: whether this user gets the club at all (see canUseClub); nothing is read otherwise.
-// walletWanted: whether the current page shows the club, so the wallet permission is only asked where it is used.
-export const useClubSubscription = (enabled: boolean, sessionId: number, walletWanted: boolean) => {
-  const wallet = useKeyedRead(enabled && walletWanted ? String(sessionId) : null, loadWallet, walletFailure);
-  const plans = useKeyedRead(enabled ? `plans:${sessionId}` : null, loadPlans, plansFailure);
+// showsClub: whether the current page shows the club; other pages read nothing and never ask for the wallet.
+export const useClubSubscription = (enabled: boolean, sessionId: number, showsClub: boolean) => {
+  const wallet = useKeyedRead(enabled && showsClub ? String(sessionId) : null, loadWallet, walletFailure);
+  const plans = useKeyedRead(enabled && showsClub ? `plans:${sessionId}` : null, loadPlans, plansFailure);
 
   const walletAddress = wallet.state.status === "ready" ? wallet.state.value : null;
   const readyPlans = plans.state.status === "ready" ? plans.state.value : null;
