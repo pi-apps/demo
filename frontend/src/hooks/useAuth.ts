@@ -1,7 +1,6 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { axiosClient } from "../lib/axiosClient";
 import type { AuthResult, PaymentDTO, User } from "../types/pi";
-import { canUseClub } from "../utils/clubAccess";
 
 export const SIGN_IN_SCOPES = ["username", "payments", "roles", "in_app_notifications"];
 export const WALLET_SCOPE = "wallet_address";
@@ -10,7 +9,6 @@ export const WALLET_SCOPE = "wallet_address";
 // granted, later sign-ins keep asking for it.
 const WALLET_GRANTED_KEY = "club_wallet_scope_granted";
 
-// a user without the club is not asked for the wallet again (this one sign-in already was)
 const forgetWalletGrant = () => {
   try {
     localStorage.removeItem(WALLET_GRANTED_KEY);
@@ -71,9 +69,6 @@ export const useAuthState = () => {
   const signInUser = useCallback(async (authResult: AuthResult) => {
     try {
       await axiosClient.post("/user/signin", { authResult });
-      if (!canUseClub(authResult.user)) {
-        forgetWalletGrant();
-      }
       setUser(authResult.user);
       setSessionId(id => id + 1);
       setShowSignIn(false);
