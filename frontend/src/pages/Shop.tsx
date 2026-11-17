@@ -7,7 +7,6 @@ import SubscriptionSection from "../components/subscription/SubscriptionSection"
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { useClub } from "../hooks/useClubSubscription";
 import { IRRA_TOKEN_CANONICAL, usePayments } from "../hooks/usePayments";
 import { useSubscriptions } from "../hooks/useSubscriptions";
 import { sendTestNotification } from "../utils/sendTestNotification";
@@ -53,8 +52,6 @@ const Shop = () => {
     onRequireAuth: requireAuth,
   });
 
-  const club = useClub();
-
   return (
     <>
       <Header
@@ -91,7 +88,7 @@ const Shop = () => {
         disabled={isLoading}
       />
 
-      {user && club.enabled && (
+      {user && (
         <SubscriptionSection
           onOpenClub={() => navigate("/club")}
           openOnMount={openPlans ? { serviceId: openPlansOn } : null}
