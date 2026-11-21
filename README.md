@@ -21,6 +21,11 @@ Read [`doc/development.md`](./doc/development.md) to get started and learn how t
 
 Read [`doc/deployment.md`](./doc/deployment.md) to learn how to deploy this app on a server using Docker and docker-compose.
 
+## Subscription processing
+
+Read [`doc/subscription-processing.md`](./doc/subscription-processing.md) to learn how to run the scheduled job that
+collects subscription renewals, with your own service id and merchant wallet.
+
 ## Flows
 
 To dive into the implementation of the flows that support the demo app features, please refer to
