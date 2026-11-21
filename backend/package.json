@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "NODE_ENV=development ts-node-dev ./src/index.ts"
+    "start": "NODE_ENV=development ts-node-dev ./src/index.ts",
+    "process-subscriptions": "node ./build/jobs/processSubscriptions.js"
   },
   "dependencies": {
     "axios": "^1.7.9",
@@ -19,7 +20,8 @@
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "mongodb": "^6.12.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pi-backend": "^1.0.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
